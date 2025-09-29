@@ -4,11 +4,11 @@ public class Headphones {
     private int HID;
     //HID = Headphone ID
     private int Status;
-    private string Location;
+    private String Location;
     private int Battery;
 
     //Constructor
-    public Headphones(int HID, int Status, string Location, int Battery){
+    public Headphones(int HID, int Status, String Location, int Battery){
         HID = 0;
         Status = 0;
         Location = "";
@@ -30,11 +30,11 @@ public class Headphones {
         Status = status;
     }
 
-    public void setLocation(string location) {
+    public void setLocation(String location) {
         Location = location;
     }
 
-    public string getLocation() {
+    public String getLocation() {
         return Location;
     }
 

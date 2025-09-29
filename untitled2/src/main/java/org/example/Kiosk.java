@@ -20,24 +20,19 @@ public class Kiosk {
 
     //Getters and Setters
     public int getId() {
-
+        return id;
     }
 
     public String getAirport() {
-
+        return airport;
     }
 
     public int getNumOfAvailabeHP() {
-
+        return numOfAvailabeHP;
     }
 
     public String getLocationOfAirport() {
-
+        return locationOfAirport;
     }
-
-    public void static main(String[] args) {
-
-    }
-
 
  }

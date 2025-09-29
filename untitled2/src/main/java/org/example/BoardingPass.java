@@ -4,13 +4,13 @@ public class BoardingPass{
 
     //Attributes
      private int BPNumber;
-     private string originAirport;
-     private string destinationAirport;
-     private string psgName;
-     private string fltNr;
+     private String originAirport;
+     private String destinationAirport;
+     private String psgName;
+     private String fltNr;
 
      //constructor
-    public BoardingPass(int BPN, string ori, string dest, string name, string flt){
+    public BoardingPass(int BPN, String ori, String dest, String name, String flt){
         BPNumber = BPN;
         originAirport = ori;
         destinationAirport = dest;
@@ -23,19 +23,19 @@ public class BoardingPass{
         return BPNumber;
     }
 
-    public string getOriginAirport(){
+    public String getOriginAirport(){
         return originAirport;
     }
 
-    public string getDestinationAirport() {
+    public String getDestinationAirport() {
         return destinationAirport;
     }
 
-    public string getPsgName() {
+    public String getPsgName() {
         return psgName;
     }
 
-    public string getfltNr(){
-        return fltNrM
+    public String getfltNr(){
+        return fltNr;
     }
 }
