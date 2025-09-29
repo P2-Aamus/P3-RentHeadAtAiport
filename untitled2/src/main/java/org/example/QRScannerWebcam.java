@@ -18,7 +18,7 @@ public class QRScannerWebcam {
         CanvasFrame canvas = new CanvasFrame("QR Scanner", CanvasFrame.getDefaultGamma() / grabber.getGamma());
         canvas.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
 
-        while (canvas.isVisible()) {
+        while (true) {
             Frame frame = grabber.grab();
             if (frame == null) continue;
 
@@ -37,10 +37,10 @@ public class QRScannerWebcam {
             }
 
             // Show the frame
-            canvas.showImage(frame);
+            //canvas.showImage(frame);
         }
 
-        grabber.stop();
-        canvas.dispose();
+        //grabber.stop();
+        //canvas.dispose();
     }
 }
