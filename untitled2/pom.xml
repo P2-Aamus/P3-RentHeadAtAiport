@@ -20,6 +20,12 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.1.0</version>
+        </dependency>
+
         <!-- JavaCV (includes OpenCV) -->
         <dependency>
             <groupId>org.bytedeco</groupId>
