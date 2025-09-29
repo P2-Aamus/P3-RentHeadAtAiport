@@ -4,17 +4,17 @@ package org.example;
 public class Kiosk {
 
     // Attributes
-    private int id;
-    private String airport;
+    private final int id;
+    private final String airport;
     public int numOfAvailabeHP;
-    private String locationOfAirport;
+    private final String locationOfAirport;
 
     //Constructor
     public Kiosk(int id, String airport, int numOfAvailabeHP, String locationOfAirport) {
-        id = 0;
-        airport = "";
-        numOfAvailabeHP = 0;
-        locationOfAirport = "";
+        this.id = id;
+        this.airport = airport;
+        this.numOfAvailabeHP = numOfAvailabeHP;
+        this.locationOfAirport = locationOfAirport;
     }
 
 
@@ -35,4 +35,15 @@ public class Kiosk {
 
     public String getLocationOfAirport() {
         return locationOfAirport;
+    }
 }
+
+
+/*
+
+okay jeg har en ide til hvordan man kan gøre det. lad mig lige cook hurtigt.
+jeg er meget på hardcoding af lufthavne siden der alligevel ikke er så mange
+
+jeg tænker subklasser.
+
+*/
