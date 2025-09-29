@@ -18,21 +18,21 @@ public class Kiosk {
     }
 
 
-    //Getters and Setters
+    //Getters and Setters methods
     public int getId() {
         return id;
     }
 
     public String getAirport() {
+
         return airport;
     }
 
     public int getNumOfAvailabeHP() {
+
         return numOfAvailabeHP;
     }
 
     public String getLocationOfAirport() {
         return locationOfAirport;
-    }
-
- }
+}
