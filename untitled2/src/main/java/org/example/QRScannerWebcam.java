@@ -18,7 +18,7 @@ public class QRScannerWebcam {
         CanvasFrame canvas = new CanvasFrame("QR Scanner", CanvasFrame.getDefaultGamma() / grabber.getGamma());
         canvas.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
 
-        while (true) {
+        while (canvas.isVisible()) {
             Frame frame = grabber.grab();
             if (frame == null) continue;
 
@@ -32,15 +32,16 @@ public class QRScannerWebcam {
                 BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
                 Result result = new MultiFormatReader().decode(bitmap);
                 System.out.println("QR Code detected: " + result.getText());
+                System.exit(0);
             } catch (NotFoundException e) {
                 // No QR code in this frame
             }
 
-            // Show the frame
-            //canvas.showImage(frame);
+            //Show the frame
+            canvas.showImage(frame);
         }
 
-        //grabber.stop();
-        //canvas.dispose();
+        grabber.stop();
+        canvas.dispose();
     }
 }
