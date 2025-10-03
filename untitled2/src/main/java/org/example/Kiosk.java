@@ -7,14 +7,14 @@ public class Kiosk {
     private final int id;
     private final String airport;
     public int numOfAvailabeHP;
-    private final String locationOfAirport;
+    private final String locationAtAirport;
 
     //Constructor
-    public Kiosk(int id, String airport, int numOfAvailabeHP, String locationOfAirport) {
+    public Kiosk(int id, String airport, int numOfAvailabeHP, String locationAtAirport) {
         this.id = id;
         this.airport = airport;
         this.numOfAvailabeHP = numOfAvailabeHP;
-        this.locationOfAirport = locationOfAirport;
+        this.locationAtAirport = locationAtAirport;
     }
 
 
@@ -34,16 +34,8 @@ public class Kiosk {
     }
 
     public String getLocationOfAirport() {
-        return locationOfAirport;
+        return locationAtAirport;
     }
 }
 
 
-/*
-
-okay jeg har en ide til hvordan man kan gøre det. lad mig lige cook hurtigt.
-jeg er meget på hardcoding af lufthavne siden der alligevel ikke er så mange
-
-jeg tænker subklasser.
-
-*/
