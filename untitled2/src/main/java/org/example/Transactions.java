@@ -4,14 +4,21 @@ public class Transactions {
 
     //Attributes
     private int transactionID;
-    private int heaphonesID;
-    private int BPNumber;
+    private final int headphonesID;
+    private final int BPNumber;
     private int originKioskID;
     private int destinationKioskID;
     private int status;
 
     //Constructor
-
+    public Transactions(int transactionID, int headphonesID, int BPNumber, int originKioskID, int destinationKioskID, int status) {
+        this.transactionID = transactionID;
+        this.headphonesID = headphonesID;
+        this.BPNumber = BPNumber;
+        this.originKioskID = originKioskID;
+        this.destinationKioskID = destinationKioskID;
+        this.status = status;
+    }
 
     //Methods
     public int getTransactionID() {
@@ -19,7 +26,7 @@ public class Transactions {
     }
 
     public int getHeaphonesID() {
-        return heaphonesID;
+        return headphonesID;
     }
 
     public int getBPNumber() {
