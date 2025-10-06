@@ -1,5 +1,6 @@
 package org.example;
 
+<<<<<<< Updated upstream
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -32,6 +33,32 @@ public class Database {
         } catch (SQLException e) {
             e.printStackTrace();
             System.err.println("Database connection failed. Check your server and credentials.");
+=======
+import java.sql.*;
+
+public class Database {
+    private String url = "jdbc:mysql://localhost:3306/main_DB";
+    private String user = "root";
+    private String password = "alexale9";
+
+    public static void connect() throws SQLException {
+        try (Connection conn = DriverManager
+                .getConnection("jdbc:mysql://localhost:3306/main_DB",
+                        "root", "alexale9")) {
+
+            PreparedStatement selectStatement = conn.prepareStatement("select * from kiosk");
+            ResultSet rs = selectStatement.executeQuery();
+
+            while (rs.next()) { // will traverse through all rows
+                int id = rs.getInt("id");
+                String firstName = rs.getString("airport");
+                int lastName = rs.getInt("numOfAvailableHP");
+
+                System.out.println(id + firstName + lastName);
+
+            }
+
+>>>>>>> Stashed changes
         }
     }
 }

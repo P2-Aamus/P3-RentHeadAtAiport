@@ -33,7 +33,11 @@ public class Kiosk {
         return numOfAvailabeHP;
     }
 
+<<<<<<< Updated upstream
     public String getLocationOfAirport() {
+=======
+    public String getLocationAtAirport() {
+>>>>>>> Stashed changes
         return locationAtAirport;
     }
 }
