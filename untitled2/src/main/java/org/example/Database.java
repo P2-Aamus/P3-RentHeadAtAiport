@@ -8,14 +8,14 @@ import java.sql.*;
 
 
 public class Database {
-    private static String url = "jdbc:mysql://localhost:3306/main_DB";
+    private static String url = "jdbc:mysql://localhost:3306/main";
     private static String user = "root";
-    private static String password = "alexale9";
+    private static String password = "";
 
     public static void connect() throws SQLException {
         try (Connection conn = DriverManager
-                .getConnection("jdbc:mysql://localhost:3306/main_DB",
-                        "root", "alexale9")) {
+                .getConnection("jdbc:mysql://localhost:3306/main",
+                        "root", "")) {
 
             PreparedStatement selectStatement = conn.prepareStatement("select * from kiosk");
             ResultSet rs = selectStatement.executeQuery();
@@ -153,7 +153,7 @@ public class Database {
                 }
 
                 //Update transaction status
-                String sql3 = "UPDATE transactions SET status = 1 WHERE BPNumber =" + BPN;
+                String sql3 = "UPDATE transactions SET status = 1 WHERE BPN =" + BPN;
                 try (PreparedStatement pstmt = con.prepareStatement(sql3)) {
                     int rowsInserted = pstmt.executeUpdate();
                     if (rowsInserted > 0) {
@@ -162,7 +162,7 @@ public class Database {
                 }
 
                 //Insert transaction HP
-                String sql4 = "UPDATE transactions SET headphonesID = "+ HP_ID +" WHERE BPNumber =" + BPN;
+                String sql4 = "UPDATE transactions SET headphonesID = "+ HP_ID +" WHERE BPN =" + BPN;
                 try (PreparedStatement pstmt = con.prepareStatement(sql4)) {
                     int rowsInserted = pstmt.executeUpdate();
                     if (rowsInserted > 0) {
@@ -194,7 +194,7 @@ public class Database {
             String loc = "";
 
             //Update transaction kiosk
-            String sql = "UPDATE transactions SET destKioskID ='"+kioskID+"' WHERE BPNumber =" + BPN;
+            String sql = "UPDATE transactions SET destKioskID ='"+kioskID+"' WHERE BPN =" + BPN;
             try (PreparedStatement pstmt = con.prepareStatement(sql)) {
                 int rowsInserted = pstmt.executeUpdate();
                 if (rowsInserted > 0) {
@@ -203,7 +203,7 @@ public class Database {
             }
 
             //get HP_ID from transaction
-            PreparedStatement selectStatement = con.prepareStatement("SELECT * FROM transactions WHERE BPNumber =" + BPN);
+            PreparedStatement selectStatement = con.prepareStatement("SELECT * FROM transactions WHERE BPN =" + BPN);
             ResultSet rs = selectStatement.executeQuery();
 
             while (rs.next()) { // will traverse through all rows
