@@ -41,13 +41,13 @@ public class Scanner extends Application{
         border.setCenter(please);
 
         URL scannerImage = Scanner.class.getResource("/images/scan.JPEG");
-        border.setCenter(scannerImage);
-        BorderPane.setMargin(scannerImage, new Insets(5));
+        //border.setCenter(scannerImage);
+        //BorderPane.setMargin(scannerImage, new Insets(5));
 
 
         URL arrow = Scanner.class.getResource("/images/arrow.png");
-        border.setBottom(arrow);
-        BorderPane.setMargin(arrow, new Insets(5));
+        //border.setBottom(arrow);
+        //BorderPane.setMargin(arrow, new Insets(5));
 
         Group root = new Group(title, please);
         Scene scene = new Scene(root, 1920, 1080);

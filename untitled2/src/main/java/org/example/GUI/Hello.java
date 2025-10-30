@@ -3,20 +3,18 @@ package org.example.GUI;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.scene.layout.*;
 import org.bytedeco.javacv.FrameGrabber;
-import org.example.BoardingPass;
-import org.example.Kiosk;
-import org.opencv.aruco.Board;
 
-import java.net.URL;
 
 
 public class Hello extends Application{
@@ -46,25 +44,26 @@ public class Hello extends Application{
         Text originAir = new Text(450, 323, "EKCH");
         originAir.setFont(new Font(45));
         // understående skal kobles sammen med overstående på en eller anden måde
-        Text originFull = new Text(450, 223, "Copenhagen");
+        Text originFull = new Text(450, 223, "Copenhagen Kastrup");
         originFull.setFont(new Font(30));
 
         Text destAir = new Text(650, 323, "ENBR");
         destAir.setFont(new Font(45));
 
-        Text destFull = new Text(650, 223, "Bergen");
+        Text destFull = new Text(650, 223, "Bergen Flesland");
         destFull.setFont(new Font(30));
 
-        URL SAS = Hello.class.getResource("/SAS Logo.png");
-        border.setCenter(SAS);
-        BorderPane.setMargin(SAS, new Insets(5));
+        Image SAS = new Image("images/SAS Logo.png");
+        ImageView sasView = new ImageView(SAS);
+        //border.setCenter(SAS);
+        //BorderPane.setMargin(SAS, new Insets(5));
 
         BorderPane topBar = new BorderPane();
 
 
 
 
-        Group root = new Group(title, please);
+        Group root = new Group(title, please, passengerName, flightNumber, originAir, originFull, destAir, destFull, sasView);
 
 
 
