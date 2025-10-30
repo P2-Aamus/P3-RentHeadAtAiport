@@ -40,6 +40,7 @@ public class Kiosk {
                                       String passengerName,
                                       String fltNr,
                                       OpenCVFrameGrabber grabber,
+                                      int kioskLocation,
                                       CanvasFrame canvas) {
 
         System.out.println("\n🧾 Use Case: Passenger Identification");
@@ -58,9 +59,9 @@ public class Kiosk {
         // ---  Database operations ---
         try {
             Database.ins_BP(boardingPassNumber, originAirport, destinationAirportOnPass, passengerName, fltNr);
-            Database.transactionStart(boardingPassNumber, 2);
-            Database.pickUp(boardingPassNumber, 2);
-            Database.dropOff(boardingPassNumber, 1);
+            Database.transactionStart(boardingPassNumber, kioskLocation);
+            //Database.pickUp(boardingPassNumber, kioskLocation);
+            //Database.dropOff(boardingPassNumber, kioskLocation);
 
             System.out.println(" Boarding pass processed successfully!");
             closeAndExit(grabber, canvas, 0);
@@ -169,7 +170,7 @@ public class Kiosk {
                 String fltNr = lines[4];
 
                 // Pass the scanned data to the use case handler
-                kiosk.useCaseIdentification(BPN, origin, destination, passenger, fltNr, grabber, canvas);
+                kiosk.useCaseIdentification(BPN, origin, destination, passenger, fltNr, grabber, kiosk.getId(), canvas);
 
             } catch (NotFoundException e) {
                 // No QR code found in this frame — continue scanning
