@@ -1,30 +1,25 @@
 package org.example.GUI;
 
 import javafx.application.Application;
-import javafx.scene.Group;
-import javafx.scene.Node;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.scene.layout.*;
-import org.bytedeco.javacv.FrameGrabber;
-import org.example.Kiosk;
-import javax.swing.*;
+import javafx.scene.layout.VBox;
 import java.net.URL;
-import javafx.geometry.Insets;
+import java.util.Stack;
 
-
-
-public class Scanner extends Application{
+public class Scanner extends Application {
 
     public static void main(String[] args) {
         launch(args);
     }
-
 
     @Override
     public void start(Stage primaryStage) {
@@ -32,42 +27,52 @@ public class Scanner extends Application{
         BorderPane border = new BorderPane();
 
 
-        Text title = new Text(875, 123, "AirHead");
-        title.setFont(new Font(50));
+        Text title = new Text("Kiosk");
+        title.setFont(new Font(70));
+        BorderPane.setMargin(title, new Insets(50));
+        BorderPane.setAlignment(title, Pos.CENTER);
         border.setTop(title);
 
-        Text please = new Text(875, 223, "Please scan your boarding pass");
+
+        VBox centerContent = new VBox(20);
+        centerContent.setAlignment(Pos.CENTER);
+
+        Text please = new Text("Please scan your boarding pass");
         please.setFont(new Font(50));
-        border.setCenter(please);
+        border.setCenter(centerContent);
 
-        URL scannerImage = Scanner.class.getResource("/images/scan.JPEG");
-        //border.setCenter(scannerImage);
-        //BorderPane.setMargin(scannerImage, new Insets(5));
+        URL scannerUrl = getClass().getResource("/Images/Scan.JPEG");
+        if (scannerUrl != null) {
+            ImageView scannerView = new ImageView(new Image(scannerUrl.toExternalForm()));
+            scannerView.setFitWidth(200);
+            scannerView.setPreserveRatio(true);
+            centerContent.getChildren().addAll(please, scannerView);
 
+        } else {
+            System.out.println("Scanner image not found!");
+        }
+        border.setCenter(centerContent);
 
-        URL arrow = Scanner.class.getResource("/images/arrow.png");
-        //border.setBottom(arrow);
-        //BorderPane.setMargin(arrow, new Insets(5));
+        URL arrowUrl = getClass().getResource("/Images/Arrow.png");
+        if (arrowUrl != null) {
+            ImageView arrowView = new ImageView(new Image(arrowUrl.toExternalForm()));
+            arrowView.setFitWidth(130);
+            arrowView.setPreserveRatio(true);
 
-        Group root = new Group(title, please);
-        Scene scene = new Scene(root, 1920, 1080);
+            StackPane arrowPane = new StackPane(arrowView);
+            StackPane.setAlignment(arrowView, Pos.BOTTOM_CENTER);
+            border.setBottom(arrowPane);
+            BorderPane.setMargin(arrowPane, new Insets(30));
+        } else {
+            System.out.println("Arrow image not found!");
+        }
 
+        Scene scene = new Scene(border, 1280, 720);
         primaryStage.setTitle("AirHead");
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        // Run QR scanning in a background thread
-        new Thread(() -> {
-            try {
-                String qrData = "";  // This blocks until a QR code is found
-                if (qrData != null) {
-                    System.out.println("QR Data: " + qrData);
 
 
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
     }
 }
