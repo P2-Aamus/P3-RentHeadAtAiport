@@ -14,6 +14,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 import org.bytedeco.javacv.FrameGrabber;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 
 import java.net.URL;
 import java.util.Stack;
@@ -59,31 +61,19 @@ public class Scanner extends Application {
         }
         border.setCenter(centerContent);
 
-        URL arrowUrl = getClass().getResource("/Images/Arrow.png");
-        if (arrowUrl != null) {
-            ImageView arrowView = new ImageView(new Image(arrowUrl.toExternalForm()));
-            arrowView.setFitWidth(200);
-            arrowView.setPreserveRatio(true);
+            Arrow arrow = new Arrow(300, 300);
+            BorderPane.setAlignment(arrow, Pos.CENTER);
+            BorderPane.setMargin(arrow, new Insets(100));
+            border.setBottom(arrow);
 
-            //Logic to switch to Hello.java
-            Button switchButton = new Button("Go to Hello Scene");
-            switchButton.setOnAction(e -> {
+            arrow.setOnMousePressed(e -> {
                 try {
                     Scene helloScene = Hello.createScene();
-                    primaryStage.setScene(helloScene); // primaryStage is your main stage
+                    primaryStage.setScene(helloScene);
                 } catch (FrameGrabber.Exception ex) {
                     ex.printStackTrace();
                 }
             });
-
-            StackPane arrowPane = new StackPane(arrowView);
-            StackPane.setAlignment(arrowView, Pos.BOTTOM_CENTER);
-            border.setBottom(arrowPane);
-            BorderPane.setMargin(arrowPane, new Insets(30));
-        } else {
-            System.out.println("Arrow image not found!");
-        }
-
 
 
 
