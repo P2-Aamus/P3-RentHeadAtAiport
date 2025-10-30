@@ -10,12 +10,12 @@ import java.sql.*;
 public class Database {
     private static String url = "jdbc:mysql://localhost:3306/main";
     private static String user = "root";
-    private static String password = "";
+    private static String password = "drkabellsvej3";
 
     public static void connect() throws SQLException {
         try (Connection conn = DriverManager
                 .getConnection("jdbc:mysql://localhost:3306/main",
-                        "root", "")) {
+                        "root", "drkabellsvej3")) {
 
             PreparedStatement selectStatement = conn.prepareStatement("select * from kiosk");
             ResultSet rs = selectStatement.executeQuery();
@@ -68,10 +68,7 @@ public class Database {
                 pstmt.setInt(2, kioskID);
                 pstmt.setInt(3, 0);
 
-                int rowsInserted = pstmt.executeUpdate();
-                if (rowsInserted > 0) {
-                    System.out.println("Name inserted successfully!");
-                }
+
             }
 
         } catch (SQLException e) {
@@ -271,6 +268,4 @@ public class Database {
 
         }
     }
-
-
 }
