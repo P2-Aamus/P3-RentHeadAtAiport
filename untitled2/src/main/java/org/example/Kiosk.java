@@ -4,6 +4,7 @@ import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import org.bytedeco.javacv.*;
+import org.example.GUI.Hello;
 
 import java.awt.image.BufferedImage;
 import java.sql.*;
@@ -42,7 +43,7 @@ public class Kiosk {
                                       String fltNr,
                                       OpenCVFrameGrabber grabber,
                                       int kioskLocation,
-                                      CanvasFrame canvas) {
+                                      CanvasFrame canvas){
 
         System.out.println("\n🧾 Use Case: Passenger Identification");
         System.out.println("Boarding Pass: " + boardingPassNumber);
@@ -81,13 +82,13 @@ public class Kiosk {
     }
 
     /**
-     * Validates thee origin and destination of the airport.
+     * Validates the origin and destination of the airport.
      * Returns true if both are valid, otherwise prints error and the QR Scanner is closed.
      */
     private boolean validateAirports(String originAirport,
                                      String destinationAirport,
                                      OpenCVFrameGrabber grabber,
-                                     CanvasFrame canvas) {
+                                     CanvasFrame canvas){
 
         // Validate origin
         if (!isValidAirport(originAirport)) {
@@ -176,6 +177,7 @@ public class Kiosk {
                 String passenger = lines[3].trim();
                 String fltNr = lines[4];
 
+
                 // Pass the scanned data to the use case handler
                 kiosk.useCaseIdentification(BPN, origin, destination, passenger, fltNr, grabber, kiosk.getId(), canvas);
 
@@ -201,4 +203,5 @@ public class Kiosk {
     public static String getBP(int i) {
         return BP[i];
     }
+
 }

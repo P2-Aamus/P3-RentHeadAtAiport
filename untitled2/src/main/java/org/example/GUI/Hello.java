@@ -2,35 +2,21 @@ package org.example.GUI;
 
 import org.example.Database;
 import org.example.Kiosk;
-import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 import javafx.scene.layout.*;
 import org.bytedeco.javacv.FrameGrabber;
 
 
 
-public class Hello extends Application{
+public class Hello{
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-
-
-    @Override
-    public void start(Stage primaryStage) throws FrameGrabber.Exception {
-
-// de skal alle sammen erstattes med objekter når det spiller, hvis ikke forkortelserne giver sig selv så bab klunk
+    public static Scene createScene() throws FrameGrabber.Exception {
+        // de skal alle sammen erstattes med objekter når det spiller
         Text title = new Text(875, 623, "AirHead");
         title.setFont(new Font(50));
 
@@ -45,7 +31,7 @@ public class Hello extends Application{
 
         Text originAir = new Text(450, 323, Kiosk.getBP(1));
         originAir.setFont(new Font(45));
-        // understående skal kobles sammen med overstående på en eller anden måde
+
         Text originFull = new Text(450, 223, Database.getNameFromICAO(Kiosk.getBP(1)));
         originFull.setFont(new Font(30));
 
@@ -57,24 +43,9 @@ public class Hello extends Application{
 
         Image SAS = new Image("images/SAS Logo.png");
         ImageView sasView = new ImageView(SAS);
-        //border.setCenter(SAS);
-        //BorderPane.setMargin(SAS, new Insets(5));
-
-        BorderPane topBar = new BorderPane();
-
-
-
 
         Group root = new Group(title, please, passengerName, flightNumber, originAir, originFull, destAir, destFull, sasView);
 
-
-
-        Scene scene = new Scene(root, 1920, 1080);
-
-        primaryStage.setTitle("AirHead");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        return new Scene(root, 1920, 1080);
     }
-
-
 }
