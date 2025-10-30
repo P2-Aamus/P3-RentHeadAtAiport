@@ -59,7 +59,7 @@ public class Scanner extends Application{
         // Run QR scanning in a background thread
         new Thread(() -> {
             try {
-                String qrData = Kiosk.scanQRCode();  // This blocks until a QR code is found
+                String qrData = "";  // This blocks until a QR code is found
                 if (qrData != null) {
                     System.out.println("QR Data: " + qrData);
 

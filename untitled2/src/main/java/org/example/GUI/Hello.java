@@ -1,5 +1,7 @@
 package org.example.GUI;
 
+import org.example.Database;
+import org.example.Kiosk;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
@@ -35,22 +37,22 @@ public class Hello extends Application{
         Text please = new Text(875, 523, "Hello");
         please.setFont(new Font(60));
 
-        Text passengerName = new Text(875, 423, "Antonio");
+        Text passengerName = new Text(875, 423, Kiosk.getBP(3));
         passengerName.setFont(new Font(50));
 
-        Text flightNumber = new Text(375, 323, "SK3913");
+        Text flightNumber = new Text(375, 323, Kiosk.getBP(4));
         flightNumber.setFont(new Font(50));
 
-        Text originAir = new Text(450, 323, "EKCH");
+        Text originAir = new Text(450, 323, Kiosk.getBP(1));
         originAir.setFont(new Font(45));
         // understående skal kobles sammen med overstående på en eller anden måde
-        Text originFull = new Text(450, 223, "Copenhagen Kastrup");
+        Text originFull = new Text(450, 223, Database.getNameFromICAO(Kiosk.getBP(1)));
         originFull.setFont(new Font(30));
 
-        Text destAir = new Text(650, 323, "ENBR");
+        Text destAir = new Text(650, 323, Kiosk.getBP(2));
         destAir.setFont(new Font(45));
 
-        Text destFull = new Text(650, 223, "Bergen Flesland");
+        Text destFull = new Text(650, 223, Database.getNameFromICAO(Kiosk.getBP(2)));
         destFull.setFont(new Font(30));
 
         Image SAS = new Image("images/SAS Logo.png");

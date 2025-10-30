@@ -10,26 +10,7 @@ import java.sql.*;
 public class Database {
     private static String url = "jdbc:mysql://localhost:3306/main";
     private static String user = "root";
-    private static String password = "drkabellsvej3";
-
-    public static void connect() throws SQLException {
-        try (Connection conn = DriverManager
-                .getConnection("jdbc:mysql://localhost:3306/main",
-                        "root", "drkabellsvej3")) {
-
-            PreparedStatement selectStatement = conn.prepareStatement("select * from kiosk");
-            ResultSet rs = selectStatement.executeQuery();
-
-            while (rs.next()) { // will traverse through all rows
-                int id = rs.getInt("id");
-                String firstName = rs.getString("airport");
-                int lastName = rs.getInt("numOfAvailableHP");
-
-                System.out.println(id + firstName + lastName);
-
-            }
-        }
-    }
+    private static String password = "alexale9";
 
     public static void ins_BP(int BPN, String oa, String da, String name, String flt_rn) {
 
@@ -268,4 +249,24 @@ public class Database {
 
         }
     }
-}
+
+
+    public static String getNameFromICAO(String ICAO) {
+        try (Connection con = DriverManager.getConnection(url, user, password)) {
+            System.out.println("Connection successful!");
+
+            String fullName = "";
+
+            PreparedStatement selectStatement = con.prepareStatement("SELECT * FROM kiosk WHERE airport =" + ICAO);
+            ResultSet rs = selectStatement.executeQuery();
+
+            while (rs.next()) { // will traverse through all rows
+                fullName = rs.getString("airport_name");
+            }
+            return fullName;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+
+        }
+
+    }}

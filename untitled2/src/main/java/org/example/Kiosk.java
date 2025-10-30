@@ -10,6 +10,7 @@ import java.sql.*;
 
 public class Kiosk {
 
+    public static String[] BP = new String[5];
     private final int id;
     private final String airport;
     public int numOfAvailabeHP;
@@ -62,6 +63,12 @@ public class Kiosk {
             Database.transactionStart(boardingPassNumber, kioskLocation);
             //Database.pickUp(boardingPassNumber, kioskLocation);
             //Database.dropOff(boardingPassNumber, kioskLocation);
+
+            BP[0] = ""+ boardingPassNumber;
+            BP[1] = originAirport;
+            BP[2] = destinationAirportOnPass;
+            BP[3] = passengerName;
+            BP[4] = fltNr;
 
             System.out.println(" Boarding pass processed successfully!");
             closeAndExit(grabber, canvas, 0);
@@ -190,4 +197,8 @@ public class Kiosk {
     public String getAirport() { return airport; }
     public int getNumOfAvailabeHP() { return numOfAvailabeHP; }
     public String getLocationAtAirport() { return locationAtAirport; }
+
+    public static String getBP(int i) {
+        return BP[i];
+    }
 }
