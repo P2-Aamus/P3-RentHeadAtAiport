@@ -16,12 +16,15 @@ import javafx.scene.layout.VBox;
 import org.bytedeco.javacv.FrameGrabber;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import org.example.GUI.Errors.BadScan;
+import org.example.Kiosk;
 
 import java.net.URL;
 import java.util.Stack;
 import java.util.List;
 
 public class Scanner extends Application {
+
 
     public static void main(String[] args) {
         launch(args);
@@ -30,7 +33,10 @@ public class Scanner extends Application {
 
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws FrameGrabber.Exception {
+
+        Kiosk kiosk = new Kiosk("EKBI");
+
 
         BorderPane border = new BorderPane();
 
@@ -82,7 +88,63 @@ public class Scanner extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+        //QR scan and use case identification.
+        new Thread(() -> {
+            try {
+                String[] data = Kiosk.QRScan(); // run QR scanning
+                // After QRScan finishes, switch scene on the JavaFX Application Thread
+                javafx.application.Platform.runLater(() -> {
+                    try {
+                        if(Kiosk.sufficientData(data)){
 
+                            /////////parsing
+                            //int BPN = Integer.parseInt(data[0].trim());
+                            //String origin = data[1].trim();
+                            //String destination = data[2].trim();
+                            //String passenger = data[3].trim();
+                            //String fltNr = data[4];
+
+                            if(Kiosk.validateOriginAirport(data, Kiosk.grabber, Kiosk.canvas)){
+                                if(Kiosk.validateDestinationAirport(data, Kiosk.grabber, Kiosk.canvas)){
+                                    switch(Kiosk.useCaseIdentification(data, kiosk)){
+
+                                        case "pick-up" :
+                                           System.out.println("PICK UP CASE");
+                                            break;
+                                        case "drop-off" :
+                                            System.out.println("DROP OFF CASE");
+                                        break;
+                                    }
+
+
+                                } else {
+                                    //bad Dest
+                                    Scene helloScene = BadScan.createScene();
+                                    primaryStage.setScene(helloScene);
+                                }
+
+
+                            } else {
+                                //bad Origin
+                                Scene helloScene = BadScan.createScene();
+                                primaryStage.setScene(helloScene);
+                            }
+
+
+                        } else {
+                            //Bad scan
+                            Scene helloScene = BadScan.createScene();
+                            primaryStage.setScene(helloScene);
+                        }
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                });
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }).start();
 
     }
 }

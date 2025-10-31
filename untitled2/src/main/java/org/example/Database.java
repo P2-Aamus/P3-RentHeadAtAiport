@@ -257,16 +257,19 @@ public class Database {
 
             String fullName = "";
 
-            PreparedStatement selectStatement = con.prepareStatement("SELECT * FROM kiosk WHERE airport =" + ICAO);
-            ResultSet rs = selectStatement.executeQuery();
-
-            while (rs.next()) { // will traverse through all rows
-                fullName = rs.getString("airport_name");
+            String sql = "SELECT * FROM kiosk WHERE airport = ?";
+            try (PreparedStatement selectStatement = con.prepareStatement(sql)) {
+                selectStatement.setString(1, ICAO);
+                try (ResultSet rs = selectStatement.executeQuery()) {
+                    while (rs.next()) {
+                        fullName = rs.getString("airport_name");
+                    }
+                }
             }
             return fullName;
         } catch (SQLException e) {
             throw new RuntimeException(e);
-
         }
+    }
 
-    }}
+    }
