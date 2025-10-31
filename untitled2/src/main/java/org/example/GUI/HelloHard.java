@@ -87,18 +87,20 @@ public class HelloHard extends Application {
         }
 
         //boxes
-        VBox origin = new VBox(originAir, originFull);
-        VBox destination = new VBox(destAir, destFull);
-        HBox flightInfo = new HBox(flightNumber, origin, arrow1, destination);
+        HBox topair = new HBox(flightNumber, originAir,arrow1, destAir);
+        HBox lowair = new HBox(originFull, destFull);
+        VBox flightInfo = new VBox( topair, lowair);
         VBox centerContent = new VBox(please, passengerName, flightInfo);
         border.setCenter(centerContent);
 
         centerContent.setPadding(new Insets(300, 500, 50, 500));
         flightInfo.setAlignment(Pos.TOP_CENTER);
-        flightInfo.setSpacing(15);
-        origin.setAlignment(Pos.CENTER);
-
-        destination.setAlignment(Pos.CENTER);
+        flightInfo.setSpacing(30);
+        topair.setSpacing(30);
+        topair.setPadding(new Insets(0,70,0,0));
+        lowair.setSpacing(30);
+        topair.setAlignment(Pos.CENTER);
+        lowair.setAlignment(Pos.CENTER);
 
         centerContent.setAlignment(Pos.CENTER);
 
