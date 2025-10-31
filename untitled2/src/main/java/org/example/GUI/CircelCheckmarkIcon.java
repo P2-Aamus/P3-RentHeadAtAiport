@@ -12,6 +12,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+
+
 public class CircelCheckmarkIcon extends Group {
 
     public CircelCheckmarkIcon(double radius,int height, int width) {
