@@ -10,11 +10,11 @@ import java.sql.*;
 public class Database {
     private static String url = "jdbc:mysql://localhost:3306/main";
     private static String user = "root";
-<<<<<<< HEAD
+
     private static String password = "Solbakken.2023";
-=======
-    private static String password = "Mip77mip";
->>>>>>> 9134a44adb7a678cac5433be1bc4f7c508d905fe
+
+    // private static String password = "Mip77mip";
+
 
     public static void ins_BP(int BPN, String oa, String da, String name, String flt_rn) {
 

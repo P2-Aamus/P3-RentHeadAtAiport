@@ -66,6 +66,7 @@ public class Scanner extends Application {
             BorderPane.setMargin(arrow, new Insets(100));
             border.setBottom(arrow);
 
+
             arrow.setOnMousePressed(e -> {
                 try {
                     Scene helloScene = Hello.createScene();

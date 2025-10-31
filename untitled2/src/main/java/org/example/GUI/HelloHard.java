@@ -32,6 +32,8 @@ public class HelloHard extends Application {
 
         BorderPane border = new BorderPane();
 
+
+
         Text title = new Text("AirHead");
         title.setFont(new Font("Impact",50));
 
@@ -42,6 +44,11 @@ public class HelloHard extends Application {
         border.setTop(title);
 
 
+
+        CircelCheckmarkIcon Check = new CircelCheckmarkIcon(200, 200, 200);
+        Check.setScaleX(0.6);
+        Check.setScaleY(0.6);
+        border.setTop(Check);
 
 
         Text please = new Text("Hello");
@@ -76,6 +83,7 @@ public class HelloHard extends Application {
         arrow1.setScaleX(0.6);
         arrow1.setScaleY(0.6);
         arrow1.setRotate(270);
+
 
         URL SAS = getClass().getResource("/images/SAS Logo.png");
         if (SAS != null) {
