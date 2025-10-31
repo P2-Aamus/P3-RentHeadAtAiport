@@ -20,7 +20,7 @@ public class Kiosk {
     // Database connection details
     private static final String url = "jdbc:mysql://localhost:3306/main";
     private static final String user = "root";
-    private static final String password = "drkabellsvej3";
+    private static final String password = "Mip77mip";
 
     // Constructor
     public Kiosk(int id, String airport, int numOfAvailabeHP, String locationAtAirport) {
