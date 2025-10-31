@@ -106,10 +106,13 @@ public class Scanner extends Application {
 
                             if(Kiosk.validateOriginAirport(data, Kiosk.grabber, Kiosk.canvas)){
                                 if(Kiosk.validateDestinationAirport(data, Kiosk.grabber, Kiosk.canvas)){
-                                    switch(Kiosk.useCaseIdentification(data, kiosk)){
+                                    switch(kiosk.useCaseIdentification(data)){
 
                                         case "pick-up" :
-                                           System.out.println("PICK UP CASE");
+                                           kiosk.initTransition(data);
+                                            Scene helloScene = Hello.createScene();
+                                            primaryStage.setScene(helloScene);
+                                            System.out.println("PICK UP CASE");
                                             break;
                                         case "drop-off" :
                                             System.out.println("DROP OFF CASE");

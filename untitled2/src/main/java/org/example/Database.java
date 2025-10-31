@@ -43,12 +43,15 @@ public class Database {
         try (Connection con = DriverManager.getConnection(url, user, password)) {
             System.out.println("Connection successful!");
 
-            String sql = "INSERT INTO transactions (BPNumber, originKioskID, status) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO transactions (BPN, originKioskID, status) VALUES (?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(sql)) {
                 pstmt.setInt(1, BPN);
                 pstmt.setInt(2, kioskID);
                 pstmt.setInt(3, 0);
-
+                int rowsInserted = pstmt.executeUpdate();
+                if (rowsInserted > 0) {
+                    System.out.println("Transaction inserted successfully!");
+                }
 
             }
 
@@ -263,6 +266,27 @@ public class Database {
                 try (ResultSet rs = selectStatement.executeQuery()) {
                     while (rs.next()) {
                         fullName = rs.getString("airport_name");
+                    }
+                }
+            }
+            return fullName;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static int getIDFromICAO(String ICAO) {
+        try (Connection con = DriverManager.getConnection(url, user, password)) {
+            System.out.println("Connection successful!");
+
+            int fullName = 0;
+
+            String sql = "SELECT * FROM kiosk WHERE airport = ?";
+            try (PreparedStatement selectStatement = con.prepareStatement(sql)) {
+                selectStatement.setString(1, ICAO);
+                try (ResultSet rs = selectStatement.executeQuery()) {
+                    while (rs.next()) {
+                        fullName = rs.getInt("ID");
                     }
                 }
             }

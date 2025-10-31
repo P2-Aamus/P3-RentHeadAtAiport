@@ -32,7 +32,7 @@ public class Kiosk {
      * - Inserts boarding pass
      * - Executes database workflow
      */
-    public static String useCaseIdentification(String[] data, Kiosk currentKiosk){
+    public String useCaseIdentification(String[] data){
         String res = "";
         System.out.println("\n🧾 Use Case: Passenger Identification");
         System.out.println("Boarding Pass: " + data[0]);
@@ -47,44 +47,36 @@ public class Kiosk {
 
         System.out.println("Airports verified successfully (" + data[1] + " → " + data[2] + ")");
 
-        if (currentKiosk.getAirport().equals(data[1])){res = "pick-up";}
-        else if (currentKiosk.getAirport().equals(data[2])) {res = "drop-off";}
+        if (this.getAirport().equals(data[1])){res = "pick-up";}
+        else if (this.getAirport().equals(data[2])) {res = "drop-off";}
         return res;
     }
 
 
-    public static void initTransition(int boardingPassNumber,
-                                        String originAirport,
-                                        String destinationAirportOnPass,
-                                        String passengerName,
-                                        String fltNr,
-                                        OpenCVFrameGrabber grabber,
-                                        int kioskLocation,
-                                        CanvasFrame canvas, Kiosk currentKiosk){
+    public void initTransition(String[] data){
         // ---  Database operations ---
         try {
 
-            //int BPN = Integer.parseInt(data[0].trim());
-            //String origin = data[1].trim();
-            //String destination = data[2].trim();
-            //String passenger = data[3].trim();
-            //String fltNr = data[4];
+            int BPN = Integer.parseInt(data[0].trim());
+            String origin = data[1].trim();
+            String destination = data[2].trim();
+            String passenger = data[3].trim();
+            String fltNr = data[4];
 
-            Database.ins_BP(boardingPassNumber, originAirport, destinationAirportOnPass, passengerName, fltNr);
-            Database.transactionStart(boardingPassNumber, kioskLocation);
+            Database.ins_BP(BPN, origin, destination, passenger, fltNr);
+            Database.transactionStart(BPN, Database.getIDFromICAO(this.getAirport()));
             //Database.pickUp(boardingPassNumber, kioskLocation);
             //Database.dropOff(boardingPassNumber, kioskLocation);
 
 
 
             System.out.println(" Boarding pass processed successfully!");
-            closeAndExit(grabber, canvas, 0);
+
 
 
         } catch (Exception e) {
             System.err.println(" ERROR: Failed to process boarding pass.");
             e.printStackTrace();
-            closeAndExit(grabber, canvas, 1);
         }
     }
 
