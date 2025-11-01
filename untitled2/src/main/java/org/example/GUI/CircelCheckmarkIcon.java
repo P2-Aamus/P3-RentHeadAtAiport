@@ -42,5 +42,6 @@ public class CircelCheckmarkIcon extends Group {
         this.getChildren().addAll(outerCircle, bigRec, smallRec);
         this.setRotate(225);
 
+
     }
 }
