@@ -48,7 +48,7 @@ public class HelloHard extends Application {
         CircelCheckmarkIcon Check = new CircelCheckmarkIcon(200, 200, 200);
         Check.setScaleX(0.6);
         Check.setScaleY(0.6);
-        border.setTop(Check);
+
 
 
         Text please = new Text("Hello");
@@ -98,7 +98,7 @@ public class HelloHard extends Application {
         VBox origin = new VBox(originAir, originFull);
         VBox destination = new VBox(destAir, destFull);
         HBox flightInfo = new HBox(flightNumber, origin, arrow1, destination);
-        VBox centerContent = new VBox(please, passengerName, flightInfo);
+        VBox centerContent = new VBox(Check, please, passengerName, flightInfo);
         border.setCenter(centerContent);
 
         centerContent.setPadding(new Insets(300, 500, 50, 500));

@@ -67,7 +67,7 @@ public class Scanner extends Application {
             border.setBottom(arrow);
 
 
-            arrow.setOnMousePressed(e -> {
+        arrow.setOnMousePressed(e -> {
                 try {
                     Scene helloScene = Hello.createScene();
                     primaryStage.setScene(helloScene);
