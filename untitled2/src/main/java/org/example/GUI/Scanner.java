@@ -12,6 +12,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 import org.bytedeco.javacv.FrameGrabber;
+import org.example.BoardingPass;
 import org.example.Kiosk;
 
 import java.net.URL;
@@ -91,16 +92,18 @@ public class Scanner extends Application {
                     try {
                         if(Kiosk.sufficientData(data)){
 
-                            /////////parsing
-                            //int BPN = Integer.parseInt(data[0].trim());
-                            //String origin = data[1].trim();
-                            //String destination = data[2].trim();
-                            //String passenger = data[3].trim();
-                            //String fltNr = data[4];
+                            /////////parsing and creating object
+                            int BPN = Integer.parseInt(data[0].trim());
+                            String origin = data[1].trim();
+                            String destination = data[2].trim();
+                            String passenger = data[3].trim();
+                            String fltNr = data[4];
 
-                            if(Kiosk.validateOriginAirport(data, Kiosk.grabber, Kiosk.canvas)){
-                                if(Kiosk.validateDestinationAirport(data, Kiosk.grabber, Kiosk.canvas)){
-                                    switch(kiosk.useCaseIdentification(data)){
+                            BoardingPass boardingPass = new BoardingPass(BPN, origin, destination, passenger, fltNr);
+
+                            if(Kiosk.validateOriginAirport(boardingPass, Kiosk.grabber, Kiosk.canvas)){
+                                if(Kiosk.validateDestinationAirport(boardingPass, Kiosk.grabber, Kiosk.canvas)){
+                                    switch(kiosk.useCaseIdentification(boardingPass)){
 
                                         case "pick-up" :
                                            kiosk.initTransition(data);

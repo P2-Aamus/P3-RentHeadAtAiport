@@ -14,7 +14,7 @@ public class BoardingPass{
         BPNumber = BPN;
         originAirport = ori;
         destinationAirport = dest;
-        name = psgName;
+        psgName = name;
         fltNr = flt;
     }
 

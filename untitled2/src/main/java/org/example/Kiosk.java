@@ -32,23 +32,24 @@ public class Kiosk {
      * - Inserts boarding pass
      * - Executes database workflow
      */
-    public String useCaseIdentification(String[] data){
+    public String useCaseIdentification(BoardingPass BP){
         String res = "";
         System.out.println("\n🧾 Use Case: Passenger Identification");
-        System.out.println("Boarding Pass: " + data[0]);
-        System.out.println("Origin: " + data[1]);
-        System.out.println("Destination: " + data[2]);
-        System.out.println("Passenger: " + data[3]);
+        System.out.println("Boarding Pass: " + BP.getBPNumber());
+        System.out.println("Origin: " + BP.getOriginAirport());
+        System.out.println("Destination: " + BP.getDestinationAirport());
+        System.out.println("Passenger: " + BP.getPsgName());
 
         // --- Validates originAirport and destiinationAirport ---
         //if (!validateAirports(originAirport, destinationAirportOnPass, grabber, canvas)) {
         //    return false; // Errors are handled inside validateAirports()
         //}
 
-        System.out.println("Airports verified successfully (" + data[1] + " → " + data[2] + ")");
+        System.out.println("Airports verified successfully (" + BP.getOriginAirport() + " → " + BP.getDestinationAirport() + ")");
 
-        if (this.getAirport().equals(data[1])){res = "pick-up";}
-        else if (this.getAirport().equals(data[2])) {res = "drop-off";}
+        //Add a check in the database for drop off
+        if (this.getAirport().equals(BP.getOriginAirport())){res = "pick-up";}
+        else if (this.getAirport().equals(BP.getDestinationAirport())) {res = "drop-off";}
         return res;
     }
 
@@ -84,26 +85,26 @@ public class Kiosk {
      * Validates the origin and destination of the airport.
      * Returns true if both are valid, otherwise prints error and the QR Scanner is closed.
      */
-    public static boolean validateOriginAirport(String[] data,
+    public static boolean validateOriginAirport(BoardingPass BP,
                                      OpenCVFrameGrabber grabber,
                                      CanvasFrame canvas){
 
         // Validate origin
-        if (!isValidAirport(data[1])) {
-            System.err.println("ERROR: Origin airport '" + data[1] + "' is NOT registered in the system.");
+        if (!isValidAirport(BP.getOriginAirport())) {
+            System.err.println("ERROR: Origin airport '" + BP.getOriginAirport() + "' is NOT registered in the system.");
             System.err.println("Please check the boarding pass");
             closeAndExit(grabber, canvas, 1);
             return false;
         }
         return true;
     }
-    public static boolean validateDestinationAirport(String[] data,
+    public static boolean validateDestinationAirport(BoardingPass BP,
                                                 OpenCVFrameGrabber grabber,
                                                 CanvasFrame canvas){
 
         // Validate origin
-        if (!isValidAirport(data[2])) {
-            System.err.println("ERROR: Origin airport '" + data[2] + "' is NOT registered in the system.");
+        if (!isValidAirport(BP.getDestinationAirport())) {
+            System.err.println("ERROR: Origin airport '" + BP.getDestinationAirport() + "' is NOT registered in the system.");
             System.err.println("Please check the boarding pass");
             closeAndExit(grabber, canvas, 1);
             return false;
