@@ -54,15 +54,15 @@ public class Kiosk {
     }
 
 
-    public void initTransition(String[] data){
+    public void initTransition(BoardingPass BP){
         // ---  Database operations ---
         try {
 
-            int BPN = Integer.parseInt(data[0].trim());
-            String origin = data[1].trim();
-            String destination = data[2].trim();
-            String passenger = data[3].trim();
-            String fltNr = data[4];
+            int BPN = BP.getBPNumber();
+            String origin = BP.getOriginAirport();
+            String destination = BP.getDestinationAirport();
+            String passenger = BP.getPsgName();
+            String fltNr = BP.getfltNr();
 
             Database.ins_BP(BPN, origin, destination, passenger, fltNr);
             Database.transactionStart(BPN, Database.getIDFromICAO(this.getAirport()));
@@ -93,7 +93,7 @@ public class Kiosk {
         if (!isValidAirport(BP.getOriginAirport())) {
             System.err.println("ERROR: Origin airport '" + BP.getOriginAirport() + "' is NOT registered in the system.");
             System.err.println("Please check the boarding pass");
-            closeAndExit(grabber, canvas, 1);
+            //closeAndExit(grabber, canvas, 1);
             return false;
         }
         return true;
@@ -106,7 +106,7 @@ public class Kiosk {
         if (!isValidAirport(BP.getDestinationAirport())) {
             System.err.println("ERROR: Origin airport '" + BP.getDestinationAirport() + "' is NOT registered in the system.");
             System.err.println("Please check the boarding pass");
-            closeAndExit(grabber, canvas, 1);
+            //closeAndExit(grabber, canvas, 1);
             return false;
         }
         return true;

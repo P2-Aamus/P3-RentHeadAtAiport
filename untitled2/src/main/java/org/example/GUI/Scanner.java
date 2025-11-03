@@ -19,7 +19,7 @@ import java.net.URL;
 
 public class Scanner extends Application {
 
-
+    private static BoardingPass boardingPass;
     public static void main(String[] args) {
         launch(args);
     }
@@ -66,17 +66,6 @@ public class Scanner extends Application {
             BorderPane.setMargin(arrow, new Insets(100));
             border.setBottom(arrow);
 
-            //SLET
-            arrow.setOnMousePressed(e -> {
-                try {
-                    Scene helloScene = Hello.createScene();
-                    primaryStage.setScene(helloScene);
-                } catch (FrameGrabber.Exception ex) {
-                    ex.printStackTrace();
-                }
-            });
-
-
 
         Scene scene = new Scene(border, 1920, 1080);
         primaryStage.setTitle("AirHead");
@@ -99,14 +88,14 @@ public class Scanner extends Application {
                             String passenger = data[3].trim();
                             String fltNr = data[4];
 
-                            BoardingPass boardingPass = new BoardingPass(BPN, origin, destination, passenger, fltNr);
+                            boardingPass = new BoardingPass(BPN, origin, destination, passenger, fltNr);
 
                             if(Kiosk.validateOriginAirport(boardingPass, Kiosk.grabber, Kiosk.canvas)){
                                 if(Kiosk.validateDestinationAirport(boardingPass, Kiosk.grabber, Kiosk.canvas)){
                                     switch(kiosk.useCaseIdentification(boardingPass)){
 
                                         case "pick-up" :
-                                           kiosk.initTransition(data);
+                                           kiosk.initTransition(boardingPass);
                                             Scene helloScene = Hello.createScene();
                                             primaryStage.setScene(helloScene);
                                             System.out.println("PICK UP CASE");
@@ -115,7 +104,6 @@ public class Scanner extends Application {
                                             System.out.println("DROP OFF CASE");
                                         break;
                                     }
-
 
                                 } else {
                                     //bad Dest
@@ -146,5 +134,9 @@ public class Scanner extends Application {
             }
         }).start();
 
+    }
+
+    public static BoardingPass sendBoardingPass(){
+        return boardingPass;
     }
 }
