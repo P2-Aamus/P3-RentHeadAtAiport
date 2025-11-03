@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.*;
+import java.util.ArrayList;
 
 
 public class Database {
@@ -295,4 +296,22 @@ public class Database {
         }
     }
 
+    public static ArrayList<Integer> getBPN() throws SQLException {
+        ArrayList<Integer> BPNArray = new ArrayList<>();
+
+        try (Connection con = DriverManager.getConnection(url, user, password)) {
+            System.out.println("Connection successful!");
+
+        String sql = "SELECT BPN FROM boarding_pass";
+        try (PreparedStatement selectStatement = con.prepareStatement(sql);
+             ResultSet rs = selectStatement.executeQuery()) {
+            while (rs.next()) {
+                BPNArray.add(rs.getInt("BPN"));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }}
+        return BPNArray;
     }
+}

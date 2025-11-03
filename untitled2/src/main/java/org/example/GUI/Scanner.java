@@ -98,11 +98,19 @@ public class Scanner extends Application {
                                     switch(kiosk.useCaseIdentification(boardingPass)){
 
                                         case "pick-up" :
-                                           kiosk.initTransition(boardingPass);
+                                            if(kiosk.BPalreadyStored(boardingPass)){
+                                                Scene helloScene = BadScan.createScene();
+                                                primaryStage.setScene(helloScene);
+                                            } else {kiosk.initTransition(boardingPass);
                                             Scene helloScene = Hello.createScene();
-                                            primaryStage.setScene(helloScene);
+                                            primaryStage.setScene(helloScene);}
                                             System.out.println("PICK UP CASE");
                                             break;
+
+
+
+
+
                                         case "drop-off" :
                                             System.out.println("DROP OFF CASE");
                                         break;

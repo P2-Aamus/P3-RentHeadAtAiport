@@ -6,8 +6,10 @@ import com.google.zxing.common.HybridBinarizer;
 import org.bytedeco.javacv.*;
 import org.example.GUI.Hello;
 
+import javax.xml.crypto.Data;
 import java.awt.image.BufferedImage;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Kiosk {
 
@@ -47,11 +49,24 @@ public class Kiosk {
 
         System.out.println("Airports verified successfully (" + BP.getOriginAirport() + " → " + BP.getDestinationAirport() + ")");
 
+
         //Add a check in the database for drop off
         if (this.getAirport().equals(BP.getOriginAirport())){res = "pick-up";}
         else if (this.getAirport().equals(BP.getDestinationAirport())) {res = "drop-off";}
         return res;
     }
+
+    public boolean BPalreadyStored(BoardingPass BP) throws SQLException {
+
+        ArrayList<Integer> BPNumbers = Database.getBPN();
+
+        if (BPNumbers.contains(BP.getBPNumber())){
+            return true;
+        } else return false;
+    }
+
+
+
 
 
     public void initTransition(BoardingPass BP){
