@@ -20,6 +20,8 @@ import java.net.URL;
 public class Scanner extends Application {
 
     private static BoardingPass boardingPass;
+    private static Stage primaryStageRef;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -28,6 +30,7 @@ public class Scanner extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        primaryStageRef = primaryStage;
 
         Kiosk kiosk = new Kiosk("EKBI");
 
@@ -138,5 +141,9 @@ public class Scanner extends Application {
 
     public static BoardingPass sendBoardingPass(){
         return boardingPass;
+    }
+
+    public static Stage getPrimaryStage(){
+        return primaryStageRef;
     }
 }

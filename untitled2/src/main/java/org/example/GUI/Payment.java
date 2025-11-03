@@ -14,7 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class Payment extends Application {
+public class Payment {
 
     private static final String CARD_ICON_PATH = "images/Debit.png";
     private static final String MOBILEPAY_ICON_PATH = "images/MobilePay.png";
@@ -24,8 +24,9 @@ public class Payment extends Application {
     private static final Font OPTION_TITLE_FONT = Font.font("Arial", 28);
     private static final Font OPTION_TEXT_FONT = Font.font("Arial", 22);
 
-    @Override
-    public void start(Stage primaryStage) {
+    //@Override
+    //public void start(Stage primaryStage) {
+    public static Scene createScene(){
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(40));
         root.setBackground(new Background(new BackgroundFill(BACKGROUND_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -50,21 +51,18 @@ public class Payment extends Application {
         optionsBox.getChildren().addAll(cardOption, mobilePayOption);
         root.setCenter(optionsBox);
 
-        Scene scene = new Scene(root, 1920, 1080);
-        primaryStage.setTitle("Bump eller Skunk");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        return new Scene(root, 1920, 1080);
     }
 
-    private Image loadImage(String path) {
+    private static Image loadImage(String path) {
         try {
-            return new Image(getClass().getResource("/" + path).toExternalForm());
+            return new Image(Payment.class.getResource("/" + path).toExternalForm());
         } catch (Exception e) {
             return new Image("file:" + path);
         }
     }
 
-    private VBox createPaymentOption(String imagePath, String title, String subtitle) {
+    private static VBox createPaymentOption(String imagePath, String title, String subtitle) {
         VBox box = new VBox(20);  // More spacing for HD
         box.setAlignment(Pos.CENTER);
         box.setPadding(new Insets(40));
@@ -117,9 +115,5 @@ public class Payment extends Application {
         });
 
         return box;
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

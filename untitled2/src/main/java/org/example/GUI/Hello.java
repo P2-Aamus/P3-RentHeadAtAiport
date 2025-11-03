@@ -1,5 +1,8 @@
 package org.example.GUI;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import org.example.BoardingPass;
 import org.example.Database;
 import org.example.Kiosk;
@@ -46,7 +49,15 @@ public class Hello{
         //Image SAS = new Image("images/SAS Logo.png");
         //ImageView sasView = new ImageView(SAS);
 
-        Group root = new Group(title, please, passengerName, flightNumber, originAir, originFull, destAir, destFull);
+        Button goToPayment = new Button("Go To Payment");
+        goToPayment.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                Scene helloScene = Payment.createScene();
+                Scanner.getPrimaryStage().setScene(helloScene);
+            }
+        }) ;
+
+        Group root = new Group(title, please, passengerName, flightNumber, originAir, originFull, destAir, destFull, goToPayment);
 
         return new Scene(root, 1920, 1080);
 
