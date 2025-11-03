@@ -60,14 +60,14 @@ public class HelloHard extends Application {
         Text flightNumber = new Text("SK2864");
         flightNumber.setFont(new Font(45));
 
-        Text originAir = new Text("CPH/EKCH");
+        Text originAir = new Text("CPH/EKCH → BGO/ENBR");
         originAir.setFont(new Font(45));
 
         Text originFull = new Text("Copenhagen Kastrup");
         originFull.setFont(new Font(30));
 
-        Text destAir = new Text("BGO/ENBR");
-        destAir.setFont(new Font(45));
+        //Text destAir = new Text("BGO/ENBR");
+        //destAir.setFont(new Font(45));
 
         Text destFull = new Text("Bergen Flesland");
         destFull.setFont(new Font(30));
@@ -87,7 +87,7 @@ public class HelloHard extends Application {
         }
 
         //boxes
-        HBox topair = new HBox(flightNumber, originAir,arrow1, destAir);
+        HBox topair = new HBox(flightNumber, originAir);
         HBox lowair = new HBox(originFull, destFull);
         VBox flightInfo = new VBox( topair, lowair);
         VBox centerContent = new VBox(please, passengerName, flightInfo);
