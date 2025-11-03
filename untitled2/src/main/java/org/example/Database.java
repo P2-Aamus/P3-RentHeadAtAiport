@@ -10,8 +10,7 @@ import java.sql.*;
 public class Database {
     private static String url = "jdbc:mysql://localhost:3306/main";
     private static String user = "root";
-    private static String password = "alexale9";
-
+    private static String password = "Mip77mip";
     public static void ins_BP(int BPN, String oa, String da, String name, String flt_rn) {
 
 
