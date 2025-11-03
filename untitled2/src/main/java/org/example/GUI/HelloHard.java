@@ -71,7 +71,8 @@ public class HelloHard extends Application {
         destBox.setAlignment(Pos.CENTER);
 
         Text arrow = new Text("\u2794");
-        arrow.setFont(Font.font( 38));
+        arrow.setFont(Font.font( 80));
+        
 
 
         HBox flightRoute = new HBox();
