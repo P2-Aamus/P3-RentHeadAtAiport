@@ -4,24 +4,17 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 import org.bytedeco.javacv.FrameGrabber;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
-import org.example.GUI.Errors.BadScan;
 import org.example.Kiosk;
 
 import java.net.URL;
-import java.util.Stack;
-import java.util.List;
 
 public class Scanner extends Application {
 
@@ -33,7 +26,7 @@ public class Scanner extends Application {
 
 
     @Override
-    public void start(Stage primaryStage) throws FrameGrabber.Exception {
+    public void start(Stage primaryStage) {
 
         Kiosk kiosk = new Kiosk("EKBI");
 

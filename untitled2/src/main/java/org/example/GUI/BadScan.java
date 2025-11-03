@@ -1,10 +1,9 @@
-package org.example.GUI.Errors;
+package org.example.GUI;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import org.example.*;
 
 public class BadScan {
 
