@@ -73,9 +73,17 @@ public class HelloHard extends Application {
         VBox destBox = new VBox(destCode, destFull);
         destBox.setAlignment(Pos.CENTER);
 
-        Text arrow = new Text("\u2794");
-        arrow.setFont(Font.font( 80));
-        arrow.setMargin
+        Text arrow1 = new Text("\u2794");
+        arrow1.setFont(Font.font( 80));
+
+        /*Arrow arrow1 = new Arrow(300, 300);
+        arrow1.setScaleX(0.5);
+        arrow1.setScaleY(0.5);
+        arrow1.setRotate(270); */
+        
+        HBox arrow = new HBox(arrow1);
+        HBox.setMargin(arrow, new Insets(-25, 0, 0, 0));
+
         
 
 
