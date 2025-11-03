@@ -11,6 +11,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.layout.BorderPane;
+import javafx.geometry.Insets;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 
@@ -72,6 +75,7 @@ public class HelloHard extends Application {
 
         Text arrow = new Text("\u2794");
         arrow.setFont(Font.font( 80));
+        arrow.setMargin
         
 
 
