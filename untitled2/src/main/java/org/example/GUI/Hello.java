@@ -14,7 +14,6 @@ import org.bytedeco.javacv.FrameGrabber;
 
 
 public class Hello{
-
     public static Scene createScene() throws FrameGrabber.Exception {
         // de skal alle sammen erstattes med objekter når det spiller
         Text title = new Text(875, 623, "AirHead");
