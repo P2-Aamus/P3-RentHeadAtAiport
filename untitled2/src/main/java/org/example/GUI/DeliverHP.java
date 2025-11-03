@@ -14,8 +14,16 @@ import javafx.stage.Stage;
 
 public class DeliverHP extends Application {
 
+    // Paths to images (adjust path if needed)
     private static final String CHECKMARK_ICON_PATH = "images/accept.png";
     private static final String ARROW_ICON_PATH = "images/next.png";
+
+    private Label instructionLabel;
+
+    public enum InstructionMode {
+        DROP_OFF,
+        TAKE_HEADPHONES
+    }
 
     @Override
     public void start(Stage stage) {
@@ -23,28 +31,29 @@ public class DeliverHP extends Application {
         root.setPadding(new Insets(40));
         root.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 5; -fx-border-radius: 15;");
 
+
+        // Center content VBox
         VBox centerBox = new VBox(20);
         centerBox.setAlignment(Pos.CENTER);
 
-        ImageView checkmark = loadImageView(CHECKMARK_ICON_PATH, 80);
-        StackPane checkmarkPane = new StackPane();
-        checkmarkPane.getChildren().addAll(checkmark);
+
+        ImageView checkmark = loadImageView(CHECKMARK_ICON_PATH, 100);
+        StackPane checkmarkPane = new StackPane(checkmark);
 
         Label thankYouLabel = new Label("Thank you!");
         thankYouLabel.setFont(Font.font("Arial", 60));
         thankYouLabel.setTextFill(Color.BLACK);
 
-        Label instructionLabel = new Label("Please drop your\nheadphones to the right");
+        instructionLabel = new Label();
         instructionLabel.setFont(Font.font("Arial", 38));
         instructionLabel.setTextFill(Color.GRAY);
         instructionLabel.setAlignment(Pos.CENTER);
         instructionLabel.setWrapText(true);
 
         centerBox.getChildren().addAll(checkmarkPane, thankYouLabel, instructionLabel);
-
         root.setCenter(centerBox);
 
-        ImageView arrow = loadImageView(ARROW_ICON_PATH, 80);
+        ImageView arrow = loadImageView(ARROW_ICON_PATH, 60);
         VBox arrowBox = new VBox(arrow);
         arrowBox.setAlignment(Pos.CENTER_RIGHT);
         arrowBox.setPadding(new Insets(0, 40, 0, 0));
@@ -54,6 +63,9 @@ public class DeliverHP extends Application {
         stage.setTitle("Retrieve Headphones");
         stage.setScene(scene);
         stage.show();
+
+        setInstructionMode(InstructionMode.DROP_OFF);
+
     }
 
 
@@ -68,6 +80,17 @@ public class DeliverHP extends Application {
         iv.setFitWidth(size);
         iv.setPreserveRatio(true);
         return iv;
+    }
+
+    public void setInstructionMode(InstructionMode mode) {
+        switch (mode) {
+            case DROP_OFF:
+                instructionLabel.setText("Please drop your\nheadphones to the right");
+                break;
+            case TAKE_HEADPHONES:
+                instructionLabel.setText("Please retrieve your\nheadphones to the right");
+                break;
+        }
     }
 
     public static void main(String[] args) {
