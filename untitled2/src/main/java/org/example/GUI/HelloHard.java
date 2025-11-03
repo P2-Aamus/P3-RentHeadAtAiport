@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -12,7 +11,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-// Fjern evt. unødvendige imports for at rydde op
 
 import java.net.URL;
 
@@ -32,12 +30,11 @@ public class HelloHard extends Application {
 
         Text helloText = new Text("Hello!");
         helloText.setFont(Font.font(75));
-        
+
         Text nameText = new Text("Name Lastname");
         nameText.setFont(Font.font(50));
 
-
-        // Reads SAS-logo and flightnumber, puts logo next to text
+        // SAS-logo and flight number
         HBox airlineHBox = new HBox();
         airlineHBox.setSpacing(7);
         airlineHBox.setAlignment(Pos.CENTER_LEFT);
@@ -58,14 +55,14 @@ public class HelloHard extends Application {
         Text originCode = new Text("CPH/EKCH");
         originCode.setFont(Font.font(40));
 
-        Text originFull = new Text("Copenhagen KastrupKastrupKastrup");
+        Text originFull = new Text("Copenhagen Kastrup");
         originFull.setFont(Font.font(25));
 
         Text destCode = new Text("BGO/ENBR");
-        destCode.setFont(Font.font( 40));
+        destCode.setFont(Font.font(40));
 
         Text destFull = new Text("Bergen Flesland");
-        destFull.setFont(Font.font( 25));
+        destFull.setFont(Font.font(25));
 
         VBox originBox = new VBox(originCode, originFull);
         originBox.setAlignment(Pos.CENTER);
@@ -73,20 +70,38 @@ public class HelloHard extends Application {
         VBox destBox = new VBox(destCode, destFull);
         destBox.setAlignment(Pos.CENTER);
 
-
-        // Unicode pil → \u2794
         Text arrow = new Text("\u2794");
-        arrow.setFont(Font.font(100));
+        arrow.setFont(Font.font( 38));
 
-        // Set flight
+
         HBox flightRoute = new HBox();
         flightRoute.setSpacing(23);
         flightRoute.setAlignment(Pos.CENTER);
         flightRoute.getChildren().addAll(airlineHBox, originBox, arrow, destBox);
 
+        // Use UIButton for custom blue buttons with text layered using StackPane
+        UIButton notYourFlightBtn = new UIButton(0, 0);
+        UIButton continueBtn = new UIButton(0, 0);
 
-        // Center all content
-        VBox centerContent = new VBox(20, check, helloText, nameText, flightRoute);
+        Text notYourFlightText = new Text("Not your flight?");
+        notYourFlightText.setFont(Font.font(24));
+        notYourFlightText.setFill(Color.WHITE);
+
+        Text continueText = new Text("Continue to payment");
+        continueText.setFont(Font.font(24));
+        continueText.setFill(Color.WHITE);
+
+        StackPane stackBtn1 = new StackPane(notYourFlightBtn, notYourFlightText);
+        stackBtn1.setPrefSize(200, 80);
+
+        StackPane stackBtn2 = new StackPane(continueBtn, continueText);
+        stackBtn2.setPrefSize(260, 80);
+
+        HBox buttonsHBox = new HBox(40, stackBtn1, stackBtn2);
+        buttonsHBox.setAlignment(Pos.CENTER);
+        buttonsHBox.setPadding(new Insets(45, 0, 0, 0));
+
+        VBox centerContent = new VBox(20, check, helloText, nameText, flightRoute, buttonsHBox);
         centerContent.setAlignment(Pos.CENTER);
         centerContent.setPadding(new Insets(72, 50, 110, 50));
         border.setCenter(centerContent);
