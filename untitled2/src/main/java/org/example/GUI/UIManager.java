@@ -60,12 +60,10 @@ public class UIManager extends Application {
 
                                         case PICK_UP:
                                             if(kiosk.BPalreadyStored(boardingPass)){
-                                                Scene helloScene = BadScan.createScene();
-                                                primaryStage.setScene(helloScene);
+                                                UIManager.changeScene(BadScan::createScene);
 
                                             } else {kiosk.initTransition(boardingPass);
-                                                Scene helloScene = Hello.createScene();
-                                                primaryStage.setScene(helloScene);}
+                                                UIManager.changeScene(HelloHard::createScene);}
 
                                             System.out.println("PICK UP CASE");
                                             break;
