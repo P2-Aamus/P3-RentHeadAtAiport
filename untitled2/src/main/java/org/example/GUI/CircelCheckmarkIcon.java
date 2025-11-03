@@ -34,8 +34,8 @@ public class CircelCheckmarkIcon extends Group {
         smallRec.setHeight(10);
         smallRec.setFill(Color.WHITE);
 
-        outerCircle.setCenterY(20);
-        outerCircle.setCenterX(10);
+        outerCircle.setCenterY(25);
+        outerCircle.setCenterX(15);
 
 
 
