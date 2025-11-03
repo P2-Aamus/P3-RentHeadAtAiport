@@ -4,7 +4,9 @@ import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import org.bytedeco.javacv.*;
+import org.example.GUI.DeliverHP;
 
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,6 +17,12 @@ public class Kiosk {
     private final String airport;
     public static OpenCVFrameGrabber grabber;
     public static CanvasFrame canvas;
+
+    public enum InstructionMode {
+        DROP_OFF,
+        PICK_UP
+    }
+    public static InstructionMode useCase = null;
 
     // Database connection details
     private static final String url = "jdbc:mysql://localhost:3306/main";
@@ -32,8 +40,8 @@ public class Kiosk {
      * - Inserts boarding pass
      * - Executes database workflow
      */
-    public String useCaseIdentification(BoardingPass BP){
-        String res = "";
+    public InstructionMode useCaseIdentification(BoardingPass BP){
+
         System.out.println("\n🧾 Use Case: Passenger Identification");
         System.out.println("Boarding Pass: " + BP.getBPNumber());
         System.out.println("Origin: " + BP.getOriginAirport());
@@ -49,9 +57,9 @@ public class Kiosk {
 
 
         //Add a check in the database for drop off
-        if (this.getAirport().equals(BP.getOriginAirport())){res = "pick-up";}
-        else if (this.getAirport().equals(BP.getDestinationAirport())) {res = "drop-off";}
-        return res;
+        if (this.getAirport().equals(BP.getOriginAirport())){useCase = InstructionMode.PICK_UP;}
+        else if (this.getAirport().equals(BP.getDestinationAirport())) {useCase = InstructionMode.DROP_OFF;}
+        return useCase;
     }
 
     public boolean BPalreadyStored(BoardingPass BP) throws SQLException {
@@ -153,7 +161,7 @@ public class Kiosk {
             grabber.start();
 
 
-            canvas.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            canvas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             while (canvas.isVisible()) {
                 Frame frame = grabber.grab();
@@ -226,7 +234,7 @@ public class Kiosk {
         grabber.start();
 
         CanvasFrame canvas = new CanvasFrame("QR Scanner", CanvasFrame.getDefaultGamma() / grabber.getGamma());
-        canvas.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        canvas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         while (canvas.isVisible()) {
             Frame frame = grabber.grab();

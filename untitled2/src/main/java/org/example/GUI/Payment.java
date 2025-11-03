@@ -111,7 +111,7 @@ public class Payment {
         // Click event
         box.setOnMouseClicked(e -> {
             Kiosk.pickUp(BP, UIManager.kiosk);
-            UIManager.changeScene(BadScan::createScene);
+            UIManager.changeScene(DeliverHP::createScene);
         });
 
         return box;

@@ -11,22 +11,17 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.example.Kiosk;
 
-public class DeliverHP extends Application {
+public class DeliverHP {
 
     // Paths to images (adjust path if needed)
     private static final String CHECKMARK_ICON_PATH = "images/accept.png";
     private static final String ARROW_ICON_PATH = "images/next.png";
 
-    private Label instructionLabel;
+    private static Label instructionLabel;
 
-    public enum InstructionMode {
-        DROP_OFF,
-        TAKE_HEADPHONES
-    }
-
-    @Override
-    public void start(Stage stage) {
+    public static Scene createScene(){
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(40));
         root.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 5; -fx-border-radius: 15;");
@@ -59,20 +54,16 @@ public class DeliverHP extends Application {
         arrowBox.setPadding(new Insets(0, 40, 0, 0));
         root.setRight(arrowBox);
 
-        Scene scene = new Scene(root, 1920, 1080);
-        stage.setTitle("Retrieve Headphones");
-        stage.setScene(scene);
-        stage.show();
+        setInstructionMode(Kiosk.useCase);
 
-        setInstructionMode(InstructionMode.DROP_OFF);
-
+        return new Scene(root, 1920, 1080);
     }
 
 
-    private ImageView loadImageView(String path, double size) {
+    private static ImageView loadImageView(String path, double size) {
         Image image;
         try {
-            image = new Image(getClass().getResource("/" + path).toExternalForm());
+            image = new Image(DeliverHP.class.getResource("/" + path).toExternalForm());
         } catch (Exception e) {
             image = new Image("file:" + path);
         }
@@ -82,18 +73,14 @@ public class DeliverHP extends Application {
         return iv;
     }
 
-    public void setInstructionMode(InstructionMode mode) {
+    public static void setInstructionMode(Kiosk.InstructionMode mode) {
         switch (mode) {
             case DROP_OFF:
                 instructionLabel.setText("Please drop your\nheadphones to the right");
                 break;
-            case TAKE_HEADPHONES:
+            case PICK_UP:
                 instructionLabel.setText("Please retrieve your\nheadphones to the right");
                 break;
         }
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

@@ -58,7 +58,7 @@ public class UIManager extends Application {
                                 if(Kiosk.validateDestinationAirport(boardingPass, Kiosk.grabber, Kiosk.canvas)){
                                     switch(kiosk.useCaseIdentification(boardingPass)){
 
-                                        case "pick-up" :
+                                        case PICK_UP:
                                             if(kiosk.BPalreadyStored(boardingPass)){
                                                 Scene helloScene = BadScan.createScene();
                                                 primaryStage.setScene(helloScene);
@@ -71,7 +71,7 @@ public class UIManager extends Application {
                                             break;
 
 
-                                        case "drop-off" :
+                                        case DROP_OFF:
                                             System.out.println("DROP OFF CASE");
                                             break;
                                     }

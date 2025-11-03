@@ -50,6 +50,8 @@ public class Hello{
         //Image SAS = new Image("images/SAS Logo.png");
         //ImageView sasView = new ImageView(SAS);
 
+
+        /// ADD INSTRUCTIONMODE FROM KIOSK (LOOK AT DELIVERHP FOR REFERENCE)
         //Make buttons static and move the action handler to UI manager
         Button wrongBP = new Button("Not your flight?");
         wrongBP.setOnAction(e -> {
