@@ -314,4 +314,27 @@ public class Database {
         }}
         return BPNArray;
     }
+
+    public static void deleteLastBP(BoardingPass BP) throws SQLException {
+        try (Connection con = DriverManager.getConnection(url, user, password)) {
+            System.out.println("Connection successful!");
+
+            int BPN = BP.getBPNumber();
+
+            String sql1 = "DELETE FROM transactions WHERE BPN = ?";
+            String sql2 = "DELETE FROM boarding_pass WHERE BPN = ?";
+
+            try (PreparedStatement stmt1 = con.prepareStatement(sql1);
+                 PreparedStatement stmt2 = con.prepareStatement(sql2)) {
+
+                stmt1.setInt(1, BPN);
+                int rows1 = stmt1.executeUpdate();
+
+                stmt2.setInt(1, BPN);
+                int rows2 = stmt2.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 }

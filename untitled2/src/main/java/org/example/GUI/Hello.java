@@ -15,11 +15,12 @@ import javafx.scene.text.Text;
 import javafx.scene.layout.*;
 import org.bytedeco.javacv.FrameGrabber;
 
+import java.sql.SQLException;
 
 
 public class Hello{
 
-    static BoardingPass BP = Scanner.sendBoardingPass();
+    static BoardingPass BP = UIManager.sendBoardingPass();
     public static Scene createScene() throws FrameGrabber.Exception {
         // de skal alle sammen erstattes med objekter når det spiller
         Text title = new Text(875, 623, "AirHead");
@@ -52,16 +53,24 @@ public class Hello{
         Button wrongBP = new Button("Not your flight?");
         wrongBP.setOnAction(e -> {
             //Go back to Scanner
+            try {
+                Database.deleteLastBP(BP);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            UIManager.getPrimaryStage().setScene(Scanner.createScene());
         });
+        wrongBP.setLayoutX(400);
+        wrongBP.setLayoutY(400);
 
 
         Button goToPayment = new Button("Go To Payment");
         goToPayment.setOnAction(e -> {
-            Scene helloScene = Payment.createScene();
-            Scanner.getPrimaryStage().setScene(helloScene);
+            Scene paymentScene = Payment.createScene();
+            UIManager.getPrimaryStage().setScene(paymentScene);
         }) ;
 
-        Group root = new Group(title, please, passengerName, flightNumber, originAir, originFull, destAir, destFull, goToPayment);
+        Group root = new Group(title, please, passengerName, flightNumber, originAir, originFull, destAir, destFull, wrongBP, goToPayment);
 
         return new Scene(root, 1920, 1080);
 
