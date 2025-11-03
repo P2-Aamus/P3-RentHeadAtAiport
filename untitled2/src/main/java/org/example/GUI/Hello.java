@@ -20,7 +20,7 @@ import java.sql.SQLException;
 
 public class Hello{
 
-    static BoardingPass BP = UIManager.sendBoardingPass();
+    static BoardingPass BP = UIManager.boardingPass;
     public static Scene createScene() throws FrameGrabber.Exception {
         // de skal alle sammen erstattes med objekter når det spiller
         Text title = new Text(875, 623, "AirHead");
@@ -50,15 +50,15 @@ public class Hello{
         //Image SAS = new Image("images/SAS Logo.png");
         //ImageView sasView = new ImageView(SAS);
 
+        //Make buttons static and move the action handler to UI manager
         Button wrongBP = new Button("Not your flight?");
         wrongBP.setOnAction(e -> {
-            //Go back to Scanner
             try {
                 Database.deleteLastBP(BP);
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
-            UIManager.getPrimaryStage().setScene(Scanner.createScene());
+            UIManager.changeScene(Scanner::createScene);
         });
         wrongBP.setLayoutX(400);
         wrongBP.setLayoutY(400);
@@ -66,8 +66,7 @@ public class Hello{
 
         Button goToPayment = new Button("Go To Payment");
         goToPayment.setOnAction(e -> {
-            Scene paymentScene = Payment.createScene();
-            UIManager.getPrimaryStage().setScene(paymentScene);
+            UIManager.changeScene(Payment::createScene);
         }) ;
 
         Group root = new Group(title, please, passengerName, flightNumber, originAir, originFull, destAir, destFull, wrongBP, goToPayment);

@@ -13,9 +13,12 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.example.BoardingPass;
+import org.example.Kiosk;
 
 public class Payment {
 
+    static BoardingPass BP = UIManager.boardingPass;
     private static final String CARD_ICON_PATH = "images/Debit.png";
     private static final String MOBILEPAY_ICON_PATH = "images/MobilePay.png";
 
@@ -107,11 +110,8 @@ public class Payment {
 
         // Click event
         box.setOnMouseClicked(e -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Selection Confirmed");
-            alert.setHeaderText(null);
-            alert.setContentText("You selected: " + title);
-            alert.showAndWait();
+            Kiosk.pickUp(BP, UIManager.kiosk);
+            UIManager.changeScene(BadScan::createScene);
         });
 
         return box;

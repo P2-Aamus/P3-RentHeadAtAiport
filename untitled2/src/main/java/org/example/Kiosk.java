@@ -4,9 +4,7 @@ import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import org.bytedeco.javacv.*;
-import org.example.GUI.Hello;
 
-import javax.xml.crypto.Data;
 import java.awt.image.BufferedImage;
 import java.sql.*;
 import java.util.ArrayList;
@@ -144,20 +142,6 @@ public class Kiosk {
         }
     }
 
-    // Closes webcam and exits QR-SCAN
-    private static void closeAndExit(OpenCVFrameGrabber grabber, CanvasFrame canvas, int status) {
-        try {
-            if (grabber != null) grabber.stop();
-            if (canvas != null) canvas.dispose();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException ignored) {}
-        //System.exit(status);
-    }
-
     // --- Main scanner ---
     //public static void main(String[] args) throws FrameGrabber.Exception {
         public static String[] QRScan() throws FrameGrabber.Exception {
@@ -210,13 +194,9 @@ public class Kiosk {
             return data;
         }
 
-    // --- Getters ---
-    //public int getId() { return id; }
-    public String getAirport() { return airport; }
-    //public int getNumOfAvailabeHP() { return numOfAvailabeHP; }
-    //public String getLocationAtAirport() { return locationAtAirport; }
 
-    public static String getBP(int i) {return BP[i];}
+    public String getAirport() { return airport; }
+
 
     public static boolean sufficientData(String[] lines){
         if (lines.length < 5) {
@@ -224,6 +204,11 @@ public class Kiosk {
             return false;
         } else
             return true;
+    }
+
+    public static void pickUp(BoardingPass BP, Kiosk kiosk){
+
+        Database.pickUp(BP.getBPNumber(), Database.getIDFromICAO(kiosk.getAirport()));
     }
 
 

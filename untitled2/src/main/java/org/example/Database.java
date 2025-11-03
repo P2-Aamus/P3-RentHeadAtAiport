@@ -89,9 +89,9 @@ public class Database {
             String loc = "";
             int HP_ID = 0;
 
-            PreparedStatement selectStatement = con.prepareStatement("SELECT * FROM kiosk WHERE ID =" + kioskID);
+            PreparedStatement selectStatement = con.prepareStatement("SELECT * FROM kiosk WHERE ID = ?");
+            selectStatement.setInt(1, kioskID);
             ResultSet rs = selectStatement.executeQuery();
-
             while (rs.next()) { // will traverse through all rows
                 availableHP = rs.getInt("numOfAvailableHP");
                 loc = rs.getString("airport");
@@ -99,56 +99,56 @@ public class Database {
 
             if(availableHP != 0){
                 //Find a pair of headphones in the kiosk
-                PreparedStatement selectStatement2 = con.prepareStatement("SELECT * FROM headphones WHERE location ='" + loc + "' & status = 1");
+                PreparedStatement selectStatement2 = con.prepareStatement("SELECT ID FROM headphones WHERE location = ? AND status = 1 LIMIT 1");
+                selectStatement2.setString(1, loc);
                 ResultSet rs2 = selectStatement2.executeQuery();
-
-                while (rs2.next()) { // will traverse through all rows
+                if(rs2.next()) {
                     HP_ID = rs2.getInt("ID");
+                } else {
+                    System.err.println("No headphones available at this kiosk!");
+                    return; // or handle error
                 }
 
                 //Update NumAvailableHP
-                String sql5 = "UPDATE kiosk SET numOfAvailableHP = numOfAvailableHP - 1 WHERE ID =" + kioskID;
-                try (PreparedStatement pstmt = con.prepareStatement(sql5)) {
-                    int rowsInserted = pstmt.executeUpdate();
-                    if (rowsInserted > 0) {
-                        System.out.println("Name inserted successfully!");
-                    }
+                PreparedStatement selectStatement3 = con.prepareStatement("UPDATE kiosk SET numOfAvailableHP = numOfAvailableHP - 1 WHERE ID = ?");
+                selectStatement3.setInt(1, kioskID);
+                int rowsInserted3 = selectStatement3.executeUpdate();
+                if (rowsInserted3 > 0) {
+                    System.out.println("NumAvailableHP updated!");
                 }
 
+
                 //Update HP status
-                String sql = "UPDATE headphones SET status = 2 WHERE ID =" + HP_ID;
-                try (PreparedStatement pstmt = con.prepareStatement(sql)) {
-                    int rowsInserted = pstmt.executeUpdate();
-                    if (rowsInserted > 0) {
-                        System.out.println("Name inserted successfully!");
-                    }
+                PreparedStatement selectStatement4 = con.prepareStatement("UPDATE headphones SET status = 2 WHERE ID = ?");
+                selectStatement4.setInt(1, HP_ID);
+                int rowsInserted4 = selectStatement4.executeUpdate();
+                if (rowsInserted4 > 0) {
+                    System.out.println("HP status updated to 2 (in use)!");
                 }
 
                 //Update HP location
-                String sql2 = "UPDATE headphones SET location = NULL WHERE ID =" + HP_ID;
-                try (PreparedStatement pstmt = con.prepareStatement(sql2)) {
-                    int rowsInserted = pstmt.executeUpdate();
-                    if (rowsInserted > 0) {
-                        System.out.println("Name inserted successfully!");
-                    }
+                PreparedStatement selectStatement5 = con.prepareStatement("UPDATE headphones SET location = NULL WHERE ID = ?");
+                selectStatement5.setInt(1, HP_ID);
+                int rowsInserted5 = selectStatement5.executeUpdate();
+                if (rowsInserted5 > 0) {
+                    System.out.println("HP location updated to NULL!");
                 }
 
                 //Update transaction status
-                String sql3 = "UPDATE transactions SET status = 1 WHERE BPN =" + BPN;
-                try (PreparedStatement pstmt = con.prepareStatement(sql3)) {
-                    int rowsInserted = pstmt.executeUpdate();
-                    if (rowsInserted > 0) {
-                        System.out.println("Name inserted successfully!");
-                    }
+                PreparedStatement selectStatement6 = con.prepareStatement("UPDATE transactions SET status = 1 WHERE BPN = ?");
+                selectStatement6.setInt(1, BPN);
+                int rowsInserted6 = selectStatement6.executeUpdate();
+                if (rowsInserted6 > 0) {
+                    System.out.println("Transaction status updated to 1 (closed)!");
                 }
 
                 //Insert transaction HP
-                String sql4 = "UPDATE transactions SET headphonesID = "+ HP_ID +" WHERE BPN =" + BPN;
-                try (PreparedStatement pstmt = con.prepareStatement(sql4)) {
-                    int rowsInserted = pstmt.executeUpdate();
-                    if (rowsInserted > 0) {
-                        System.out.println("Name inserted successfully!");
-                    }
+                PreparedStatement selectStatement7 = con.prepareStatement("UPDATE transactions SET headphonesID = ? WHERE BPN = ?");
+                selectStatement7.setInt(1, HP_ID);
+                selectStatement7.setInt(2, BPN);
+                int rowsInserted7 = selectStatement7.executeUpdate();
+                if (rowsInserted7 > 0) {
+                    System.out.println("HP ID inserted into transaction!");
                 }
 
             } else {

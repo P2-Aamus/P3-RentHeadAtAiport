@@ -5,11 +5,12 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.BoardingPass;
 import org.example.Kiosk;
+import java.util.function.Supplier;
 
 public class UIManager extends Application {
 
-    private static BoardingPass boardingPass;
-    private static Stage primaryStageRef;
+    public static BoardingPass boardingPass;
+    public static Stage primaryStageRef;
     public static Kiosk kiosk = new Kiosk("EKBI");
 
     public static void main(String[] args) {
@@ -29,19 +30,13 @@ public class UIManager extends Application {
 
     }
 
-    public static BoardingPass sendBoardingPass(){
-        return boardingPass;
-    }
 
-    public static Stage getPrimaryStage(){
-        return primaryStageRef;
-    }
 
     public static void startScan(){
         //QR scan and use case identification.
         new Thread(() -> {
 
-            Stage primaryStage = UIManager.getPrimaryStage();
+            Stage primaryStage = UIManager.primaryStageRef;
 
             try {
                 String[] data = Kiosk.QRScan(); // run QR scanning
@@ -110,4 +105,10 @@ public class UIManager extends Application {
             }
         }).start();
     }
+
+    public static void changeScene(Supplier<Scene> sceneSupplier){
+        Scene newScene = sceneSupplier.get();
+        primaryStageRef.setScene(newScene);
+    }
+
 }
