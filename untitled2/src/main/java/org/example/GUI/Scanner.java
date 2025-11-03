@@ -65,7 +65,6 @@ public class Scanner extends Application {
             BorderPane.setAlignment(arrow, Pos.CENTER);
             BorderPane.setMargin(arrow, new Insets(100));
             border.setBottom(arrow);
-            
 
 
         arrow.setOnMousePressed(e -> {
