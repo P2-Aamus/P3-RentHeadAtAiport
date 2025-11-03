@@ -19,19 +19,19 @@ public class Arrow extends Group {
 
     public Arrow(int x, int y){
 
-        Rectangle vertical = new Rectangle();
-        vertical.setX(60 / 2.0 - 10);
-        vertical.setY(-40);
-        vertical.setWidth(20);
-        vertical.setHeight(70);
-        vertical.setFill(Color.BLACK);
+        Rectangle rec = new Rectangle();
+        rec.setX(60 / 2.0 - 10);
+        rec.setY(-40);
+        rec.setWidth(20);
+        rec.setHeight(70);
+        rec.setFill(Color.BLACK);
 
         Polygon upsideDownTriangle = new Polygon();
         upsideDownTriangle.getPoints().addAll(new Double[] {0.0, 0.0, 25.0, 60.0, 60.0, 25.0});
         upsideDownTriangle.setRotate(225);
         upsideDownTriangle.setFill(Color.BLACK);
 
-        this.getChildren().addAll(vertical, upsideDownTriangle);
+        this.getChildren().addAll(rec, upsideDownTriangle);
 
     }
 
