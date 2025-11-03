@@ -49,12 +49,16 @@ public class Hello{
         //Image SAS = new Image("images/SAS Logo.png");
         //ImageView sasView = new ImageView(SAS);
 
+        Button wrongBP = new Button("Not your flight?");
+        wrongBP.setOnAction(e -> {
+            //Go back to Scanner
+        });
+
+
         Button goToPayment = new Button("Go To Payment");
-        goToPayment.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-                Scene helloScene = Payment.createScene();
-                Scanner.getPrimaryStage().setScene(helloScene);
-            }
+        goToPayment.setOnAction(e -> {
+            Scene helloScene = Payment.createScene();
+            Scanner.getPrimaryStage().setScene(helloScene);
         }) ;
 
         Group root = new Group(title, please, passengerName, flightNumber, originAir, originFull, destAir, destFull, goToPayment);
