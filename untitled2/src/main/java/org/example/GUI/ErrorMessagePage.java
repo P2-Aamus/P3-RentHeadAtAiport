@@ -18,6 +18,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 
 import java.awt.*;
+import java.net.URL;
 
 public class ErrorMessagePage extends Application {
 
@@ -34,20 +35,40 @@ public class ErrorMessagePage extends Application {
 
         CircelErrorIcon Error1 = new CircelErrorIcon(100, 100);
         Error1.setScaleY(0.8);
-        Error1.setScaleY(0.8);
+        Error1.setScaleX(0.8);
 
 
         Text title = new Text("Oops!");
         title.setFont(new Font(70));
 
+        Text message1 = new Text("The Origin airport is incorrect.");
+        message1.setFont(new Font(40));
+        Text message2 = new Text("Please scan a valid boarding pass.");
+        message2.setFont(new Font(40));
+
+        ImageView scannerView = null;
+        URL scannerUrl = getClass().getResource("/Images/Scan.JPEG");
+        if (scannerUrl != null) {
+            scannerView = new ImageView(new Image(scannerUrl.toExternalForm()));
+            scannerView.setFitWidth(200);
+            scannerView.setPreserveRatio(true);
+        } else {
+            System.out.println("Scanner image not found!");
+        }
+
+        Arrow arrow = new Arrow(300, 300);
+        BorderPane.setAlignment(arrow, Pos.CENTER);
+        BorderPane.setMargin(arrow, new Insets(100));
+        border.setBottom(arrow);
 
 
-
-        VBox top = new VBox(Error1, title);
+        VBox top = new VBox(Error1, title, message1, message2, scannerView);
         top.setAlignment(Pos.TOP_CENTER);
-        top.setSpacing(15);
+        top.setSpacing(5);
+        border.setTop(top);
 
-        border.setCenter(top);
+
+
 
 
 

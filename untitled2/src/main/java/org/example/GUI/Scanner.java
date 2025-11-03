@@ -47,6 +47,8 @@ public class Scanner extends Application {
 
         Text please = new Text("Please scan your boarding pass");
         please.setFont(new Font(60));
+
+
         border.setCenter(centerContent);
 
         URL scannerUrl = getClass().getResource("/Images/Scan.JPEG");
