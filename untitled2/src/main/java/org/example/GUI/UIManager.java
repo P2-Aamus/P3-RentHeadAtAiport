@@ -63,7 +63,7 @@ public class UIManager extends Application {
 
                                 if (mode == null) {
                                     System.err.println("ERROR: useCaseIdentification returned null for boarding pass: " + BPN);
-                                    changeScene(BadScan::createScene);
+                                    changeScene(ErrorPleaseTryAgainMessage::createScene);
                                     return;
                                 }
 
@@ -82,14 +82,14 @@ public class UIManager extends Application {
                                         // Add your drop-off logic here
                                     }
 
-                                    case UNKNOWN -> {changeScene(BadScan::createScene);}
+                                    case UNKNOWN -> {changeScene(ErrorPleaseTryAgainMessage::createScene);}
                                 }
                             }
                         }
 
                     } catch (Exception ex) {
                         ex.printStackTrace();
-                        changeScene(BadScan::createScene);
+                        changeScene(ErrorPleaseTryAgainMessage::createScene);
                     }
                 });
 

@@ -14,14 +14,11 @@ import javafx.scene.layout.VBox;
 
 import java.net.URL;
 
-public class ErrorPleaseTryAgainMessage extends Application {
+public class ErrorPleaseTryAgainMessage{
 
-    public static void main(String[] args) {
-        launch(args);
-    }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+    //@Override
+    public static Scene createScene() {
 
         BorderPane border = new BorderPane();
 
@@ -36,7 +33,7 @@ public class ErrorPleaseTryAgainMessage extends Application {
         message2.setFont(new Font(40));
 
         ImageView scannerView = null;
-        URL scannerUrl = getClass().getResource("/Images/Scan.JPEG");
+        URL scannerUrl = ErrorPleaseTryAgainMessage.class.getResource("/Images/Scan.JPEG");
         if (scannerUrl != null) {
             scannerView = new ImageView(new Image(scannerUrl.toExternalForm()));
             scannerView.setFitWidth(200);
@@ -62,11 +59,6 @@ public class ErrorPleaseTryAgainMessage extends Application {
         border.setTop(top);
         border.setCenter(center);
 
-
-
-        Scene scene = new Scene(border, 1920, 1080);
-        primaryStage.setTitle("AirHead");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        return new Scene(border, 1920, 1080);
     }
 }

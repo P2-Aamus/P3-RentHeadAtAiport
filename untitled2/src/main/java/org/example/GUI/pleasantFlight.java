@@ -11,16 +11,17 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
+import org.example.BoardingPass;
+import org.example.Database;
+import org.example.Kiosk;
 
 import java.net.URL;
 
-public class pleasantFlight extends Application {
+public class pleasantFlight {
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    static BoardingPass BP = UIManager.boardingPass;
 
-    @Override
+
     public void start(Stage primaryStage) {
         Scene scene = createScene();
         primaryStage.setTitle("Pleasant flight");
@@ -36,7 +37,7 @@ public class pleasantFlight extends Application {
         pleasent.setFont(Font.font(75));
 
 
-        Text remember = new Text("Remember to drop your headphones off in Bergen");
+        Text remember = new Text("Remember to drop your headphones off in " + Database.getNameFromICAO(BP.getDestinationAirport()));
         remember.setFont(Font.font(50));
 
         ImageView planeUp = null;

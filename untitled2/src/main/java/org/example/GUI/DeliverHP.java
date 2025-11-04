@@ -1,5 +1,6 @@
 package org.example.GUI;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,6 +12,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.example.Kiosk;
 
 public class DeliverHP {
@@ -73,13 +75,24 @@ public class DeliverHP {
         return iv;
     }
 
+
     public static void setInstructionMode(Kiosk.InstructionMode mode) {
         switch (mode) {
             case DROP_OFF:
                 instructionLabel.setText("Please drop your\nheadphones to the right");
+                // Set a 10-second timer
+                PauseTransition pause = new PauseTransition(Duration.seconds(10));
+                pause.setOnFinished(event -> UIManager.changeScene(hpDroppedOff::createScene));
+                pause.play();
                 break;
             case PICK_UP:
                 instructionLabel.setText("Please retrieve your\nheadphones to the right");
+
+                // Set a 10-second timer
+                PauseTransition pause2 = new PauseTransition(Duration.seconds(10));
+                pause2.setOnFinished(event -> UIManager.changeScene(pleasantFlight::createScene));
+                pause2.play();
+
                 break;
         }
     }
