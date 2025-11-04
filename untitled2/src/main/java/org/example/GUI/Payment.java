@@ -14,7 +14,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.example.BoardingPass;
+import org.example.Database;
 import org.example.Kiosk;
+
+import java.sql.SQLException;
 
 public class Payment {
 
@@ -39,11 +42,18 @@ public class Payment {
         headerLabel.setFont(HEADER_FONT);
 
         HomeButton home = new HomeButton(40);
+        home.setOnMouseClicked(event -> {
+            UIManager.changeScene(Scanner::createScene);
+            try {
+                Database.deleteLastBP(BP);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         topPane.getChildren().addAll(home, headerLabel);
         StackPane.setAlignment(headerLabel, Pos.CENTER);
         StackPane.setAlignment(home, Pos.TOP_LEFT);
-
         StackPane.setMargin(home, new Insets(30, 0, 0, 30));
 
         root.setTop(topPane);

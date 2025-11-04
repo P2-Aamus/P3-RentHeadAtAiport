@@ -20,21 +20,12 @@ public class Scanner{
         UIManager.startScan();
 
         BorderPane border = new BorderPane();
-        StackPane topPane = new StackPane();
 
 
         Text title = new Text("Kiosk");
         title.setFont(new Font(80));
-
-        HomeButton home = new HomeButton(40);
-
-        topPane.getChildren().addAll(home, title);
-        StackPane.setAlignment(title, Pos.CENTER);
-        StackPane.setAlignment(home, Pos.TOP_LEFT);
-
-        StackPane.setMargin(home, new Insets(30, 0, 0, 30));
-
-        border.setTop(topPane);
+        BorderPane.setAlignment(title, Pos.CENTER);
+        border.setTop(title);
 
 
         VBox centerContent = new VBox(20);

@@ -65,7 +65,7 @@ public class DeliverHP {
         instructionLabel.setAlignment(Pos.CENTER);
         instructionLabel.setWrapText(true);
 
-        centerBox.getChildren().addAll(home, checkmarkPane, thankYouLabel, instructionLabel);
+        centerBox.getChildren().addAll(checkmarkPane, thankYouLabel, instructionLabel);
         StackPane.setAlignment(home, Pos.TOP_LEFT);
         StackPane.setMargin(home, new Insets(30, 0, 0, 30));
         root.setCenter(centerBox);
