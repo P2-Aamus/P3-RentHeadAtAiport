@@ -32,7 +32,9 @@ public class DeliverHP {
         centerBox.setAlignment(Pos.CENTER);
 
 
-        ImageView checkmark = loadImageView(CHECKMARK_ICON_PATH, 100);
+        CircelCheckmarkIcon checkmark = new CircelCheckmarkIcon(100, 100, 100);
+        checkmark.setScaleX(0.9);
+        checkmark.setScaleY(0.9);
         StackPane checkmarkPane = new StackPane(checkmark);
 
         Label thankYouLabel = new Label("Thank you!");

@@ -35,7 +35,6 @@ public class Payment {
         root.setPadding(new Insets(40));
         root.setBackground(new Background(new BackgroundFill(BACKGROUND_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        // --- HEADER (Centered) ---
         Label headerLabel = new Label("Choose a payment method");
         headerLabel.setFont(HEADER_FONT);
 
