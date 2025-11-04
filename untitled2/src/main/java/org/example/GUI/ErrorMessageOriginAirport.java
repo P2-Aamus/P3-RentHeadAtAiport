@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -11,17 +12,15 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
+import org.example.Kiosk;
 
 import java.net.URL;
 
-public class ErrorMessageOriginAirport extends Application {
+public class ErrorMessageOriginAirport {
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    private static Text instructionLabel;
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+    public static Scene createScene() {
 
         BorderPane border = new BorderPane();
 
@@ -35,13 +34,14 @@ public class ErrorMessageOriginAirport extends Application {
         Text title = new Text("Oops!");
         title.setFont(new Font(70));
 
-        Text message1 = new Text("The Origin airport is incorrect.");
+        instructionLabel = new Text();
+        Text message1 = instructionLabel;
         message1.setFont(new Font(40));
         Text message2 = new Text("Please scan a valid boarding pass.");
         message2.setFont(new Font(40));
 
         ImageView scannerView = null;
-        URL scannerUrl = getClass().getResource("/Images/Scan.JPEG");
+        URL scannerUrl = ErrorMessageOriginAirport.class.getResource("/Images/Scan.JPEG");
         if (scannerUrl != null) {
             scannerView = new ImageView(new Image(scannerUrl.toExternalForm()));
             scannerView.setFitWidth(200);
@@ -61,18 +61,19 @@ public class ErrorMessageOriginAirport extends Application {
         top.setSpacing(5);
         border.setTop(top);
 
+        setInstructionMode(Kiosk.validation);
 
+        return new Scene(border, 1920, 1080);
+    }
 
-
-
-
-
-
-
-
-        Scene scene = new Scene(border, 1920, 1080);
-        primaryStage.setTitle("AirHead");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    public static void setInstructionMode(Kiosk.AirportVaildation mode) {
+        switch (mode) {
+            case INVALID_ORIGIN:
+                instructionLabel.setText("The Origin airport is incorrect.");
+                break;
+            case INVALID_DESTINATION:
+                instructionLabel.setText("The destination airport is not in our network.");
+                break;
+        }
     }
 }

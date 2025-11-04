@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Kiosk {
 
@@ -20,9 +21,16 @@ public class Kiosk {
 
     public enum InstructionMode {
         DROP_OFF,
-        PICK_UP
+        UNKNOWN, PICK_UP
     }
     public static InstructionMode useCase = null;
+
+    public enum AirportVaildation{
+        OKAY,
+        INVALID_ORIGIN,
+        INVALID_DESTINATION
+    }
+    public static AirportVaildation validation = null;
 
     // Database connection details
     private static final String url = "jdbc:mysql://localhost:3306/main";
@@ -40,26 +48,39 @@ public class Kiosk {
      * - Inserts boarding pass
      * - Executes database workflow
      */
-    public InstructionMode useCaseIdentification(BoardingPass BP){
-
+    public InstructionMode useCaseIdentification(BoardingPass BP) {
         System.out.println("\n🧾 Use Case: Passenger Identification");
         System.out.println("Boarding Pass: " + BP.getBPNumber());
         System.out.println("Origin: " + BP.getOriginAirport());
         System.out.println("Destination: " + BP.getDestinationAirport());
         System.out.println("Passenger: " + BP.getPsgName());
 
-        // --- Validates originAirport and destiinationAirport ---
-        //if (!validateAirports(originAirport, destinationAirportOnPass, grabber, canvas)) {
-        //    return false; // Errors are handled inside validateAirports()
-        //}
+        try {
+            // PICK_UP if kiosk is origin
+            if (this.getAirport().equals(BP.getOriginAirport())) {
+                System.out.println("Identified as PICK_UP");
+                return InstructionMode.PICK_UP;
+            }
 
-        System.out.println("Airports verified successfully (" + BP.getOriginAirport() + " → " + BP.getDestinationAirport() + ")");
+            // DROP_OFF if kiosk is destination
+            if (this.getAirport().equals(BP.getDestinationAirport())) {
+                if (!BPalreadyStored(BP)) {
+                    return InstructionMode.UNKNOWN;
+                } else {
+                    System.out.println("Identified as DROP_OFF (already stored)");
+                }
+                return InstructionMode.DROP_OFF;
+            }
 
+        } catch (SQLException e) {
+            System.err.println("Database error while checking if boarding pass is already stored.");
+            e.printStackTrace();
+            return InstructionMode.UNKNOWN;
+        }
 
-        //Add a check in the database for drop off
-        if (this.getAirport().equals(BP.getOriginAirport())){useCase = InstructionMode.PICK_UP;}
-        else if (this.getAirport().equals(BP.getDestinationAirport())) {useCase = InstructionMode.DROP_OFF;}
-        return useCase;
+        // If neither origin nor destination matches
+        System.err.println("ERROR: This boarding pass is invalid for this kiosk.");
+        return InstructionMode.UNKNOWN;
     }
 
     public boolean BPalreadyStored(BoardingPass BP) throws SQLException {
@@ -106,6 +127,37 @@ public class Kiosk {
      * Validates the origin and destination of the airport.
      * Returns true if both are valid, otherwise prints error and the QR Scanner is closed.
      */
+    public static AirportVaildation validateAirports(BoardingPass BP, Kiosk kiosk){
+        // Validate origin
+        if (!isValidAirport(BP.getOriginAirport())) {
+            System.err.println("ERROR: Origin airport '" + BP.getOriginAirport() + "' is NOT registered in the system.");
+            System.err.println("Please check the boarding pass");
+            //closeAndExit(grabber, canvas, 1);
+            validation = AirportVaildation.INVALID_ORIGIN;
+        }
+
+
+        if (!isValidAirport(BP.getDestinationAirport())) {
+            validation = AirportVaildation.INVALID_DESTINATION;
+            System.err.println("ERROR: Origin airport '" + BP.getDestinationAirport() + "' is NOT registered in the system.");
+            System.err.println("Please check the boarding pass");
+            //closeAndExit(grabber, canvas, 1);
+        }
+
+        validation = AirportVaildation.OKAY;
+
+        return validation;
+    }
+
+
+
+
+
+
+
+
+
+
     public static boolean validateOriginAirport(BoardingPass BP,
                                      OpenCVFrameGrabber grabber,
                                      CanvasFrame canvas){

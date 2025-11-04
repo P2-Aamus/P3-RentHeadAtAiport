@@ -30,9 +30,76 @@ public class UIManager extends Application {
 
     }
 
+    public static void startScan() {
+        // QR scan and use case identification
+        new Thread(() -> {
+            Stage primaryStage = UIManager.primaryStageRef;
 
+            try {
+                String[] data = Kiosk.QRScan(); // run QR scanning
 
-    public static void startScan(){
+                javafx.application.Platform.runLater(() -> {
+                    try {
+                        if (!Kiosk.sufficientData(data)) {
+                            System.err.println("Bad scan: insufficient QR data");
+                            changeScene(BadScan::createScene);
+                            return;
+                        }
+
+                        // Parse boarding pass
+                        int BPN = Integer.parseInt(data[0].trim());
+                        String origin = data[1].trim();
+                        String destination = data[2].trim();
+                        String passenger = data[3].trim();
+                        String fltNr = data[4].trim();
+
+                        boardingPass = new BoardingPass(BPN, origin, destination, passenger, fltNr);
+
+                        switch (Kiosk.validateAirports(boardingPass, kiosk)) {
+                            case INVALID_ORIGIN -> changeScene(ErrorMessageOriginAirport::createScene);
+                            case INVALID_DESTINATION -> changeScene(ErrorMessageOriginAirport::createScene);
+                            case OKAY -> {
+                                Kiosk.InstructionMode mode = kiosk.useCaseIdentification(boardingPass);
+
+                                if (mode == null) {
+                                    System.err.println("ERROR: useCaseIdentification returned null for boarding pass: " + BPN);
+                                    changeScene(BadScan::createScene);
+                                    return;
+                                }
+
+                                switch (mode) {
+                                    case PICK_UP -> {
+                                        if (kiosk.BPalreadyStored(boardingPass)) {
+                                            changeScene(BadScan::createScene);
+                                        } else {
+                                            kiosk.initTransition(boardingPass);
+                                            changeScene(HelloHard::createScene);
+                                        }
+                                        System.out.println("PICK UP CASE");
+                                    }
+                                    case DROP_OFF -> {
+                                        System.out.println("DROP OFF CASE");
+                                        // Add your drop-off logic here
+                                    }
+
+                                    case UNKNOWN -> {changeScene(BadScan::createScene);}
+                                }
+                            }
+                        }
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        changeScene(BadScan::createScene);
+                    }
+                });
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }).start();
+    }
+
+    public static void startScanOld(){
         //QR scan and use case identification.
         new Thread(() -> {
 
