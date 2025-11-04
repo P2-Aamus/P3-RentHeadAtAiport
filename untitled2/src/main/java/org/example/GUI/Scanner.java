@@ -33,6 +33,8 @@ public class Scanner{
 
         Text please = new Text("Please scan your boarding pass");
         please.setFont(new Font(60));
+
+
         border.setCenter(centerContent);
 
         URL scannerUrl = Scanner.class.getResource("/Images/Scan.JPEG");
