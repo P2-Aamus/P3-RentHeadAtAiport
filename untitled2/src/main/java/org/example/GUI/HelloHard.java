@@ -14,17 +14,16 @@ import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
 import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
+import org.example.BoardingPass;
+import org.example.Database;
 
 import java.net.URL;
 
-public class HelloHard extends Application {
+public class HelloHard {
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    static BoardingPass BP = UIManager.boardingPass;
 
-    @Override
-    public void start(Stage primaryStage) {
+    public static Scene createScene(){
         BorderPane border = new BorderPane();
 
         CircelCheckmarkIcon check = new CircelCheckmarkIcon(500, 500, 500);
@@ -42,7 +41,7 @@ public class HelloHard extends Application {
         airlineHBox.setSpacing(7);
         airlineHBox.setAlignment(Pos.CENTER_LEFT);
 
-        URL SAS = getClass().getResource("/images/Scandinavian_Airlines_logo.svg.png");
+        URL SAS = HelloHard.class.getResource("/images/Scandinavian_Airlines_logo.svg.png");
         ImageView sasView = null;
         if (SAS != null) {
             sasView = new ImageView(new Image(SAS.toExternalForm()));
@@ -51,20 +50,20 @@ public class HelloHard extends Application {
             airlineHBox.getChildren().add(sasView);
         }
 
-        Text flightNumber = new Text("SK2864");
+        Text flightNumber = new Text(BP.getfltNr());
         flightNumber.setFont(Font.font(40));
         airlineHBox.getChildren().add(flightNumber);
 
-        Text originCode = new Text("CPH/EKCH");
+        Text originCode = new Text(BP.getOriginAirport());
         originCode.setFont(Font.font(40));
 
-        Text originFull = new Text("Copenhagen Kastrup");
+        Text originFull = new Text(Database.getNameFromICAO(BP.getOriginAirport()));
         originFull.setFont(Font.font(25));
 
-        Text destCode = new Text("BGO/ENBR");
+        Text destCode = new Text(BP.getDestinationAirport());
         destCode.setFont(Font.font(40));
 
-        Text destFull = new Text("Bergen Flesland");
+        Text destFull = new Text(Database.getNameFromICAO(BP.getDestinationAirport()));
         destFull.setFont(Font.font(25));
 
         VBox originBox = new VBox(originCode, originFull);
@@ -119,10 +118,6 @@ public class HelloHard extends Application {
         centerContent.setPadding(new Insets(72, 50, 110, 50));
         border.setCenter(centerContent);
 
-        Scene scene = new Scene(border, 1920, 1080);
-
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Flight Info");
-        primaryStage.show();
+        return new Scene(border, 1920, 1080);
     }
 }

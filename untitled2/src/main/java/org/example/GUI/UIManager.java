@@ -63,7 +63,8 @@ public class UIManager extends Application {
                                                 UIManager.changeScene(BadScan::createScene);
 
                                             } else {kiosk.initTransition(boardingPass);
-                                                UIManager.changeScene(HelloHard::createScene);}
+                                                UIManager.changeScene(HelloHard::createScene);
+                                                }
 
                                             System.out.println("PICK UP CASE");
                                             break;
