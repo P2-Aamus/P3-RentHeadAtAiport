@@ -13,12 +13,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.example.BoardingPass;
+import org.example.Database;
 import org.example.Kiosk;
+
+import java.sql.SQLException;
 
 public class DeliverHP {
 
+    static BoardingPass BP = UIManager.boardingPass;
     // Paths to images (adjust path if needed)
-    private static final String CHECKMARK_ICON_PATH = "images/accept.png";
     private static final String ARROW_ICON_PATH = "images/next.png";
 
     private static Label instructionLabel;
@@ -44,6 +48,15 @@ public class DeliverHP {
         thankYouLabel.setTextFill(Color.BLACK);
 
         HomeButton home = new HomeButton(40);
+
+        home.setOnMouseClicked(event -> {
+            UIManager.changeScene(Scanner::createScene);
+            try {
+                Database.deleteLastBP(BP);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
 
         instructionLabel = new Label();
