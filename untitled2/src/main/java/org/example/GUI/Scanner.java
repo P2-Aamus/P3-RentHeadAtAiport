@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -19,13 +20,21 @@ public class Scanner{
         UIManager.startScan();
 
         BorderPane border = new BorderPane();
+        StackPane topPane = new StackPane();
 
 
         Text title = new Text("Kiosk");
         title.setFont(new Font(80));
-        BorderPane.setMargin(title, new Insets(50));
-        BorderPane.setAlignment(title, Pos.CENTER);
-        border.setTop(title);
+
+        HomeButton home = new HomeButton(40);
+
+        topPane.getChildren().addAll(home, title);
+        StackPane.setAlignment(title, Pos.CENTER);
+        StackPane.setAlignment(home, Pos.TOP_LEFT);
+
+        StackPane.setMargin(home, new Insets(30, 0, 0, 30));
+
+        border.setTop(topPane);
 
 
         VBox centerContent = new VBox(20);
