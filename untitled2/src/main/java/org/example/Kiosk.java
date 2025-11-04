@@ -48,7 +48,7 @@ public class Kiosk {
      * - Inserts boarding pass
      * - Executes database workflow
      */
-    public InstructionMode useCaseIdentification(BoardingPass BP) {
+    public static InstructionMode useCaseIdentification(BoardingPass BP, Kiosk kiosk) {
         System.out.println("\n🧾 Use Case: Passenger Identification");
         System.out.println("Boarding Pass: " + BP.getBPNumber());
         System.out.println("Origin: " + BP.getOriginAirport());
@@ -57,13 +57,13 @@ public class Kiosk {
 
         try {
             // PICK_UP if kiosk is origin
-            if (this.getAirport().equals(BP.getOriginAirport())) {
+            if (kiosk.getAirport().equals(BP.getOriginAirport())) {
                 System.out.println("Identified as PICK_UP");
                 return InstructionMode.PICK_UP;
             }
 
             // DROP_OFF if kiosk is destination
-            if (this.getAirport().equals(BP.getDestinationAirport())) {
+            if (kiosk.getAirport().equals(BP.getDestinationAirport())) {
                 if (!BPalreadyStored(BP)) {
                     return InstructionMode.UNKNOWN;
                 } else {
@@ -83,7 +83,7 @@ public class Kiosk {
         return InstructionMode.UNKNOWN;
     }
 
-    public boolean BPalreadyStored(BoardingPass BP) throws SQLException {
+    public static boolean BPalreadyStored(BoardingPass BP) throws SQLException {
 
         ArrayList<Integer> BPNumbers = Database.getBPN();
 
@@ -148,13 +148,6 @@ public class Kiosk {
 
         return validation;
     }
-
-
-
-
-
-
-
 
 
 

@@ -59,7 +59,7 @@ public class UIManager extends Application {
                             case INVALID_ORIGIN -> changeScene(ErrorMessageOriginAirport::createScene);
                             case INVALID_DESTINATION -> changeScene(ErrorMessageOriginAirport::createScene);
                             case OKAY -> {
-                                Kiosk.InstructionMode mode = kiosk.useCaseIdentification(boardingPass);
+                                Kiosk.InstructionMode mode = kiosk.useCaseIdentification(boardingPass, kiosk);
 
                                 if (mode == null) {
                                     System.err.println("ERROR: useCaseIdentification returned null for boarding pass: " + BPN);
@@ -123,7 +123,7 @@ public class UIManager extends Application {
 
                             if(Kiosk.validateOriginAirport(boardingPass, Kiosk.grabber, Kiosk.canvas)){
                                 if(Kiosk.validateDestinationAirport(boardingPass, Kiosk.grabber, Kiosk.canvas)){
-                                    switch(kiosk.useCaseIdentification(boardingPass)){
+                                    switch(kiosk.useCaseIdentification(boardingPass, kiosk)){
 
                                         case PICK_UP:
                                             if(kiosk.BPalreadyStored(boardingPass)){
