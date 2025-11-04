@@ -14,6 +14,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.example.BoardingPass;
+import org.example.BoardingPass;
 import org.example.Database;
 import org.example.Kiosk;
 
@@ -22,6 +23,7 @@ import java.sql.SQLException;
 public class DeliverHP {
 
     static BoardingPass BP = UIManager.boardingPass;
+    static Kiosk kiosk = UIManager.kiosk;
     // Paths to images (adjust path if needed)
     private static final String ARROW_ICON_PATH = "images/next.png";
 
@@ -76,7 +78,7 @@ public class DeliverHP {
         arrowBox.setPadding(new Insets(0, 40, 0, 0));
         root.setRight(arrowBox);
 
-        setInstructionMode(Kiosk.useCase);
+        setInstructionMode();
 
         return new Scene(root, 1920, 1080);
     }
@@ -96,8 +98,8 @@ public class DeliverHP {
     }
 
 
-    public static void setInstructionMode(Kiosk.InstructionMode mode) {
-        switch (mode) {
+    public static void setInstructionMode() {
+        switch (Kiosk.useCaseIdentification(BP, kiosk)) {
             case DROP_OFF:
                 instructionLabel.setText("Please drop your\nheadphones to the right");
                 // Set a 10-second timer
