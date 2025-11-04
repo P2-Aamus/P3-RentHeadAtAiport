@@ -43,13 +43,18 @@ public class DeliverHP {
         thankYouLabel.setFont(Font.font("Arial", 60));
         thankYouLabel.setTextFill(Color.BLACK);
 
+        HomeButton home = new HomeButton(40);
+
+
         instructionLabel = new Label();
         instructionLabel.setFont(Font.font("Arial", 38));
         instructionLabel.setTextFill(Color.GRAY);
         instructionLabel.setAlignment(Pos.CENTER);
         instructionLabel.setWrapText(true);
 
-        centerBox.getChildren().addAll(checkmarkPane, thankYouLabel, instructionLabel);
+        centerBox.getChildren().addAll(home, checkmarkPane, thankYouLabel, instructionLabel);
+        StackPane.setAlignment(home, Pos.TOP_LEFT);
+        StackPane.setMargin(home, new Insets(30, 0, 0, 30));
         root.setCenter(centerBox);
 
         ImageView arrow = loadImageView(ARROW_ICON_PATH, 60);
