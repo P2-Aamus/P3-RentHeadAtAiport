@@ -19,6 +19,7 @@ import javafx.util.Duration;
 
 public class UIButton extends Group {
 
+
     public UIButton(int x, int y) {
         Rectangle UIButtonRec = new Rectangle(200, 80, Color.DODGERBLUE);
         UIButtonRec.setX(0);
@@ -35,11 +36,14 @@ public class UIButton extends Group {
 
         this.getChildren().addAll(UIButtonRec, UIButtonCircle1, UIButtonCircle2);
 
-
         this.setOnMouseEntered(e -> {
+
+            double baseX = getScaleX();
+            double baseY = getScaleY();
+
             ScaleTransition st = new ScaleTransition(Duration.millis(150), this);
-            st.setToX(1.05);
-            st.setToY(1.05);
+            st.setToX(baseX * 1.1);
+            st.setToY(baseY * 1.1);
             st.play();
 
             UIButtonRec.setFill(Color.DEEPSKYBLUE);
@@ -48,9 +52,13 @@ public class UIButton extends Group {
         });
 
         this.setOnMouseExited(e -> {
+
+            double baseX = getScaleX() / 1.1;
+            double baseY = getScaleY() / 1.1;
+
             ScaleTransition st = new ScaleTransition(Duration.millis(150), this);
-            st.setToX(1.0);
-            st.setToY(1.0);
+            st.setToX(baseX);
+            st.setToY(baseY);
             st.play();
 
             UIButtonRec.setFill(Color.DODGERBLUE);
