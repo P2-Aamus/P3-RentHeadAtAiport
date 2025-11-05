@@ -4,37 +4,37 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.util.List;
 
-public class KioskTable extends AbstractDataTable {
+public class TransactionsTable extends AbstractDataTable {
 
     private Database db = new Database();
 
     @Override
     protected String getWindowTitle() {
-        return "Kiosk Records Table";
+        return "Transactions";
     }
 
     @Override
     protected String[] getColumnNames() {
-        return new String[]{"ID", "Aiport", "numOfAvaibleHP", "Airport Name"};
+        return new String[]{"BPN", "HeadphonesID", "OriginKioskID", "DestKioskID", "Status"};
     }
 
     @Override
     protected ObservableList<ObservableList<String>> getData() {
         ObservableList<ObservableList<String>> data = FXCollections.observableArrayList();
 
-
-        List<String[]> rows = db.getKioskData();
+        List<String[]> rows = db.getTransactions();
 
         for (String[] row : rows) {
             data.add(FXCollections.observableArrayList(row));
         }
 
         if (rows.isEmpty()) {
-            System.out.println("No data found!");
+            System.out.println("No boarding pass data found!");
         }
 
         return data;
     }
+
 
     public static void main(String[] args) {
         launch(args);

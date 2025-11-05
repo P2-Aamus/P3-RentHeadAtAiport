@@ -4,7 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.util.List;
 
-public class KioskTable extends AbstractDataTable {
+public class HeadphonesTable extends AbstractDataTable {
 
     private Database db = new Database();
 
@@ -15,7 +15,7 @@ public class KioskTable extends AbstractDataTable {
 
     @Override
     protected String[] getColumnNames() {
-        return new String[]{"ID", "Aiport", "numOfAvaibleHP", "Airport Name"};
+        return new String[]{"ID", "Status", "Location", " Battery"};
     }
 
     @Override
@@ -23,7 +23,7 @@ public class KioskTable extends AbstractDataTable {
         ObservableList<ObservableList<String>> data = FXCollections.observableArrayList();
 
 
-        List<String[]> rows = db.getKioskData();
+        List<String[]> rows = db.getHeadphonesData();
 
         for (String[] row : rows) {
             data.add(FXCollections.observableArrayList(row));
