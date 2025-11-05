@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Database {
     private static String url = "jdbc:mysql://localhost:3306/main";
     private static String user = "root";
-    private static String password = "alexale9";
+    private static String password = "Mip77mip";
 
 
 

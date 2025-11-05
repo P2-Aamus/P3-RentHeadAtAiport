@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.BoardingPass;
+import org.example.Database;
 import org.example.Kiosk;
 import java.util.function.Supplier;
 
@@ -16,8 +17,6 @@ public class UIManager extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
-
 
     @Override
     public void start(Stage primaryStage) {
@@ -79,10 +78,17 @@ public class UIManager extends Application {
                                     }
                                     case DROP_OFF -> {
                                         System.out.println("DROP OFF CASE");
-                                        // Add your drop-off logic here
+                                        if (kiosk.BPalreadyStored(boardingPass)) {
+                                            changeScene(BadScan::createScene);
+                                        } else {
+                                            Database.dropOff(boardingPass.getBPNumber(), Database.getIDFromICAO(kiosk.getAirport()));
+                                            changeScene(DeliverHP::createScene);
+                                        }
                                     }
 
-                                    case UNKNOWN -> {changeScene(BadScan::createScene);}
+                                    case UNKNOWN -> {
+                                        changeScene(BadScan::createScene);
+                                    }
                                 }
                             }
                         }
@@ -131,7 +137,7 @@ public class UIManager extends Application {
 
                                             } else {kiosk.initTransition(boardingPass);
                                                 UIManager.changeScene(HelloHard::createScene);
-                                                }
+                                            }
 
                                             System.out.println("PICK UP CASE");
                                             break;
@@ -178,3 +184,5 @@ public class UIManager extends Application {
     }
 
 }
+
+
