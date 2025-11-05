@@ -18,6 +18,7 @@ import org.example.BoardingPass;
 import org.example.Database;
 
 import java.net.URL;
+import java.sql.SQLException;
 
 public class HelloHard {
 
@@ -93,7 +94,16 @@ public class HelloHard {
 
         // Use UIButton for custom blue buttons with text layered using StackPane
         UIButton notYourFlightBtn = new UIButton(0, 0);
+        notYourFlightBtn.setOnMouseClicked(event -> {
+            UIManager.changeScene(Scanner::createScene);
+            try {
+                Database.deleteLastBP(BP);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
         UIButton continueBtn = new UIButton(0, 0);
+        continueBtn.setOnMouseClicked(event -> UIManager.changeScene(Payment::createScene));
 
         Text notYourFlightText = new Text("Not your flight?");
         notYourFlightText.setFont(Font.font(24));

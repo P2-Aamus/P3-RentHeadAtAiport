@@ -58,11 +58,11 @@ public class UIManager extends Application {
                             case INVALID_ORIGIN -> changeScene(ErrorMessageOriginAirport::createScene);
                             case INVALID_DESTINATION -> changeScene(ErrorMessageOriginAirport::createScene);
                             case OKAY -> {
-                                Kiosk.InstructionMode mode = kiosk.useCaseIdentification(boardingPass);
+                                Kiosk.InstructionMode mode = kiosk.useCaseIdentification(boardingPass, kiosk);
 
                                 if (mode == null) {
                                     System.err.println("ERROR: useCaseIdentification returned null for boarding pass: " + BPN);
-                                    changeScene(BadScan::createScene);
+                                    changeScene(ErrorPleaseTryAgainMessage::createScene);
                                     return;
                                 }
 
@@ -78,24 +78,17 @@ public class UIManager extends Application {
                                     }
                                     case DROP_OFF -> {
                                         System.out.println("DROP OFF CASE");
-                                        if (kiosk.BPalreadyStored(boardingPass)) {
-                                            changeScene(BadScan::createScene);
-                                        } else {
-                                            Database.dropOff(boardingPass.getBPNumber(), Database.getIDFromICAO(kiosk.getAirport()));
-                                            changeScene(DeliverHP::createScene);
-                                        }
+                                        // Add your drop-off logic here
                                     }
 
-                                    case UNKNOWN -> {
-                                        changeScene(BadScan::createScene);
-                                    }
+                                    case UNKNOWN -> {changeScene(ErrorPleaseTryAgainMessage::createScene);}
                                 }
                             }
                         }
 
                     } catch (Exception ex) {
                         ex.printStackTrace();
-                        changeScene(BadScan::createScene);
+                        changeScene(ErrorPleaseTryAgainMessage::createScene);
                     }
                 });
 
@@ -129,7 +122,7 @@ public class UIManager extends Application {
 
                             if(Kiosk.validateOriginAirport(boardingPass, Kiosk.grabber, Kiosk.canvas)){
                                 if(Kiosk.validateDestinationAirport(boardingPass, Kiosk.grabber, Kiosk.canvas)){
-                                    switch(kiosk.useCaseIdentification(boardingPass)){
+                                    switch(kiosk.useCaseIdentification(boardingPass, kiosk)){
 
                                         case PICK_UP:
                                             if(kiosk.BPalreadyStored(boardingPass)){
@@ -184,5 +177,3 @@ public class UIManager extends Application {
     }
 
 }
-
-

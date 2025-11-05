@@ -1,5 +1,6 @@
 package org.example.GUI;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,10 +12,14 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.example.BoardingPass;
 import org.example.Kiosk;
 
 public class DeliverHP {
 
+    static BoardingPass BP = UIManager.boardingPass;
+    static Kiosk kiosk = UIManager.kiosk;
     // Paths to images (adjust path if needed)
     private static final String CHECKMARK_ICON_PATH = "images/accept.png";
     private static final String ARROW_ICON_PATH = "images/next.png";
@@ -32,12 +37,17 @@ public class DeliverHP {
         centerBox.setAlignment(Pos.CENTER);
 
 
-        ImageView checkmark = loadImageView(CHECKMARK_ICON_PATH, 100);
+        CircelCheckmarkIcon checkmark = new CircelCheckmarkIcon(100, 100, 100);
+        checkmark.setScaleX(0.9);
+        checkmark.setScaleY(0.9);
         StackPane checkmarkPane = new StackPane(checkmark);
 
         Label thankYouLabel = new Label("Thank you!");
         thankYouLabel.setFont(Font.font("Arial", 60));
         thankYouLabel.setTextFill(Color.BLACK);
+
+        HomeButton home = new HomeButton(40);
+
 
         instructionLabel = new Label();
         instructionLabel.setFont(Font.font("Arial", 38));
@@ -45,7 +55,9 @@ public class DeliverHP {
         instructionLabel.setAlignment(Pos.CENTER);
         instructionLabel.setWrapText(true);
 
-        centerBox.getChildren().addAll(checkmarkPane, thankYouLabel, instructionLabel);
+        centerBox.getChildren().addAll(home, checkmarkPane, thankYouLabel, instructionLabel);
+        StackPane.setAlignment(home, Pos.TOP_LEFT);
+        StackPane.setMargin(home, new Insets(30, 0, 0, 30));
         root.setCenter(centerBox);
 
         ImageView arrow = loadImageView(ARROW_ICON_PATH, 60);
@@ -54,7 +66,7 @@ public class DeliverHP {
         arrowBox.setPadding(new Insets(0, 40, 0, 0));
         root.setRight(arrowBox);
 
-        setInstructionMode(Kiosk.useCase);
+        setInstructionMode();
 
         return new Scene(root, 1920, 1080);
     }
@@ -73,13 +85,24 @@ public class DeliverHP {
         return iv;
     }
 
-    public static void setInstructionMode(Kiosk.InstructionMode mode) {
-        switch (mode) {
+
+    public static void setInstructionMode() {
+        switch (Kiosk.useCaseIdentification(BP, kiosk)) {
             case DROP_OFF:
                 instructionLabel.setText("Please drop your\nheadphones to the right");
+                // Set a 10-second timer
+                PauseTransition pause = new PauseTransition(Duration.seconds(10));
+                pause.setOnFinished(event -> UIManager.changeScene(hpDroppedOff::createScene));
+                pause.play();
                 break;
             case PICK_UP:
                 instructionLabel.setText("Please retrieve your\nheadphones to the right");
+
+                // Set a 10-second timer
+                PauseTransition pause2 = new PauseTransition(Duration.seconds(10));
+                pause2.setOnFinished(event -> UIManager.changeScene(pleasantFlight::createScene));
+                pause2.play();
+
                 break;
         }
     }

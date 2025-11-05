@@ -31,17 +31,23 @@ public class Payment {
     //public void start(Stage primaryStage) {
     public static Scene createScene(){
         BorderPane root = new BorderPane();
+        StackPane topPane = new StackPane();
         root.setPadding(new Insets(40));
         root.setBackground(new Background(new BackgroundFill(BACKGROUND_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        // --- HEADER (Centered) ---
         Label headerLabel = new Label("Choose a payment method");
         headerLabel.setFont(HEADER_FONT);
 
-        HBox header = new HBox(headerLabel);
-        header.setAlignment(Pos.CENTER);
-        header.setPadding(new Insets(40, 0, 40, 0));
-        root.setTop(header);
+        HomeButton home = new HomeButton(40);
+
+        topPane.getChildren().addAll(home, headerLabel);
+        StackPane.setAlignment(headerLabel, Pos.CENTER);
+        StackPane.setAlignment(home, Pos.TOP_LEFT);
+
+        StackPane.setMargin(home, new Insets(30, 0, 0, 30));
+
+        root.setTop(topPane);
+
 
         // --- OPTIONS PANEL ---
         HBox optionsBox = new HBox(80);  // Larger spacing for HD
