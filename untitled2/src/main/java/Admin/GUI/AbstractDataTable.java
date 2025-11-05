@@ -1,40 +1,37 @@
 package Admin.GUI;
 
-import javafx.application.Application;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.application.Application;
 
-import java.util.List;
+public abstract class AbstractDataTable extends Application {
 
-public class boardingpasstable extends Application {
-
-    private TableView<ObservableList<String>> tableView = new TableView<>();
-    private Database db = new Database();
-
-    public static void main(String[] args) {
-        launch(args);
-    }
+    protected TableView<ObservableList<String>> tableView = new TableView<>();
 
     @Override
     public void start(Stage primaryStage) {
         setupTable();
-        loadData(); // Load data from database
+        loadData();
 
         VBox root = new VBox(tableView);
         Scene scene = new Scene(root, 950, 500);
-
-        primaryStage.setTitle("Admin Dashboard - Boarding Passes");
         primaryStage.setScene(scene);
+        primaryStage.setTitle(getWindowTitle());
         primaryStage.show();
     }
 
+    // 🔹 Must be implemented by subclasses
+    protected abstract String[] getColumnNames();
+    protected abstract ObservableList<ObservableList<String>> getData();
+    protected abstract String getWindowTitle();
+
+    // 🔹 Common setup logic
     private void setupTable() {
-        String[] columnNames = {"BPN", "Origin Airport", "Dest Airport", "Passenger Name", "Flight Number"};
+        String[] columnNames = getColumnNames();
 
         for (int i = 0; i < columnNames.length; i++) {
             final int colIndex = i;
@@ -47,17 +44,8 @@ public class boardingpasstable extends Application {
         }
     }
 
+    // 🔹 Common data loading logic
     private void loadData() {
-        tableView.getItems().clear();
-
-        List<String[]> rows = db.getAllBoardingPasses();
-        for (String[] row : rows) {
-            ObservableList<String> obsRow = FXCollections.observableArrayList(row);
-            tableView.getItems().add(obsRow);
-        }
-
-        if (rows.isEmpty()) {
-            System.out.println("No boarding pass data found!");
-        }
+        tableView.setItems(getData());
     }
 }

@@ -10,14 +10,10 @@ public class Database {
     private static final String USER = "root";
     private static final String PASS = "Sodabobs123?";
 
-    public Database() {
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-            System.out.println("Connected to database!");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * Fetches all boarding pass data from the database.
+     * @return A list of String[] rows, each representing one record.
+     */
     public List<String[]> getAllBoardingPasses() {
         List<String[]> data = new ArrayList<>();
         String sql = "SELECT BPN, origin_airport, dest_airport, psg_name, flt_nr FROM boarding_pass";
@@ -37,7 +33,7 @@ public class Database {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error fetching boarding pass data: " + e.getMessage());
         }
 
         return data;
