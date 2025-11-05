@@ -78,7 +78,12 @@ public class UIManager extends Application {
                                     }
                                     case DROP_OFF -> {
                                         System.out.println("DROP OFF CASE");
-                                        // Add your drop-off logic here
+                                        if (kiosk.BPalreadyStored(boardingPass)) {
+                                            changeScene(BadScan::createScene);
+                                        } else {
+                                            Database.dropOff(boardingPass.getBPNumber(), Database.getIDFromICAO(kiosk.getAirport()));
+                                            changeScene(DeliverHP::createScene);
+                                        }
                                     }
 
                                     case UNKNOWN -> {changeScene(ErrorPleaseTryAgainMessage::createScene);}
