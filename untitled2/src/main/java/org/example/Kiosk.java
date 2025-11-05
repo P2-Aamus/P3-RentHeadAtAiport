@@ -35,7 +35,7 @@ public class Kiosk {
     // Database connection details
     private static final String url = "jdbc:mysql://localhost:3306/main";
     private static final String user = "root";
-    private static final String password = "Mip77mip";
+    private static final String password = "alexale9";
 
     // Constructor
     public Kiosk(String airport) {
@@ -127,25 +127,23 @@ public class Kiosk {
      * Validates the origin and destination of the airport.
      * Returns true if both are valid, otherwise prints error and the QR Scanner is closed.
      */
-    public static AirportVaildation validateAirports(BoardingPass BP, Kiosk kiosk){
+    public static AirportVaildation validateAirports(BoardingPass BP) {
         // Validate origin
         if (!isValidAirport(BP.getOriginAirport())) {
             System.err.println("ERROR: Origin airport '" + BP.getOriginAirport() + "' is NOT registered in the system.");
-            System.err.println("Please check the boarding pass");
-            //closeAndExit(grabber, canvas, 1);
             validation = AirportVaildation.INVALID_ORIGIN;
+            return validation;
         }
 
-
+        // Validate destination
         if (!isValidAirport(BP.getDestinationAirport())) {
+            System.err.println("ERROR: Destination airport '" + BP.getDestinationAirport() + "' is NOT registered in the system.");
             validation = AirportVaildation.INVALID_DESTINATION;
-            System.err.println("ERROR: Origin airport '" + BP.getDestinationAirport() + "' is NOT registered in the system.");
-            System.err.println("Please check the boarding pass");
-            //closeAndExit(grabber, canvas, 1);
+            return validation;
         }
 
+        // ✅ Only OKAY if both are valid
         validation = AirportVaildation.OKAY;
-
         return validation;
     }
 

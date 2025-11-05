@@ -37,12 +37,16 @@ public class Scanner{
 
         border.setCenter(centerContent);
 
-        URL scannerUrl = Scanner.class.getResource("/Images/Scan.JPEG");
+        URL scannerUrl = Scanner.class.getResource("/Images/image-scanner-barcode-qr-code-icon-others-dcafa04faf2cfff6510f74883562e3c6.png");
         if (scannerUrl != null) {
             ImageView scannerView = new ImageView(new Image(scannerUrl.toExternalForm()));
             scannerView.setFitWidth(250);
             scannerView.setPreserveRatio(true);
-            centerContent.getChildren().addAll(please, scannerView);
+            VBox scan = new VBox(scannerView);
+            scan.setPadding(new Insets(80,0,0,0));
+            scan.setAlignment(Pos.CENTER);
+            centerContent.getChildren().addAll(please, scan);
+
 
         } else {
             System.out.println("Scanner image not found!");

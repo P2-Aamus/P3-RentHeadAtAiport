@@ -41,7 +41,7 @@ public class UIManager extends Application {
                     try {
                         if (!Kiosk.sufficientData(data)) {
                             System.err.println("Bad scan: insufficient QR data");
-                            changeScene(BadScan::createScene);
+                            changeScene(ErrorPleaseTryAgainMessage::createScene);
                             return;
                         }
 
@@ -54,7 +54,7 @@ public class UIManager extends Application {
 
                         boardingPass = new BoardingPass(BPN, origin, destination, passenger, fltNr);
 
-                        switch (Kiosk.validateAirports(boardingPass, kiosk)) {
+                        switch (Kiosk.validateAirports(boardingPass)) {
                             case INVALID_ORIGIN -> changeScene(ErrorMessageOriginAirport::createScene);
                             case INVALID_DESTINATION -> changeScene(ErrorMessageOriginAirport::createScene);
                             case OKAY -> {
@@ -69,7 +69,9 @@ public class UIManager extends Application {
                                 switch (mode) {
                                     case PICK_UP -> {
                                         if (kiosk.BPalreadyStored(boardingPass)) {
-                                            changeScene(BadScan::createScene);
+                                            ErrorMessageOriginAirport.message = "You have already picked up a pair of headphones.";
+                                            changeScene(ErrorMessageOriginAirport::createScene);
+
                                         } else {
                                             kiosk.initTransition(boardingPass);
                                             changeScene(HelloHard::createScene);
@@ -79,14 +81,16 @@ public class UIManager extends Application {
                                     case DROP_OFF -> {
                                         System.out.println("DROP OFF CASE");
                                         if (!kiosk.BPalreadyStored(boardingPass)) {
-                                            changeScene(BadScan::createScene);
+                                            ErrorMessageOriginAirport.message = "who are you?????????";
+                                            changeScene(ErrorMessageOriginAirport::createScene);
                                         } else {
                                             Database.dropOff(boardingPass.getBPNumber(), Database.getIDFromICAO(kiosk.getAirport()));
                                             changeScene(DeliverHP::createScene);
                                         }
                                     }
 
-                                    case UNKNOWN -> {changeScene(ErrorPleaseTryAgainMessage::createScene);}
+                                    case UNKNOWN -> {ErrorMessageOriginAirport.message = "who are you?????????";
+                                        changeScene(ErrorMessageOriginAirport::createScene) ;}
                                 }
                             }
                         }

@@ -34,7 +34,7 @@ public class HelloHard {
         Text helloText = new Text("Hello!");
         helloText.setFont(Font.font(75));
 
-        Text nameText = new Text("Name Lastname");
+        Text nameText = new Text(BP.getPsgName());
         nameText.setFont(Font.font(50));
 
         // SAS-logo and flight number
