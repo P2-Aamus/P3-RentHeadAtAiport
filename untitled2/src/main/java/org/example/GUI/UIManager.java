@@ -78,7 +78,7 @@ public class UIManager extends Application {
                                     }
                                     case DROP_OFF -> {
                                         System.out.println("DROP OFF CASE");
-                                        if (kiosk.BPalreadyStored(boardingPass)) {
+                                        if (!kiosk.BPalreadyStored(boardingPass)) {
                                             changeScene(BadScan::createScene);
                                         } else {
                                             Database.dropOff(boardingPass.getBPNumber(), Database.getIDFromICAO(kiosk.getAirport()));
