@@ -18,7 +18,6 @@ import java.net.URL;
 
 public class ErrorPleaseTryAgainMessage{
     static BoardingPass BP = UIManager.boardingPass;
-    private static Text instructionLabel;
 
     //@Override
     public static Scene createScene() {
@@ -27,13 +26,11 @@ public class ErrorPleaseTryAgainMessage{
         System.out.println("Validation result: " + Kiosk.validateAirports(BP));
         BorderPane border = new BorderPane();
 
-        setInstructionMode();
-
         Text title = new Text("Please try again...");
         title.setFont(new Font(70));
 
-        instructionLabel = new Text();
-        Text message1 = instructionLabel;
+
+        Text message1 = new Text("Your boarding pass is stupid.");
         message1.setFont(new Font(40));
         Text message2 = new Text("Please scan a valid boarding pass.");
         message2.setFont(new Font(40));
@@ -72,16 +69,5 @@ public class ErrorPleaseTryAgainMessage{
         border.setCenter(center);
 
         return new Scene(border, 1920, 1080);
-    }
-
-    public static void setInstructionMode() {
-        switch (Kiosk.validateAirports(BP)) {
-            case INVALID_ORIGIN:
-                instructionLabel.setText("The Origin airport is incorrect.");
-                break;
-            case INVALID_DESTINATION:
-                instructionLabel.setText("The destination airport is not in our network.");
-                break;
-        }
     }
 }

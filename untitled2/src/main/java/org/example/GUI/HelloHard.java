@@ -1,9 +1,11 @@
 package org.example.GUI;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -14,8 +16,10 @@ import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
 import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import org.example.BoardingPass;
 import org.example.Database;
+import org.example.Kiosk;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -23,9 +27,21 @@ import java.sql.SQLException;
 public class HelloHard {
 
     static BoardingPass BP = UIManager.boardingPass;
+    static Kiosk kiosk = UIManager.kiosk;
+    private static String instructionLabel;
+    private static UIButton continueBtn;
 
     public static Scene createScene(){
         BorderPane border = new BorderPane();
+
+        instructionLabel = setInstructionMode();
+        continueBtn = new UIButton(0, 0, instructionLabel);
+
+        switch (Kiosk.useCaseIdentification(BP, kiosk)) {
+            case DROP_OFF -> continueBtn.setOnMouseClicked(event -> UIManager.changeScene(DeliverHP::createScene));
+            case PICK_UP -> continueBtn.setOnMouseClicked(event -> UIManager.changeScene(Payment::createScene));
+        }
+
 
         CircelCheckmarkIcon check = new CircelCheckmarkIcon(500, 500, 500);
         check.setScaleX(0.9);
@@ -93,7 +109,7 @@ public class HelloHard {
         flightRoute.getChildren().addAll(airlineHBox, originBox, arrow, destBox);
 
         // Use UIButton for custom blue buttons with text layered using StackPane
-        UIButton notYourFlightBtn = new UIButton(0, 0);
+        UIButton notYourFlightBtn = new UIButton(0, 0, "Not your flight?");
         notYourFlightBtn.setOnMouseClicked(event -> {
             UIManager.changeScene(Scanner::createScene);
             try {
@@ -102,21 +118,21 @@ public class HelloHard {
                 throw new RuntimeException(e);
             }
         });
-        UIButton continueBtn = new UIButton(0, 0);
-        continueBtn.setOnMouseClicked(event -> UIManager.changeScene(Payment::createScene));
 
-        Text notYourFlightText = new Text("Not your flight?");
-        notYourFlightText.setFont(Font.font(24));
-        notYourFlightText.setFill(Color.WHITE);
 
-        Text continueText = new Text("Continue to payment");
-        continueText.setFont(Font.font(24));
-        continueText.setFill(Color.WHITE);
 
-        StackPane stackBtn1 = new StackPane(notYourFlightBtn, notYourFlightText);
+//        Text notYourFlightText = new Text("Not your flight?");
+//        notYourFlightText.setFont(Font.font(24));
+//        notYourFlightText.setFill(Color.WHITE);
+//
+//        Text continueText = new Text("Continue to payment");
+//        continueText.setFont(Font.font(24));
+//        continueText.setFill(Color.WHITE);
+
+        StackPane stackBtn1 = new StackPane(notYourFlightBtn);
         stackBtn1.setPrefSize(200, 80);
 
-        StackPane stackBtn2 = new StackPane(continueBtn, continueText);
+        StackPane stackBtn2 = new StackPane(continueBtn);
         stackBtn2.setPrefSize(260, 80);
 
         HBox buttonsHBox = new HBox(40, stackBtn1, stackBtn2);
@@ -130,4 +146,15 @@ public class HelloHard {
 
         return new Scene(border, 1920, 1080);
     }
+    public static String setInstructionMode() {
+        switch (Kiosk.useCaseIdentification(BP, kiosk)) {
+            case DROP_OFF:
+                return "Continue to drop-off";
+            case PICK_UP:
+                return "Continue to payment";
+            default:
+                return "Continue";
+        }
+    }
+
 }

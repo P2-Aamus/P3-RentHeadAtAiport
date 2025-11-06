@@ -40,7 +40,7 @@ public class AdminPage extends Application {
         Text Graph = new Text("Graph");
         Graph.setFont(new Font(50));
 
-        UIButton downloadButton = new UIButton(100, 100);
+        UIButton downloadButton = new UIButton(100, 100, "Download");
         downloadButton.setScaleX(0.5);
         downloadButton.setScaleY(0.5);
 

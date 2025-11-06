@@ -85,12 +85,12 @@ public class UIManager extends Application {
                                             changeScene(ErrorMessageOriginAirport::createScene);
                                         } else {
                                             Database.dropOff(boardingPass.getBPNumber(), Database.getIDFromICAO(kiosk.getAirport()));
-                                            changeScene(DeliverHP::createScene);
+                                            changeScene(HelloHard::createScene);
                                         }
                                     }
 
-                                    case UNKNOWN -> {ErrorMessageOriginAirport.message = "who are you?????????";
-                                        changeScene(ErrorMessageOriginAirport::createScene) ;}
+                                    case UNKNOWN -> {
+                                        changeScene(ErrorPleaseTryAgainMessage::createScene) ;}
                                 }
                             }
                         }
@@ -107,78 +107,78 @@ public class UIManager extends Application {
         }).start();
     }
 
-    public static void startScanOld(){
-        //QR scan and use case identification.
-        new Thread(() -> {
-
-            Stage primaryStage = UIManager.primaryStageRef;
-
-            try {
-                String[] data = Kiosk.QRScan(); // run QR scanning
-                // After QRScan finishes, switch scene on the JavaFX Application Thread
-                javafx.application.Platform.runLater(() -> {
-                    try {
-                        if(Kiosk.sufficientData(data)){
-
-                            /////////parsing and creating object
-                            int BPN = Integer.parseInt(data[0].trim());
-                            String origin = data[1].trim();
-                            String destination = data[2].trim();
-                            String passenger = data[3].trim();
-                            String fltNr = data[4];
-
-                            boardingPass = new BoardingPass(BPN, origin, destination, passenger, fltNr);
-
-                            if(Kiosk.validateOriginAirport(boardingPass, Kiosk.grabber, Kiosk.canvas)){
-                                if(Kiosk.validateDestinationAirport(boardingPass, Kiosk.grabber, Kiosk.canvas)){
-                                    switch(kiosk.useCaseIdentification(boardingPass, kiosk)){
-
-                                        case PICK_UP:
-                                            if(kiosk.BPalreadyStored(boardingPass)){
-                                                UIManager.changeScene(BadScan::createScene);
-
-                                            } else {kiosk.initTransition(boardingPass);
-                                                UIManager.changeScene(HelloHard::createScene);
-                                            }
-
-                                            System.out.println("PICK UP CASE");
-                                            break;
-
-
-                                        case DROP_OFF:
-                                            System.out.println("DROP OFF CASE");
-                                            break;
-                                    }
-
-                                } else {
-                                    //bad Dest
-                                    Scene helloScene = BadScan.createScene();
-                                    primaryStage.setScene(helloScene);
-                                }
-
-
-                            } else {
-                                //bad Origin
-                                Scene helloScene = BadScan.createScene();
-                                primaryStage.setScene(helloScene);
-                            }
-
-
-                        } else {
-                            //Bad scan
-                            Scene helloScene = BadScan.createScene();
-                            primaryStage.setScene(helloScene);
-                        }
-
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                });
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }).start();
-    }
+//    public static void startScanOld(){
+//        //QR scan and use case identification.
+//        new Thread(() -> {
+//
+//            Stage primaryStage = UIManager.primaryStageRef;
+//
+//            try {
+//                String[] data = Kiosk.QRScan(); // run QR scanning
+//                // After QRScan finishes, switch scene on the JavaFX Application Thread
+//                javafx.application.Platform.runLater(() -> {
+//                    try {
+//                        if(Kiosk.sufficientData(data)){
+//
+//                            /////////parsing and creating object
+//                            int BPN = Integer.parseInt(data[0].trim());
+//                            String origin = data[1].trim();
+//                            String destination = data[2].trim();
+//                            String passenger = data[3].trim();
+//                            String fltNr = data[4];
+//
+//                            boardingPass = new BoardingPass(BPN, origin, destination, passenger, fltNr);
+//
+//                            if(Kiosk.validateOriginAirport(boardingPass, Kiosk.grabber, Kiosk.canvas)){
+//                                if(Kiosk.validateDestinationAirport(boardingPass, Kiosk.grabber, Kiosk.canvas)){
+//                                    switch(kiosk.useCaseIdentification(boardingPass, kiosk)){
+//
+//                                        case PICK_UP:
+//                                            if(kiosk.BPalreadyStored(boardingPass)){
+//                                                UIManager.changeScene(BadScan::createScene);
+//
+//                                            } else {kiosk.initTransition(boardingPass);
+//                                                UIManager.changeScene(HelloHard::createScene);
+//                                            }
+//
+//                                            System.out.println("PICK UP CASE");
+//                                            break;
+//
+//
+//                                        case DROP_OFF:
+//                                            System.out.println("DROP OFF CASE");
+//                                            break;
+//                                    }
+//
+//                                } else {
+//                                    //bad Dest
+//                                    Scene helloScene = BadScan.createScene();
+//                                    primaryStage.setScene(helloScene);
+//                                }
+//
+//
+//                            } else {
+//                                //bad Origin
+//                                Scene helloScene = BadScan.createScene();
+//                                primaryStage.setScene(helloScene);
+//                            }
+//
+//
+//                        } else {
+//                            //Bad scan
+//                            Scene helloScene = BadScan.createScene();
+//                            primaryStage.setScene(helloScene);
+//                        }
+//
+//                    } catch (Exception ex) {
+//                        ex.printStackTrace();
+//                    }
+//                });
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//            }
+//        }).start();
+//    }
 
     public static void changeScene(Supplier<Scene> sceneSupplier){
         Scene newScene = sceneSupplier.get();
