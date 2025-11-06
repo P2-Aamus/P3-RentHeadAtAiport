@@ -3,6 +3,7 @@ package Admin.GUI;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -17,6 +18,7 @@ import com.lowagie.text.FontFactory;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfWriter;
+import org.example.GUI.UIButton;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -68,29 +70,23 @@ public abstract class AbstractDataTable extends Application {
         );
 
         // 🔄 Refresh Button
-        Button refreshBtn = new Button("Refresh");
-        refreshBtn.setStyle(
-                "-fx-background-color: #2ecc71;" +
-                        "-fx-text-fill: white;" +
-                        "-fx-font-size: 14px;" +
-                        "-fx-background-radius: 8;" +
-                        "-fx-padding: 8 15 8 15;"
-        );
-        refreshBtn.setOnAction(e -> refreshTable());
+        UIButton refreshBtn = new UIButton(90,190, "Refresh");
+        refreshBtn.setScaleY(0.4);
+        refreshBtn.setScaleX(0.4);
+        refreshBtn.setOnMousePressed(e -> refreshTable());
 
         // ⬇️ Download PDF Button
-        Button downloadBtn = new Button("Download PDF");
-        downloadBtn.setStyle(
-                "-fx-background-color: #3498db;" +
-                        "-fx-text-fill: white;" +
-                        "-fx-font-size: 14px;" +
-                        "-fx-background-radius: 8;" +
-                        "-fx-padding: 8 15 8 15;"
-        );
-        downloadBtn.setOnAction(e -> exportTableToPDF(stage));
+        UIButton downloadBtn = new UIButton(80, 190, "Download PDF");
+        downloadBtn.setScaleY(0.4);
+        downloadBtn.setScaleX(0.4);
+        downloadBtn.setOnMousePressed(e -> exportTableToPDF(stage));
 
-        HBox headerBar = new HBox(10, titleLabel, refreshBtn, downloadBtn);
-        headerBar.setSpacing(20);
+        Group refreshGroup = new Group(refreshBtn);
+        Group downloadGroup = new Group(downloadBtn);
+
+
+        HBox headerBar = new HBox(20, titleLabel, refreshGroup, downloadGroup);
+        headerBar.setSpacing(10);
         header.getChildren().add(headerBar);
 
         return header;

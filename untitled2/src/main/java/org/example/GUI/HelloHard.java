@@ -93,7 +93,7 @@ public class HelloHard {
         flightRoute.getChildren().addAll(airlineHBox, originBox, arrow, destBox);
 
         // Use UIButton for custom blue buttons with text layered using StackPane
-        UIButton notYourFlightBtn = new UIButton(0, 0);
+        UIButton notYourFlightBtn = new UIButton(0, 0, " ");
         notYourFlightBtn.setOnMouseClicked(event -> {
             UIManager.changeScene(Scanner::createScene);
             try {
@@ -102,7 +102,7 @@ public class HelloHard {
                 throw new RuntimeException(e);
             }
         });
-        UIButton continueBtn = new UIButton(0, 0);
+        UIButton continueBtn = new UIButton(0, 0, " ");
         continueBtn.setOnMouseClicked(event -> UIManager.changeScene(Payment::createScene));
 
         Text notYourFlightText = new Text("Not your flight?");

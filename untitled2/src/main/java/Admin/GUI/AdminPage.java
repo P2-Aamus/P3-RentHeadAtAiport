@@ -41,7 +41,7 @@ public class AdminPage extends Application {
         overview.setFont(new Font(50));
 
 
-        UIButton downloadButton = new UIButton(100, 100);
+        UIButton downloadButton = new UIButton(70, 100, "Download PDF");
         downloadButton.setScaleX(0.5);
         downloadButton.setScaleY(0.5);
 
