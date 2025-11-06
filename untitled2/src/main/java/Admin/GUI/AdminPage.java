@@ -33,6 +33,7 @@ public class AdminPage extends Application {
     public static Scene createScene() {
         BorderPane root = new BorderPane();
 
+
         Text overview = new Text("Overview");
         overview.setFont(new Font(50));
 
@@ -40,27 +41,40 @@ public class AdminPage extends Application {
         Graph.setFont(new Font(50));
 
         UIButton downloadButton = new UIButton(100, 100);
-         downloadButton.setScaleX(0.5);
-         downloadButton.setScaleY(0.5);
-
+        downloadButton.setScaleX(0.5);
+        downloadButton.setScaleY(0.5);
 
         HBox buttonBox = new HBox(downloadButton);
-        buttonBox.setPadding(new Insets(0,0,0,1000));
-        root.setTop(buttonBox);
+        buttonBox.setAlignment(Pos.BOTTOM_CENTER);
+        buttonBox.setStyle("-fx-background-color: white; -fx-border-color: lightgray; "
+                + "-fx-border-radius: 20; -fx-background-radius: 20; "
+                + "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 20, 0, 0, 5);");
+
+
+
+        VBox overviewBox = new VBox(overview, buttonBox);
+        overviewBox.setPadding(new Insets(70,70,40,100));
+        overviewBox.setStyle("-fx-background-color: white; -fx-border-color: lightgray; "
+                + "-fx-border-radius: 20; -fx-background-radius: 20; "
+                + "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 20, 0, 0, 5);");
 
 
         HBox graphBox = new HBox(Graph);
-        graphBox.setPadding(new Insets(70, 500, 40, 100));
+        graphBox.setPadding(new Insets(70, 800, 20, 40));
+        graphBox.setStyle("-fx-background-color: white; -fx-border-color: lightgray; "
+                + "-fx-border-radius: 20; -fx-background-radius: 20; "
+                + "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 20, 0, 0, 5);");
 
 
-        VBox overviewBox = new VBox(overview);
-        overviewBox.setPadding(new Insets(70,40,40,20));
 
 
         HBox centerBox = new HBox();
+        centerBox.setStyle("-fx-background-color: white; -fx-border-color: lightgray; "
+                + "-fx-border-radius: 20; -fx-background-radius: 20; "
+                + "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 20, 0, 0, 5);");
         root.setCenter(centerBox);
 
-        centerBox.getChildren().addAll(graphBox, overviewBox);
+        centerBox.getChildren().addAll(overviewBox, graphBox);
 
 
 
