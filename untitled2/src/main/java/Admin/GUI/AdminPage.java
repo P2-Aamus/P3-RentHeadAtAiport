@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -32,51 +33,52 @@ public class AdminPage extends Application {
 
     public static Scene createScene() {
         BorderPane root = new BorderPane();
+        BorderPane overviewBox = new BorderPane();
+
 
 
         Text overview = new Text("Overview");
         overview.setFont(new Font(50));
 
-        Text Graph = new Text("Graph");
-        Graph.setFont(new Font(50));
 
         UIButton downloadButton = new UIButton(100, 100);
         downloadButton.setScaleX(0.5);
         downloadButton.setScaleY(0.5);
 
+
         HBox buttonBox = new HBox(downloadButton);
-        buttonBox.setAlignment(Pos.BOTTOM_CENTER);
+        buttonBox.setAlignment(Pos.BOTTOM_RIGHT);
+        buttonBox.setPadding(new Insets(0, 10, 10, 0));
         buttonBox.setStyle("-fx-background-color: white; -fx-border-color: lightgray; "
                 + "-fx-border-radius: 20; -fx-background-radius: 20; "
                 + "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 20, 0, 0, 5);");
 
 
+        overviewBox.setTop(overview);
+        BorderPane.setAlignment(overview, Pos.TOP_CENTER);
+        overviewBox.setBottom(buttonBox);
 
-        VBox overviewBox = new VBox(overview, buttonBox);
-        overviewBox.setPadding(new Insets(70,70,40,100));
+        overviewBox.setPadding(new Insets(70, 70, 40, 100));
         overviewBox.setStyle("-fx-background-color: white; -fx-border-color: lightgray; "
                 + "-fx-border-radius: 20; -fx-background-radius: 20; "
                 + "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 20, 0, 0, 5);");
 
 
-        HBox graphBox = new HBox(Graph);
+        Text graph = new Text("Graph");
+        graph.setFont(new Font(50));
+        HBox graphBox = new HBox(graph);
         graphBox.setPadding(new Insets(70, 800, 20, 40));
         graphBox.setStyle("-fx-background-color: white; -fx-border-color: lightgray; "
                 + "-fx-border-radius: 20; -fx-background-radius: 20; "
                 + "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 20, 0, 0, 5);");
 
 
-
-
-        HBox centerBox = new HBox();
+        HBox centerBox = new HBox(overviewBox, graphBox);
+        centerBox.setSpacing(10);
         centerBox.setStyle("-fx-background-color: white; -fx-border-color: lightgray; "
                 + "-fx-border-radius: 20; -fx-background-radius: 20; "
                 + "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 20, 0, 0, 5);");
         root.setCenter(centerBox);
-
-        centerBox.getChildren().addAll(overviewBox, graphBox);
-
-
 
         return new Scene(root, 1920, 1080);
     }
