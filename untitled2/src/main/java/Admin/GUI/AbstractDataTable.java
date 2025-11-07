@@ -1,12 +1,27 @@
 package Admin.GUI;
 
+import javafx.application.Application;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.application.Application;
-import javafx.geometry.Insets;
+
+import com.lowagie.text.Document;
+import com.lowagie.text.Element;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfWriter;
+
+import java.io.File;
+import java.io.FileOutputStream;
+
 
 public abstract class AbstractDataTable extends Application {
 
@@ -21,10 +36,10 @@ public abstract class AbstractDataTable extends Application {
         root.setPadding(new Insets(20));
         root.setStyle("-fx-background-color: #f5f7fa;");
 
-        // Header
-        VBox header = createHeader();
+        HBox navBar = createNavigationBar(primaryStage);
 
-        // Table container with shadow effect
+        VBox header = createHeader(primaryStage);
+
         VBox tableContainer = new VBox(10);
         tableContainer.setStyle(
                 "-fx-background-color: white;" +
@@ -35,7 +50,7 @@ public abstract class AbstractDataTable extends Application {
 
         tableContainer.getChildren().add(tableView);
 
-        root.getChildren().addAll(header, tableContainer);
+        root.getChildren().addAll(navBar, header, tableContainer);
 
         Scene scene = new Scene(root, 1000, 650);
         primaryStage.setScene(scene);
@@ -43,10 +58,49 @@ public abstract class AbstractDataTable extends Application {
         primaryStage.show();
     }
 
-    private VBox createHeader() {
+    private HBox createNavigationBar(Stage stage) {
+        Button boardingPassBtn = new Button("Boarding Pass");
+        Button headphonesBtn = new Button("Headphones");
+        Button kioskBtn = new Button("Kiosk");
+        Button transactionsBtn = new Button("Transactions");
+
+        for (Button btn : new Button[]{boardingPassBtn, headphonesBtn, kioskBtn, transactionsBtn}) {
+            btn.setStyle(
+                    "-fx-background-color: #808080;" +
+                            "-fx-text-fill: white;" +
+                            "-fx-font-size: 14px;" +
+                            "-fx-background-radius: 8;"
+            );
+            btn.setOnMouseEntered(e -> btn.setStyle("-fx-background-color: #808080; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 8; -fx-cursor: hand;"));
+            btn.setOnMouseExited(e -> btn.setStyle("-fx-background-color: #808080; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 8;"));
+
+        }
+        boardingPassBtn.setOnAction(e -> openWindow(new BoardingPassTable(), stage));
+        headphonesBtn.setOnAction(e -> openWindow(new HeadphonesTable(), stage));
+        kioskBtn.setOnAction(e -> openWindow(new KioskTable(), stage));
+        transactionsBtn.setOnAction(e -> openWindow(new TransactionsTable(), stage));
+
+        HBox nav = new HBox(15, boardingPassBtn, headphonesBtn, kioskBtn, transactionsBtn);
+        nav.setAlignment(Pos.CENTER);
+        nav.setPrefHeight(60);
+        //nav.setPadding(new Insets(10));
+        nav.setSpacing(60);
+        nav.setStyle("-fx-background-color: #808080; -fx-background-radius: 8;");
+        return nav;
+    }
+
+    private void openWindow(AbstractDataTable table, Stage stage) {
+        try {
+            table.start(stage);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Uh oh: " + ex.getMessage()).showAndWait();
+        }
+    }
+
+    private VBox createHeader(Stage stage) {
         VBox header = new VBox(10);
 
-        // Title
         Label titleLabel = new Label(getWindowTitle());
         titleLabel.setStyle(
                 "-fx-font-size: 24px;" +
@@ -54,9 +108,93 @@ public abstract class AbstractDataTable extends Application {
                         "-fx-text-fill: #2c3e50;"
         );
 
-        header.getChildren().add(titleLabel);
+        Button refreshBtn = new Button("Refresh");
+        refreshBtn.setStyle(
+                "-fx-background-color: #2ecc71;" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-background-radius: 8;" +
+                        "-fx-padding: 8 15 8 15;"
+        );
+        refreshBtn.setOnAction(e -> refreshTable());
+
+        Button downloadBtn = new Button("Download PDF");
+        downloadBtn.setStyle(
+                "-fx-background-color: rgb(215,50,32);" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-background-radius: 8;" +
+                        "-fx-padding: 8 15 8 15;"
+        );
+        downloadBtn.setOnAction(e -> exportTableToPDF(stage));
+
+        HBox headerBar = new HBox(20, titleLabel, refreshBtn, downloadBtn);
+        headerBar.setAlignment(Pos.CENTER_LEFT);
+        header.getChildren().add(headerBar);
 
         return header;
+    }
+
+    private void refreshTable() {
+        try {
+            tableView.setItems(getData());
+            new Alert(Alert.AlertType.INFORMATION, "Table refreshed successfully!").showAndWait();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to refresh table: " + ex.getMessage()).showAndWait();
+        }
+    }
+
+    private void exportTableToPDF(Stage stage) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save PDF");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        fileChooser.setInitialFileName(getWindowTitle().replaceAll("\\s+", "_") + ".pdf");
+        File file = fileChooser.showSaveDialog(stage);
+        if (file == null) return;
+
+        try (Document doc = new Document()) {
+            PdfWriter.getInstance(doc, new FileOutputStream(file));
+            doc.open();
+
+            Paragraph title = new Paragraph(
+                    getWindowTitle(),
+                    FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18)
+            );
+            title.setAlignment(Element.ALIGN_CENTER);
+            doc.add(title);
+            doc.add(new Paragraph("\n"));
+
+            String[] columns = getColumnNames();
+            PdfPTable pdfTable = new PdfPTable(columns.length);
+            pdfTable.setWidthPercentage(100);
+
+            for (String col : columns) {
+                PdfPCell cell = new PdfPCell(
+                        new Phrase(col, FontFactory.getFont(FontFactory.HELVETICA_BOLD))
+                );
+                pdfTable.addCell(cell);
+            }
+
+            for (ObservableList<String> row : tableView.getItems()) {
+                for (String cellData : row) {
+                    pdfTable.addCell(cellData == null ? "" : cellData);
+                }
+            }
+
+            doc.add(pdfTable);
+            doc.close();
+
+            new Alert(Alert.AlertType.INFORMATION,
+                    "PDF saved to:\n" + file.getAbsolutePath()
+            ).showAndWait();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            new Alert(Alert.AlertType.ERROR,
+                    "Failed to save PDF:\n" + ex.getMessage()
+            ).showAndWait();
+        }
     }
 
     protected abstract String[] getColumnNames();
@@ -75,12 +213,6 @@ public abstract class AbstractDataTable extends Application {
             column.setPrefWidth(180);
             tableView.getColumns().add(column);
         }
-
-        tableView.setStyle(
-                "-fx-background-color: white;" +
-                        "-fx-background-insets: 0;" +
-                        "-fx-padding: 0;"
-        );
 
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
