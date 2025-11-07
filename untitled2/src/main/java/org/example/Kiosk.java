@@ -32,11 +32,6 @@ public class Kiosk {
     }
     public static AirportVaildation validation = null;
 
-    // Database connection details
-    private static final String url = "jdbc:mysql://localhost:3306/main";
-    private static final String user = "root";
-    private static final String password = "alexale9";
-
     // Constructor
     public Kiosk(String airport) {
         this.airport = airport;
@@ -129,14 +124,14 @@ public class Kiosk {
      */
     public static AirportVaildation validateAirports(BoardingPass BP) {
         // Validate origin
-        if (!isValidAirport(BP.getOriginAirport())) {
+        if (!Database.isValidAirport(BP.getOriginAirport())) {
             System.err.println("ERROR: Origin airport '" + BP.getOriginAirport() + "' is NOT registered in the system.");
             validation = AirportVaildation.INVALID_ORIGIN;
             return validation;
         }
 
         // Validate destination
-        if (!isValidAirport(BP.getDestinationAirport())) {
+        if (!Database.isValidAirport(BP.getDestinationAirport())) {
             System.err.println("ERROR: Destination airport '" + BP.getDestinationAirport() + "' is NOT registered in the system.");
             validation = AirportVaildation.INVALID_DESTINATION;
             return validation;
@@ -154,7 +149,7 @@ public class Kiosk {
                                      CanvasFrame canvas){
 
         // Validate origin
-        if (!isValidAirport(BP.getOriginAirport())) {
+        if (!Database.isValidAirport(BP.getOriginAirport())) {
             System.err.println("ERROR: Origin airport '" + BP.getOriginAirport() + "' is NOT registered in the system.");
             System.err.println("Please check the boarding pass");
             //closeAndExit(grabber, canvas, 1);
@@ -167,7 +162,7 @@ public class Kiosk {
                                                 CanvasFrame canvas){
 
         // Validate origin
-        if (!isValidAirport(BP.getDestinationAirport())) {
+        if (!Database.isValidAirport(BP.getDestinationAirport())) {
             System.err.println("ERROR: Origin airport '" + BP.getDestinationAirport() + "' is NOT registered in the system.");
             System.err.println("Please check the boarding pass");
             //closeAndExit(grabber, canvas, 1);
@@ -176,22 +171,7 @@ public class Kiosk {
         return true;
     }
 
-    //Checks if a single airport exists in the kiosk table.
-    private static boolean isValidAirport(String airportCode) {
-        try (Connection conn = DriverManager.getConnection(url, user, password);
-             PreparedStatement ps = conn.prepareStatement("SELECT airport FROM kiosk WHERE airport = ?")) {
 
-            ps.setString(1, airportCode);
-            try (ResultSet rs = ps.executeQuery()) {
-                return rs.next();
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Database error while validating airport: " + airportCode);
-            e.printStackTrace();
-            return false;
-        }
-    }
 
     // --- Main scanner ---
     //public static void main(String[] args) throws FrameGrabber.Exception {

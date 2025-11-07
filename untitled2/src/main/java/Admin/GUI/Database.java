@@ -1,14 +1,32 @@
 package Admin.GUI;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Database {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/main";
-    private static final String USER = "root";
-    private static final String PASS = "alexale9";
+    private static String URL = null;
+    private static String USER = null;
+    private static String PASS = null;
+
+    static {
+        Properties props = new Properties();
+        try (InputStream input = Database.class.getClassLoader().getResourceAsStream("config.properties")) {
+            if (input == null) {
+                throw new IOException("config.properties not found in resources");
+            }
+            props.load(input);
+        } catch (IOException e) {
+            throw new RuntimeException("Error loading database configuration", e);
+        }
+
+        URL = props.getProperty("db.url");
+        USER = props.getProperty("db.user");
+        PASS = props.getProperty("db.password");
+    }
 
 
     public static List<String[]> getAllBoardingPasses() {

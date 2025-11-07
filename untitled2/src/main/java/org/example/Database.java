@@ -1,19 +1,36 @@
 package org.example;
 
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Properties;
 
 
 public class Database {
-    private static String url = "jdbc:mysql://localhost:3306/main";
-    private static String user = "root";
-    private static String password = "alexale9";
+    private static String url = null;
+    private static String user = null;
+    private static String password = null;
 
+    static {
+        Properties props = new Properties();
+        try (InputStream input = Admin.GUI.Database.class.getClassLoader().getResourceAsStream("config.properties")) {
+            if (input == null) {
+                throw new IOException("config.properties not found in resources");
+            }
+            props.load(input);
+        } catch (IOException e) {
+            throw new RuntimeException("Error loading database configuration", e);
+        }
 
+        url = props.getProperty("db.url");
+        user = props.getProperty("db.user");
+        password = props.getProperty("db.password");
+    }
 
 
     public static void ins_BP(int BPN, String oa, String da, String name, String flt_rn) {
@@ -337,6 +354,23 @@ public class Database {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    //Checks if a single airport exists in the kiosk table.
+    static boolean isValidAirport(String airportCode) {
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement ps = conn.prepareStatement("SELECT airport FROM kiosk WHERE airport = ?")) {
+
+            ps.setString(1, airportCode);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Database error while validating airport: " + airportCode);
+            e.printStackTrace();
+            return false;
         }
     }
 
