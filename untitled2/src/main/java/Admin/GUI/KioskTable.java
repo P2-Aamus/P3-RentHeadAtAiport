@@ -6,8 +6,6 @@ import java.util.List;
 
 public class KioskTable extends AbstractDataTable {
 
-    private Database db = new Database();
-
     @Override
     protected String getWindowTitle() {
         return "Kiosk Records Table";
@@ -23,7 +21,7 @@ public class KioskTable extends AbstractDataTable {
         ObservableList<ObservableList<String>> data = FXCollections.observableArrayList();
 
 
-        List<String[]> rows = db.getKioskData();
+        List<String[]> rows = Database.getKioskData();
 
         for (String[] row : rows) {
             data.add(FXCollections.observableArrayList(row));

@@ -3,6 +3,7 @@ package Admin.GUI;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -21,6 +22,7 @@ import com.lowagie.text.pdf.PdfWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 
+
 public abstract class AbstractDataTable extends Application {
 
     protected TableView<ObservableList<String>> tableView = new TableView<>();
@@ -34,10 +36,10 @@ public abstract class AbstractDataTable extends Application {
         root.setPadding(new Insets(20));
         root.setStyle("-fx-background-color: #f5f7fa;");
 
-        // Header
+        HBox navBar = createNavigationBar(primaryStage);
+
         VBox header = createHeader(primaryStage);
 
-        // Table container
         VBox tableContainer = new VBox(10);
         tableContainer.setStyle(
                 "-fx-background-color: white;" +
@@ -48,7 +50,7 @@ public abstract class AbstractDataTable extends Application {
 
         tableContainer.getChildren().add(tableView);
 
-        root.getChildren().addAll(header, tableContainer);
+        root.getChildren().addAll(navBar, header, tableContainer);
 
         Scene scene = new Scene(root, 1000, 650);
         primaryStage.setScene(scene);
@@ -56,7 +58,46 @@ public abstract class AbstractDataTable extends Application {
         primaryStage.show();
     }
 
-    /** HEADER BAR (title + buttons) **/
+    private HBox createNavigationBar(Stage stage) {
+        Button boardingPassBtn = new Button("Boarding Pass");
+        Button headphonesBtn = new Button("Headphones");
+        Button kioskBtn = new Button("Kiosk");
+        Button transactionsBtn = new Button("Transactions");
+
+        for (Button btn : new Button[]{boardingPassBtn, headphonesBtn, kioskBtn, transactionsBtn}) {
+            btn.setStyle(
+                    "-fx-background-color: #808080;" +
+                            "-fx-text-fill: white;" +
+                            "-fx-font-size: 14px;" +
+                            "-fx-background-radius: 8;"
+            );
+            btn.setOnMouseEntered(e -> btn.setStyle("-fx-background-color: #808080; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 8; -fx-cursor: hand;"));
+            btn.setOnMouseExited(e -> btn.setStyle("-fx-background-color: #808080; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 8;"));
+
+        }
+        boardingPassBtn.setOnAction(e -> openWindow(new BoardingPassTable(), stage));
+        headphonesBtn.setOnAction(e -> openWindow(new HeadphonesTable(), stage));
+        kioskBtn.setOnAction(e -> openWindow(new KioskTable(), stage));
+        transactionsBtn.setOnAction(e -> openWindow(new TransactionsTable(), stage));
+
+        HBox nav = new HBox(15, boardingPassBtn, headphonesBtn, kioskBtn, transactionsBtn);
+        nav.setAlignment(Pos.CENTER);
+        nav.setPrefHeight(60);
+        //nav.setPadding(new Insets(10));
+        nav.setSpacing(60);
+        nav.setStyle("-fx-background-color: #808080; -fx-background-radius: 8;");
+        return nav;
+    }
+
+    private void openWindow(AbstractDataTable table, Stage stage) {
+        try {
+            table.start(stage);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Uh oh: " + ex.getMessage()).showAndWait();
+        }
+    }
+
     private VBox createHeader(Stage stage) {
         VBox header = new VBox(10);
 
@@ -67,7 +108,6 @@ public abstract class AbstractDataTable extends Application {
                         "-fx-text-fill: #2c3e50;"
         );
 
-        // 🔄 Refresh Button
         Button refreshBtn = new Button("Refresh");
         refreshBtn.setStyle(
                 "-fx-background-color: #2ecc71;" +
@@ -78,10 +118,9 @@ public abstract class AbstractDataTable extends Application {
         );
         refreshBtn.setOnAction(e -> refreshTable());
 
-        // ⬇️ Download PDF Button
         Button downloadBtn = new Button("Download PDF");
         downloadBtn.setStyle(
-                "-fx-background-color: #3498db;" +
+                "-fx-background-color: rgb(215,50,32);" +
                         "-fx-text-fill: white;" +
                         "-fx-font-size: 14px;" +
                         "-fx-background-radius: 8;" +
@@ -89,14 +128,13 @@ public abstract class AbstractDataTable extends Application {
         );
         downloadBtn.setOnAction(e -> exportTableToPDF(stage));
 
-        HBox headerBar = new HBox(10, titleLabel, refreshBtn, downloadBtn);
-        headerBar.setSpacing(20);
+        HBox headerBar = new HBox(20, titleLabel, refreshBtn, downloadBtn);
+        headerBar.setAlignment(Pos.CENTER_LEFT);
         header.getChildren().add(headerBar);
 
         return header;
     }
 
-    /** 🔄 Reload data from DB **/
     private void refreshTable() {
         try {
             tableView.setItems(getData());
@@ -107,7 +145,6 @@ public abstract class AbstractDataTable extends Application {
         }
     }
 
-    /** ⬇️ Export Table to PDF **/
     private void exportTableToPDF(Stage stage) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save PDF");
@@ -160,12 +197,10 @@ public abstract class AbstractDataTable extends Application {
         }
     }
 
-    /** Abstract methods for subclasses **/
     protected abstract String[] getColumnNames();
     protected abstract ObservableList<ObservableList<String>> getData();
     protected abstract String getWindowTitle();
 
-    /** Setup TableView **/
     private void setupTable() {
         String[] columnNames = getColumnNames();
 

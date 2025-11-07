@@ -6,11 +6,9 @@ import java.util.List;
 
 public class HeadphonesTable extends AbstractDataTable {
 
-    private Database db = new Database();
-
     @Override
     protected String getWindowTitle() {
-        return "Kiosk Records Table";
+        return "Headphones Records Table";
     }
 
     @Override
@@ -23,7 +21,7 @@ public class HeadphonesTable extends AbstractDataTable {
         ObservableList<ObservableList<String>> data = FXCollections.observableArrayList();
 
 
-        List<String[]> rows = db.getHeadphonesData();
+        List<String[]> rows = Database.getHeadphonesData();
 
         for (String[] row : rows) {
             data.add(FXCollections.observableArrayList(row));

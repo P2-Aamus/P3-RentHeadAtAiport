@@ -11,7 +11,7 @@ public class Database {
     private static final String PASS = "Sodabobs123?";
 
 
-    public List<String[]> getAllBoardingPasses() {
+    public static List<String[]> getAllBoardingPasses() {
         List<String[]> data = new ArrayList<>();
         String sql = "SELECT BPN, origin_airport, dest_airport, psg_name, flt_nr FROM boarding_pass";
 
@@ -37,7 +37,7 @@ public class Database {
     }
 
 
-    public List<String[]> getKioskData() {
+    public static List<String[]> getKioskData() {
         List<String[]> data = new ArrayList<>();
         String sql = "SELECT ID, Airport, numOfAvailableHP, airport_name FROM kiosk";
 
@@ -61,7 +61,7 @@ public class Database {
         return data;
     }
 
-    public List<String[]> getTransactions() {
+    public static List<String[]> getTransactions() {
         List<String[]> data = new ArrayList<>();
         String sql = "SELECT BPN, headphonesID, originKioskID, destKioskID, status FROM transactions";
 
@@ -86,7 +86,7 @@ public class Database {
         return data;
     }
 
-    public List<String[]> getHeadphonesData() {
+    public static List<String[]> getHeadphonesData() {
         List<String[]> data = new ArrayList<>();
         String sql = "SELECT ID, status, location, battery FROM headphones";
 

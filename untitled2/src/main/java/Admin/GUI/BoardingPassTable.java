@@ -6,8 +6,6 @@ import java.util.List;
 
 public class BoardingPassTable extends AbstractDataTable {
 
-    private Database db = new Database();
-
     @Override
     protected String getWindowTitle() {
         return "Boarding Pass Records Table";
@@ -22,7 +20,7 @@ public class BoardingPassTable extends AbstractDataTable {
     protected ObservableList<ObservableList<String>> getData() {
         ObservableList<ObservableList<String>> data = FXCollections.observableArrayList();
 
-        List<String[]> rows = db.getAllBoardingPasses();
+        List<String[]> rows = Database.getAllBoardingPasses();
 
         for (String[] row : rows) {
             data.add(FXCollections.observableArrayList(row));

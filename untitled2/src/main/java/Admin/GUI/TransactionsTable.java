@@ -6,11 +6,9 @@ import java.util.List;
 
 public class TransactionsTable extends AbstractDataTable {
 
-    private Database db = new Database();
-
     @Override
     protected String getWindowTitle() {
-        return "Transactions";
+        return "Transactions Record Table";
     }
 
     @Override
@@ -22,14 +20,14 @@ public class TransactionsTable extends AbstractDataTable {
     protected ObservableList<ObservableList<String>> getData() {
         ObservableList<ObservableList<String>> data = FXCollections.observableArrayList();
 
-        List<String[]> rows = db.getTransactions();
+        List<String[]> rows = Database.getTransactions();
 
         for (String[] row : rows) {
             data.add(FXCollections.observableArrayList(row));
         }
 
         if (rows.isEmpty()) {
-            System.out.println("No boarding pass data found!");
+            System.out.println("No transactions data found!");
         }
 
         return data;
