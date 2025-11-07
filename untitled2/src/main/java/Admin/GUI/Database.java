@@ -8,7 +8,7 @@ public class Database {
 
     private static final String URL = "jdbc:mysql://localhost:3306/main";
     private static final String USER = "root";
-    private static final String PASS = "Sodabobs123?";
+    private static final String PASS = "alexale9";
 
 
     public static List<String[]> getAllBoardingPasses() {
@@ -70,7 +70,7 @@ public class Database {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                String[] row = new String[4];
+                String[] row = new String[5];
                 row[0] = String.valueOf(rs.getInt("BPN"));
                 row[1] = rs.getString("headphonesID");
                 row[2] = rs.getString("originKioskID");
