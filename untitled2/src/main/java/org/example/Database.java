@@ -33,9 +33,15 @@ public class Database {
     }
 
 
-    public static void ins_BP(int BPN, String oa, String da, String name, String flt_rn) {
+    public static void ins_BP(BoardingPass BP) {
         try (Connection con = DriverManager.getConnection(url, user, password)) {
             System.out.println("Connection successful!");
+
+            int BPN = BP.getBPNumber();
+            String oa = BP.getOriginAirport();
+            String da = BP.getDestinationAirport();
+            String name = BP.getPsgName();
+            String flt_rn = BP.getfltNr();
 
             String sql = "INSERT INTO boarding_pass (BPN, origin_airport, dest_airport, psg_name, flt_nr) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -72,25 +78,6 @@ public class Database {
                     System.out.println("Transaction inserted successfully!");
                 }
 
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.err.println("Database connection failed. Check your server and credentials.");
-
-        }
-    }
-
-    public static void transactionStatusUpdate(int BPN){
-        try (Connection con = DriverManager.getConnection(url, user, password)) {
-            System.out.println("Connection successful!");
-
-            String sql = "UPDATE transactions SET status = 1 WHERE BPNumber =" + BPN;
-            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
-                int rowsInserted = pstmt.executeUpdate();
-                if (rowsInserted > 0) {
-                    System.out.println("Name inserted successfully!");
-                }
             }
 
         } catch (SQLException e) {

@@ -5,7 +5,6 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import org.bytedeco.javacv.*;
 import org.example.GUI.DeliverHP;
-
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.sql.*;
@@ -95,14 +94,8 @@ public class Kiosk {
         // ---  Database operations ---
         try {
 
-            int BPN = BP.getBPNumber();
-            String origin = BP.getOriginAirport();
-            String destination = BP.getDestinationAirport();
-            String passenger = BP.getPsgName();
-            String fltNr = BP.getfltNr();
-
-            Database.ins_BP(BPN, origin, destination, passenger, fltNr);
-            Database.transactionStart(BPN, Database.getIDFromICAO(this.getAirport()));
+            Database.ins_BP(BP);
+            Database.transactionStart(BP.getBPNumber(), Database.getIDFromICAO(this.getAirport()));
             //Database.pickUp(boardingPassNumber, kioskLocation);
             //Database.dropOff(boardingPassNumber, kioskLocation);
 
@@ -140,35 +133,6 @@ public class Kiosk {
         // ✅ Only OKAY if both are valid
         validation = AirportVaildation.OKAY;
         return validation;
-    }
-
-
-
-    public static boolean validateOriginAirport(BoardingPass BP,
-                                     OpenCVFrameGrabber grabber,
-                                     CanvasFrame canvas){
-
-        // Validate origin
-        if (!Database.isValidAirport(BP.getOriginAirport())) {
-            System.err.println("ERROR: Origin airport '" + BP.getOriginAirport() + "' is NOT registered in the system.");
-            System.err.println("Please check the boarding pass");
-            //closeAndExit(grabber, canvas, 1);
-            return false;
-        }
-        return true;
-    }
-    public static boolean validateDestinationAirport(BoardingPass BP,
-                                                OpenCVFrameGrabber grabber,
-                                                CanvasFrame canvas){
-
-        // Validate origin
-        if (!Database.isValidAirport(BP.getDestinationAirport())) {
-            System.err.println("ERROR: Origin airport '" + BP.getDestinationAirport() + "' is NOT registered in the system.");
-            System.err.println("Please check the boarding pass");
-            //closeAndExit(grabber, canvas, 1);
-            return false;
-        }
-        return true;
     }
 
 
