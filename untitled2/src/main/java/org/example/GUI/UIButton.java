@@ -12,19 +12,22 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.shape.Polygon;
 import javafx.animation.ScaleTransition;
 import javafx.util.Duration;
 import javafx.scene.text.Text;
 import javafx.geometry.Pos;
+import javafx.scene.text.Font;
+
 
 
 public class UIButton extends Group {
 
 
 
-    public UIButton(int x, int y, String labelText) {
+    public UIButton(int x, int y, int size, String labelText) {
 
         Rectangle UIButtonRec = new Rectangle(200, 80, Color.DODGERBLUE);
         UIButtonRec.setX(0);
@@ -40,10 +43,10 @@ public class UIButton extends Group {
         UIButtonCircle2.setCenterY(40);
 
         Text label = new Text(labelText);
-        label.setFont(Font.font(24));
+        label.setFont(Font.font(size));
         label.setFill(Color.WHITE);
-        label.setX(100 - label.getLayoutBounds().getWidth() / 2);
-        label.setY(45);
+        label.setX(x - label.getLayoutBounds().getWidth() / 2);
+        label.setY(y);
 
         this.getChildren().addAll(UIButtonRec, UIButtonCircle1, UIButtonCircle2, label);
 
