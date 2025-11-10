@@ -35,7 +35,7 @@ public class HelloHard {
         BorderPane border = new BorderPane();
 
         instructionLabel = setInstructionMode();
-        continueBtn = new UIButton(0, 0, 24, instructionLabel);
+        continueBtn = new UIButton(100, 50, 24, instructionLabel);
 
         switch (Kiosk.useCaseIdentification(BP, kiosk)) {
             case DROP_OFF -> continueBtn.setOnMouseClicked(event -> UIManager.changeScene(DeliverHP::createScene));
@@ -109,7 +109,7 @@ public class HelloHard {
         flightRoute.getChildren().addAll(airlineHBox, originBox, arrow, destBox);
 
         // Use UIButton for custom blue buttons with text layered using StackPane
-        UIButton notYourFlightBtn = new UIButton(0, 0, 24, "Not your flight?");
+        UIButton notYourFlightBtn = new UIButton(100, 50, 24, "Not your flight?");
         notYourFlightBtn.setOnMouseClicked(event -> {
             UIManager.changeScene(Scanner::createScene);
             try {

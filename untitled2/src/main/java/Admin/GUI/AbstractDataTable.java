@@ -111,13 +111,13 @@ public abstract class AbstractDataTable extends Application {
         );
 
         // 🔄 Refresh Button
-        UIButton refreshBtn = new UIButton(30,190, 35, "Refresh");
+        UIButton refreshBtn = new UIButton(100,52, 35, "Refresh");
         refreshBtn.setScaleY(0.4);
         refreshBtn.setScaleX(0.4);
         refreshBtn.setOnMousePressed(e -> refreshTable());
 
         // ⬇️ Download PDF Button
-        UIButton downloadBtn = new UIButton(30, 190, 30, "Download PDF");
+        UIButton downloadBtn = new UIButton(100, 50, 30, "Download PDF");
         downloadBtn.setScaleY(0.4);
         downloadBtn.setScaleX(0.4);
         downloadBtn.setOnMousePressed(e -> exportTableToPDF(stage));

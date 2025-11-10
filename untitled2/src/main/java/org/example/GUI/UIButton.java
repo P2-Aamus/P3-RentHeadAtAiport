@@ -45,8 +45,8 @@ public class UIButton extends Group {
         Text label = new Text(labelText);
         label.setFont(Font.font(size));
         label.setFill(Color.WHITE);
-        label.setX(100 - label.getLayoutBounds().getWidth() / 2);
-        label.setY(45);
+        label.setX(x - label.getLayoutBounds().getWidth() / 2);
+        label.setY(y);
 
         this.getChildren().addAll(UIButtonRec, UIButtonCircle1, UIButtonCircle2, label);
 
