@@ -10,8 +10,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
 
+/**
+ * The class Database allows the system to comunicate with the database
+ * @author Group 3
+ */
 
 public class Database {
+    /**
+     * These are the credentials for accessing the database. They are stored in another file for safe keeping.
+     */
     private static String url = null;
     private static String user = null;
     private static String password = null;
@@ -32,7 +39,10 @@ public class Database {
         password = props.getProperty("db.password");
     }
 
-
+    /**
+     * Inserts the boarding pass into the database
+     * @param BP is the boarding pass object from the Kiosk class
+     */
     public static void ins_BP(BoardingPass BP) {
         try (Connection con = DriverManager.getConnection(url, user, password)) {
             System.out.println("Connection successful!");
@@ -63,6 +73,11 @@ public class Database {
         }
     }
 
+    /**
+     * Creates the transaction into the database
+     * @param BPN is the unique boarding pass number, used as the primary key for this entry.
+     * @param kioskID is the ID of the kiosk the user is interacting with.
+     */
     public static void transactionStart (int BPN, int kioskID){
 
         try (Connection con = DriverManager.getConnection(url, user, password)) {
@@ -87,6 +102,11 @@ public class Database {
         }
     }
 
+    /**
+     * Finds an available pair of headphones, and registers them as taken. It also updates the transaction and kiosk tables accordingly.
+     * @param BPN is the unique boarding pass number.
+     * @param kioskID is the ID of the kiosk the user is interacting with.
+     */
     public static void pickUp(int BPN, int kioskID){
         try (Connection con = DriverManager.getConnection(url, user, password)) {
             System.out.println("Connection successful!");
@@ -173,6 +193,11 @@ public class Database {
         }
     }
 
+    /**
+     * Registers the headphones as dropped off and charging. It also updates the transaction and kiosk tables accordingly.
+     * @param BPN is the unique boarding pass number.
+     * @param kioskID is the ID of the kiosk the user is interacting with.
+     */
     public static void dropOff(int BPN, int kioskID){
         try (Connection con = DriverManager.getConnection(url, user, password)) {
             System.out.println("Connection successful!");
@@ -259,7 +284,11 @@ public class Database {
         }
     }
 
-
+    /**
+     * Fetches the name of an airport from a given ICAO code.
+     * @param ICAO The unique 4-letter code of the airport.
+     * @return  The full name of the airport.
+     */
     public static String getNameFromICAO(String ICAO) {
         try (Connection con = DriverManager.getConnection(url, user, password)) {
             System.out.println("Connection successful!");
@@ -281,6 +310,11 @@ public class Database {
         }
     }
 
+    /**
+     * Fetches the ID of the kiosk from a given ICAO code.
+     * @param ICAO The unique 4-letter code of the airport.
+     * @return The ID of the kiosk.
+     */
     public static int getIDFromICAO(String ICAO) {
         try (Connection con = DriverManager.getConnection(url, user, password)) {
             System.out.println("Connection successful!");
@@ -302,6 +336,10 @@ public class Database {
         }
     }
 
+    /**
+     * Fetches a list of all boarding passes in the database.
+     * @return A list of all boarding passes in the database.
+     */
     public static ArrayList<Integer> getBPN() throws SQLException {
         ArrayList<Integer> BPNArray = new ArrayList<>();
 
@@ -321,6 +359,10 @@ public class Database {
         return BPNArray;
     }
 
+    /**
+     * Deletes a boarding pass from the database.
+     * @param BP is the boarding pass object from the Kiosk class
+     */
     public static void deleteLastBP(BoardingPass BP) throws SQLException {
         try (Connection con = DriverManager.getConnection(url, user, password)) {
             System.out.println("Connection successful!");
@@ -344,7 +386,11 @@ public class Database {
         }
     }
 
-    //Checks if a single airport exists in the kiosk table.
+    /**
+     *  Checks if a single airport exists in the kiosk table.
+     * @param airportCode Is the unique 4-letter ICAO code of the airport.
+     * @return A boolean based on whether the airport exists or not.
+     */
     static boolean isValidAirport(String airportCode) {
         try (Connection conn = DriverManager.getConnection(url, user, password);
              PreparedStatement ps = conn.prepareStatement("SELECT airport FROM kiosk WHERE airport = ?")) {

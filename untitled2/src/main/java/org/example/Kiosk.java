@@ -4,34 +4,50 @@ import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import org.bytedeco.javacv.*;
-import org.example.GUI.DeliverHP;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Objects;
 
+/**
+ * This class sits between the GUI and the database and connects the two.
+ */
 public class Kiosk {
 
+    /** An array of strings that contain the data to create a boarding pass object */
     public static String[] BP = new String[5];
+
+    /** The location of the kiosk, formatted as a 4-letter ICAO code */
     private final String airport;
+
+    /** TOBIAS HJÆLP */
     public static OpenCVFrameGrabber grabber;
+
+    /** TOBIAS HJÆLP */
     public static CanvasFrame canvas;
 
+    /** Used to define some use cases */
     public enum InstructionMode {
         DROP_OFF,
         UNKNOWN, PICK_UP
     }
-    public static InstructionMode useCase = null;
 
+    /** Defines the possible outcomes of the airport validation logic */
     public enum AirportVaildation{
         OKAY,
         INVALID_ORIGIN,
         INVALID_DESTINATION
     }
+
+    /** sets the validation to null as a starting value */
     public static AirportVaildation validation = null;
 
     // Constructor
+
+    /**
+     * Allows to construct a kiosk object
+     * @param airport The location of the kiosk, formatted as a 4-letter ICAO code
+     */
     public Kiosk(String airport) {
         this.airport = airport;
     }
@@ -41,6 +57,9 @@ public class Kiosk {
      * - Validates both airports
      * - Inserts boarding pass
      * - Executes database workflow
+     * @param BP The boarding pass object
+     * @param kiosk The kiosk object
+     * @return 
      */
     public static InstructionMode useCaseIdentification(BoardingPass BP, Kiosk kiosk) {
         System.out.println("\n🧾 Use Case: Passenger Identification");
