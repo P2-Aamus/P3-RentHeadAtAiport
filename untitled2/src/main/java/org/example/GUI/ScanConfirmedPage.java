@@ -17,25 +17,43 @@ import org.example.Kiosk;
 import java.net.URL;
 import java.sql.SQLException;
 
+/**
+ * this is the page that the passenger gets sent to via the swtich case,
+ * if the scan of the boarding pass is valid
+ */
 public class ScanConfirmedPage {
 
+    /**
+     * attributes that initializes the boarding pass kiosk object into objects from the UI manager
+     */
     static BoardingPass BP = UIManager.boardingPass;
     static Kiosk kiosk = UIManager.kiosk;
     private static String instructionLabel;
     private static UIButton continueBtn;
 
+    /**
+     * scene with borders and vertical and horizontal boxes that contains texts and objects
+     * @return
+     */
     public static Scene createScene(){
         BorderPane border = new BorderPane();
 
         instructionLabel = setInstructionMode();
         continueBtn = new UIButton(100, 50, 24, instructionLabel);
 
+        /**
+         * switch case with lambda functions that sends the passenger to a different scene depending
+         * on if the passenger is at the kiosk to either pick up or drop off
+         */
         switch (Kiosk.useCaseIdentification(BP, kiosk)) {
             case DROP_OFF -> continueBtn.setOnMouseClicked(event -> UIManager.changeScene(ConfirmationPage::createScene));
             case PICK_UP -> continueBtn.setOnMouseClicked(event -> UIManager.changeScene(PaymentPage::createScene));
         }
 
 
+        /**
+         * circle checkmark symbol object
+         */
         CircelCheckmarkIcon check = new CircelCheckmarkIcon(500, 500, 500);
         check.setScaleX(0.9);
         check.setScaleY(0.9);
@@ -85,17 +103,13 @@ public class ScanConfirmedPage {
         Text arrow1 = new Text("\u2794");
         arrow1.setFont(Font.font( 80));
 
-        /*Arrow arrow1 = new Arrow(300, 300);
-        arrow1.setScaleX(0.5);
-        arrow1.setScaleY(0.5);
-        arrow1.setRotate(270); */
-        
         HBox arrow = new HBox(arrow1);
         HBox.setMargin(arrow, new Insets(-25, 0, 0, 0));
 
-        
 
-
+        /**
+         * group all the boxes into one horizontal boxes
+         */
         HBox flightRoute = new HBox();
         flightRoute.setSpacing(23);
         flightRoute.setAlignment(Pos.CENTER);
@@ -112,15 +126,6 @@ public class ScanConfirmedPage {
             }
         });
 
-
-
-//        Text notYourFlightText = new Text("Not your flight?");
-//        notYourFlightText.setFont(Font.font(24));
-//        notYourFlightText.setFill(Color.WHITE);
-//
-//        Text continueText = new Text("Continue to payment");
-//        continueText.setFont(Font.font(24));
-//        continueText.setFill(Color.WHITE);
 
         StackPane stackBtn1 = new StackPane(notYourFlightBtn);
         stackBtn1.setPrefSize(200, 80);
@@ -139,6 +144,12 @@ public class ScanConfirmedPage {
 
         return new Scene(border, 1920, 1080);
     }
+
+    /**
+     * switch case that decides which scene the passenger is sent to depending on if the passenger is at the kiosk to either pick up
+     * or drop off
+     * @return
+     */
     public static String setInstructionMode() {
         switch (Kiosk.useCaseIdentification(BP, kiosk)) {
             case DROP_OFF:

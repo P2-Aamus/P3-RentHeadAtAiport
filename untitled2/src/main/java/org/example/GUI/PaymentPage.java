@@ -16,8 +16,14 @@ import org.example.Kiosk;
 
 import java.sql.SQLException;
 
+/**
+ * this class is the payment page in the GUI
+ */
 public class PaymentPage {
 
+    /**
+     * attributes and an attribute of the boarding pass object that the passenger has scanned
+     */
     static BoardingPass BP = UIManager.boardingPass;
     private static final String CARD_ICON_PATH = "images/Debit.png";
     private static final String MOBILEPAY_ICON_PATH = "images/MobilePay.png";
@@ -27,8 +33,12 @@ public class PaymentPage {
     private static final Font OPTION_TITLE_FONT = Font.font("Arial", 28);
     private static final Font OPTION_TEXT_FONT = Font.font("Arial", 22);
 
-    //@Override
-    //public void start(Stage primaryStage) {
+
+    /**
+     * scene with borders and vertical and horizontal boxes.
+     *
+     * @return
+     */
     public static Scene createScene(){
         BorderPane root = new BorderPane();
         StackPane topPane = new StackPane();
@@ -38,6 +48,9 @@ public class PaymentPage {
         Label headerLabel = new Label("Choose a payment method");
         headerLabel.setFont(HEADER_FONT);
 
+        /**
+         * this is a home button object
+         */
         HomeButtonIcon home = new HomeButtonIcon(40);
         home.setOnMouseClicked(event -> {
             UIManager.changeScene(ScannerPage::createScene);
@@ -48,6 +61,9 @@ public class PaymentPage {
             }
         });
 
+        /**
+         * group headerlabel and homebutton in the same border
+         */
         topPane.getChildren().addAll(home, headerLabel);
         StackPane.setAlignment(headerLabel, Pos.CENTER);
         StackPane.setAlignment(home, Pos.TOP_LEFT);
@@ -56,8 +72,10 @@ public class PaymentPage {
         root.setTop(topPane);
 
 
-        // --- OPTIONS PANEL ---
-        HBox optionsBox = new HBox(80);  // Larger spacing for HD
+        /**
+         * Option panel
+         */
+        HBox optionsBox = new HBox(80);
         optionsBox.setAlignment(Pos.CENTER);
         optionsBox.setPadding(new Insets(40));
 
@@ -78,8 +96,15 @@ public class PaymentPage {
         }
     }
 
+    /**
+     * this segment creates the payment options for the passenger
+     * @param imagePath
+     * @param title
+     * @param subtitle
+     * @return
+     */
     private static VBox createPaymentOption(String imagePath, String title, String subtitle) {
-        VBox box = new VBox(20);  // More spacing for HD
+        VBox box = new VBox(20);
         box.setAlignment(Pos.CENTER);
         box.setPadding(new Insets(40));
         box.setPrefWidth(400);
@@ -90,7 +115,7 @@ public class PaymentPage {
 
         Image image = loadImage(imagePath);
         ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(200);    // Scale larger for HD
+        imageView.setFitWidth(200);
         imageView.setPreserveRatio(true);
 
         Label titleLabel = new Label(title);
@@ -102,7 +127,9 @@ public class PaymentPage {
 
         box.getChildren().addAll(imageView, titleLabel, subtitleLabel);
 
-        // Hover effect
+        /**
+         * Hover effect
+         */
         box.setOnMouseEntered(e -> {
             box.setStyle("-fx-background-color: #F0F0F0; -fx-border-color: lightgray; "
                     + "-fx-border-radius: 20; -fx-background-radius: 20; "
@@ -112,6 +139,9 @@ public class PaymentPage {
             imageView.setScaleY(1.1);
         });
 
+        /**
+         * returns to normal after removing the cursor
+         */
         box.setOnMouseExited(e -> {
             box.setStyle("-fx-background-color: white; -fx-border-color: lightgray; "
                     + "-fx-border-radius: 20; -fx-background-radius: 20; "
@@ -121,7 +151,9 @@ public class PaymentPage {
             imageView.setScaleY(1.0);
         });
 
-        // Click event
+        /**
+         * lambda that sends the passenger
+         */
         box.setOnMouseClicked(e -> {
             Kiosk.pickUp(BP, UIManager.kiosk);
             UIManager.changeScene(ConfirmationPage::createScene);
