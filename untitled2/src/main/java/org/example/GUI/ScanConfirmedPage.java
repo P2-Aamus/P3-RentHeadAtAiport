@@ -1,22 +1,15 @@
 package org.example.GUI;
 
-import javafx.animation.PauseTransition;
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
-import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
 import org.example.BoardingPass;
 import org.example.Database;
 import org.example.Kiosk;
@@ -24,7 +17,7 @@ import org.example.Kiosk;
 import java.net.URL;
 import java.sql.SQLException;
 
-public class HelloHard {
+public class ScanConfirmedPage {
 
     static BoardingPass BP = UIManager.boardingPass;
     static Kiosk kiosk = UIManager.kiosk;
@@ -38,8 +31,8 @@ public class HelloHard {
         continueBtn = new UIButton(100, 50, 24, instructionLabel);
 
         switch (Kiosk.useCaseIdentification(BP, kiosk)) {
-            case DROP_OFF -> continueBtn.setOnMouseClicked(event -> UIManager.changeScene(DeliverHP::createScene));
-            case PICK_UP -> continueBtn.setOnMouseClicked(event -> UIManager.changeScene(Payment::createScene));
+            case DROP_OFF -> continueBtn.setOnMouseClicked(event -> UIManager.changeScene(ConfirmationPage::createScene));
+            case PICK_UP -> continueBtn.setOnMouseClicked(event -> UIManager.changeScene(PaymentPage::createScene));
         }
 
 
@@ -58,7 +51,7 @@ public class HelloHard {
         airlineHBox.setSpacing(7);
         airlineHBox.setAlignment(Pos.CENTER_LEFT);
 
-        URL SAS = HelloHard.class.getResource("/images/Scandinavian_Airlines_logo.svg.png");
+        URL SAS = ScanConfirmedPage.class.getResource("/images/Scandinavian_Airlines_logo.svg.png");
         ImageView sasView = null;
         if (SAS != null) {
             sasView = new ImageView(new Image(SAS.toExternalForm()));
@@ -111,7 +104,7 @@ public class HelloHard {
         // Use UIButton for custom blue buttons with text layered using StackPane
         UIButton notYourFlightBtn = new UIButton(100, 50, 24, "Not your flight?");
         notYourFlightBtn.setOnMouseClicked(event -> {
-            UIManager.changeScene(Scanner::createScene);
+            UIManager.changeScene(ScannerPage::createScene);
             try {
                 Database.deleteLastBP(BP);
             } catch (SQLException e) {

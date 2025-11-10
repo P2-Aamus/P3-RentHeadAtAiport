@@ -11,21 +11,24 @@ import javafx.animation.ScaleTransition;
 import javafx.util.Duration;
 
 
-
-
-//this class is a UI button object that has been used in the Hello
+/**
+ * this class is a UI button object that has been used in the Hello
+ */
 
 public class UIButton extends Group {
 
     /**
-     *
-     */
-
-    /**
-     * constructor that contains the values for the different parameters in
+     * the different parameters determines the location and size of the textlabel in the button
+     * @param x
+     * @param y
+     * @param size
+     * @param labelText
      */
     public UIButton(int x, int y, int size, String labelText) {
 
+        /**
+         * the button is build up in three independent shapes
+         */
         Rectangle UIButtonRec = new Rectangle(200, 80, Color.DODGERBLUE);
         UIButtonRec.setX(0);
         UIButtonRec.setY(0);
@@ -39,14 +42,27 @@ public class UIButton extends Group {
         UIButtonCircle2.setCenterX(-5);
         UIButtonCircle2.setCenterY(40);
 
+        /**
+         * text label in the button
+         */
+
         Text label = new Text(labelText);
         label.setFont(Font.font(size));
         label.setFill(Color.WHITE);
         label.setX(x - label.getLayoutBounds().getWidth() / 2);
         label.setY(y);
 
+        /**
+         * group the shapes and label into one object
+         */
+
         this.getChildren().addAll(UIButtonRec, UIButtonCircle1, UIButtonCircle2, label);
 
+
+        /**
+         * lambda function that changes the buttons scale and changes the colors when you hover
+         * your mouse over the button
+         */
         this.setOnMouseEntered(e -> {
 
             double baseX = getScaleX();
@@ -62,6 +78,9 @@ public class UIButton extends Group {
             UIButtonCircle2.setFill(Color.DEEPSKYBLUE);
         });
 
+        /**
+         * function that changes the scale and color back when the pointer leaves the button
+         */
         this.setOnMouseExited(e -> {
 
             double baseX = getScaleX() / 1.1;

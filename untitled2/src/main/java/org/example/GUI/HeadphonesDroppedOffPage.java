@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 
 import java.net.URL;
 
-public class hpDroppedOff extends Application {
+public class HeadphonesDroppedOffPage extends Application {
 
     public static void main(String[] args) {
         launch(args);
@@ -40,7 +40,7 @@ public class hpDroppedOff extends Application {
         seeU.setFont(Font.font(50));
 
         ImageView planeView = null;
-        URL imgUrl = hpDroppedOff.class.getResource("/images/airplane-aircraft-icon-a5-landing-clip-art-landing-2d0cf51950a7e2fd5bd7b9f93a890e1a.png");
+        URL imgUrl = HeadphonesDroppedOffPage.class.getResource("/images/airplane-aircraft-icon-a5-landing-clip-art-landing-2d0cf51950a7e2fd5bd7b9f93a890e1a.png");
         if (imgUrl != null) {
             planeView = new ImageView(new Image(imgUrl.toExternalForm()));
             planeView.setFitHeight(300);

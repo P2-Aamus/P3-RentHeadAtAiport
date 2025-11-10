@@ -8,11 +8,16 @@ import org.example.Database;
 import org.example.Kiosk;
 import java.util.function.Supplier;
 
-// This class is the manager to all the UI in our system
+
+/**
+ * This class is the manager to all the UI in our system
+ */
 
 public class UIManager extends Application {
 
-    //attributes
+    /**
+     * attributes
+     */
     public static BoardingPass boardingPass;
     public static Stage primaryStageRef;
     public static Kiosk kiosk = new Kiosk("EKBI");
@@ -21,12 +26,18 @@ public class UIManager extends Application {
         launch(args);
     }
 
-    //set the stage
+    /**
+     *   set the stage
+     * @param primaryStage the primary stage for this application, onto which
+     * the application scene can be set.
+     * Applications may create other stages, if needed, but they will not be
+     * primary stages.
+     */
     @Override
     public void start(Stage primaryStage) {
         primaryStageRef = primaryStage;
 
-        primaryStage.setScene(Scanner.createScene());
+        primaryStage.setScene(ScannerPage.createScene());
 
         primaryStage.setTitle("AirHead");
         primaryStage.show();
@@ -34,7 +45,9 @@ public class UIManager extends Application {
     }
 
     public static void startScan() {
-        // QR scan and use case identification
+        /**
+         * QR scan and use case identification
+          */
         new Thread(() -> {
             Stage primaryStage = UIManager.primaryStageRef;
 
@@ -45,7 +58,7 @@ public class UIManager extends Application {
                     try {
                         if (!Kiosk.sufficientData(data)) {
                             System.err.println("Bad scan: insufficient QR data");
-                            changeScene(ErrorPleaseTryAgainMessage::createScene);
+                            changeScene(ErrorPleaseTryAgainMessagePage::createScene);
                             return;
                         }
 
@@ -58,55 +71,62 @@ public class UIManager extends Application {
 
                         boardingPass = new BoardingPass(BPN, origin, destination, passenger, fltNr);
 
-                        // switch case that determines the different cases a passenger has depending on their boarding pass object
-
+                        /**
+                         *  switch case that determines the different cases a passenger
+                         *  has depending on their boarding pass object
+                         */
                         switch (Kiosk.validateAirports(boardingPass)) {
-                            case INVALID_ORIGIN -> changeScene(ErrorMessageOriginAirport::createScene);
-                            case INVALID_DESTINATION -> changeScene(ErrorMessageOriginAirport::createScene);
+                            case INVALID_ORIGIN -> changeScene(ErrorMessageOriginAirportPage::createScene);
+                            case INVALID_DESTINATION -> changeScene(ErrorMessageOriginAirportPage::createScene);
                             case OKAY -> {
                                 Kiosk.InstructionMode mode = kiosk.useCaseIdentification(boardingPass, kiosk);
 
                                 if (mode == null) {
                                     System.err.println("ERROR: useCaseIdentification returned null for boarding pass: " + BPN);
-                                    changeScene(ErrorPleaseTryAgainMessage::createScene);
+                                    changeScene(ErrorPleaseTryAgainMessagePage::createScene);
                                     return;
                                 }
-
-                                //pick up case
+                                /**
+                                 * pick up case
+                                 */
                                 switch (mode) {
                                     case PICK_UP -> {
                                         if (kiosk.BPalreadyStored(boardingPass)) {
-                                            ErrorMessageOriginAirport.message = "You have already picked up a pair of headphones.";
-                                            changeScene(ErrorMessageOriginAirport::createScene);
+                                            ErrorMessageOriginAirportPage.message = "You have already picked up a pair of headphones.";
+                                            changeScene(ErrorMessageOriginAirportPage::createScene);
 
                                         } else {
                                             kiosk.initTransition(boardingPass);
-                                            changeScene(HelloHard::createScene);
+                                            changeScene(ScanConfirmedPage::createScene);
                                         }
                                         System.out.println("PICK UP CASE");
                                     }
-                                    // drop off case
+                                    /**
+                                     * drop off case
+                                     */
                                     case DROP_OFF -> {
                                         System.out.println("DROP OFF CASE");
                                         if (!kiosk.BPalreadyStored(boardingPass)) {
-                                            ErrorMessageOriginAirport.message = "who are you?????????";
-                                            changeScene(ErrorMessageOriginAirport::createScene);
+                                            ErrorMessageOriginAirportPage.message = "who are you?????????";
+                                            changeScene(ErrorMessageOriginAirportPage::createScene);
                                         } else {
                                             Database.dropOff(boardingPass.getBPNumber(), Database.getIDFromICAO(kiosk.getAirport()));
-                                            changeScene(HelloHard::createScene);
+                                            changeScene(ScanConfirmedPage::createScene);
                                         }
                                     }
 
-                                    //error case
+                                    /**
+                                     * error case
+                                     */
                                     case UNKNOWN -> {
-                                        changeScene(ErrorPleaseTryAgainMessage::createScene) ;}
+                                        changeScene(ErrorPleaseTryAgainMessagePage::createScene) ;}
                                 }
                             }
                         }
 
                     } catch (Exception ex) {
                         ex.printStackTrace();
-                        changeScene(ErrorPleaseTryAgainMessage::createScene);
+                        changeScene(ErrorPleaseTryAgainMessagePage::createScene);
                     }
                 });
 
@@ -189,6 +209,10 @@ public class UIManager extends Application {
 //        }).start();
 //    }
 
+    /**
+     * this is the function that chages the scene
+     * @param sceneSupplier
+     */
     public static void changeScene(Supplier<Scene> sceneSupplier){
         Scene newScene = sceneSupplier.get();
         primaryStageRef.setScene(newScene);

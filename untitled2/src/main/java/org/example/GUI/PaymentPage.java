@@ -1,25 +1,22 @@
 package org.example.GUI;
 
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.Cursor;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 import org.example.BoardingPass;
 import org.example.Database;
 import org.example.Kiosk;
 
 import java.sql.SQLException;
 
-public class Payment {
+public class PaymentPage {
 
     static BoardingPass BP = UIManager.boardingPass;
     private static final String CARD_ICON_PATH = "images/Debit.png";
@@ -41,9 +38,9 @@ public class Payment {
         Label headerLabel = new Label("Choose a payment method");
         headerLabel.setFont(HEADER_FONT);
 
-        HomeButton home = new HomeButton(40);
+        HomeButtonIcon home = new HomeButtonIcon(40);
         home.setOnMouseClicked(event -> {
-            UIManager.changeScene(Scanner::createScene);
+            UIManager.changeScene(ScannerPage::createScene);
             try {
                 Database.deleteLastBP(BP);
             } catch (SQLException e) {
@@ -75,7 +72,7 @@ public class Payment {
 
     private static Image loadImage(String path) {
         try {
-            return new Image(Payment.class.getResource("/" + path).toExternalForm());
+            return new Image(PaymentPage.class.getResource("/" + path).toExternalForm());
         } catch (Exception e) {
             return new Image("file:" + path);
         }
@@ -127,7 +124,7 @@ public class Payment {
         // Click event
         box.setOnMouseClicked(e -> {
             Kiosk.pickUp(BP, UIManager.kiosk);
-            UIManager.changeScene(DeliverHP::createScene);
+            UIManager.changeScene(ConfirmationPage::createScene);
         });
 
         return box;

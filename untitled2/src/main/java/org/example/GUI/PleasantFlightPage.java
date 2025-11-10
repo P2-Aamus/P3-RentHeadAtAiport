@@ -1,6 +1,5 @@
 package org.example.GUI;
 
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,11 +12,10 @@ import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 import org.example.BoardingPass;
 import org.example.Database;
-import org.example.Kiosk;
 
 import java.net.URL;
 
-public class pleasantFlight {
+public class PleasantFlightPage {
 
     static BoardingPass BP = UIManager.boardingPass;
 
@@ -41,7 +39,7 @@ public class pleasantFlight {
         remember.setFont(Font.font(50));
 
         ImageView planeUp = null;
-        URL imgUrl = hpDroppedOff.class.getResource("/images/airplane-aircraft-takeoff-take-off-clip-art-plane-b59ead33bdd3e093bae1972ae8d89e05.png");
+        URL imgUrl = HeadphonesDroppedOffPage.class.getResource("/images/airplane-aircraft-takeoff-take-off-clip-art-plane-b59ead33bdd3e093bae1972ae8d89e05.png");
         if (imgUrl != null) {
             planeUp = new ImageView(new Image(imgUrl.toExternalForm()));
             planeUp.setFitHeight(300);

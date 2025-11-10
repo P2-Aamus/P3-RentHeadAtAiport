@@ -1,7 +1,6 @@
 package org.example.GUI;
 
 import javafx.animation.PauseTransition;
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -11,16 +10,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.example.BoardingPass;
 import org.example.BoardingPass;
 import org.example.Database;
 import org.example.Kiosk;
 
 import java.sql.SQLException;
 
-public class DeliverHP {
+public class ConfirmationPage {
 
     static BoardingPass BP = UIManager.boardingPass;
     static Kiosk kiosk = UIManager.kiosk;
@@ -49,10 +46,10 @@ public class DeliverHP {
         thankYouLabel.setFont(Font.font("Arial", 60));
         thankYouLabel.setTextFill(Color.BLACK);
 
-        HomeButton home = new HomeButton(40);
+        HomeButtonIcon home = new HomeButtonIcon(40);
 
         home.setOnMouseClicked(event -> {
-            UIManager.changeScene(Scanner::createScene);
+            UIManager.changeScene(ScannerPage::createScene);
             try {
                 Database.deleteLastBP(BP);
             } catch (SQLException e) {
@@ -87,7 +84,7 @@ public class DeliverHP {
     private static ImageView loadImageView(String path, double size) {
         Image image;
         try {
-            image = new Image(DeliverHP.class.getResource("/" + path).toExternalForm());
+            image = new Image(ConfirmationPage.class.getResource("/" + path).toExternalForm());
         } catch (Exception e) {
             image = new Image("file:" + path);
         }
@@ -104,7 +101,7 @@ public class DeliverHP {
                 instructionLabel.setText("Please drop your\nheadphones to the right");
                 // Set a 10-second timer
                 PauseTransition pause = new PauseTransition(Duration.seconds(10));
-                pause.setOnFinished(event -> UIManager.changeScene(hpDroppedOff::createScene));
+                pause.setOnFinished(event -> UIManager.changeScene(HeadphonesDroppedOffPage::createScene));
                 pause.play();
                 break;
             case PICK_UP:
@@ -112,7 +109,7 @@ public class DeliverHP {
 
                 // Set a 10-second timer
                 PauseTransition pause2 = new PauseTransition(Duration.seconds(10));
-                pause2.setOnFinished(event -> UIManager.changeScene(pleasantFlight::createScene));
+                pause2.setOnFinished(event -> UIManager.changeScene(PleasantFlightPage::createScene));
                 pause2.play();
 
                 break;

@@ -5,7 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class BadScan {
+public class BadScanPage {
 
     public static Scene createScene(){
 

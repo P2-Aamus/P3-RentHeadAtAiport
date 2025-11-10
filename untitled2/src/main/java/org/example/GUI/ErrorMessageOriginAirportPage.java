@@ -1,24 +1,20 @@
 package org.example.GUI;
 
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 import org.example.BoardingPass;
 import org.example.Kiosk;
 
 import java.net.URL;
 
-public class ErrorMessageOriginAirport {
+public class ErrorMessageOriginAirportPage {
     static BoardingPass BP = UIManager.boardingPass;
     private static Text instructionLabel;
     public static String message;
@@ -43,7 +39,7 @@ public class ErrorMessageOriginAirport {
         Text message2 = new Text("Please scan a valid boarding pass.");
         message2.setFont(new Font(40));
 
-        URL scannerUrl = Scanner.class.getResource("/Images/image-scanner-barcode-qr-code-icon-others-dcafa04faf2cfff6510f74883562e3c6.png");
+        URL scannerUrl = ScannerPage.class.getResource("/Images/image-scanner-barcode-qr-code-icon-others-dcafa04faf2cfff6510f74883562e3c6.png");
         if (scannerUrl != null) {
             ImageView scannerView = new ImageView(new Image(scannerUrl.toExternalForm()));
             scannerView.setFitWidth(250);
@@ -56,7 +52,7 @@ public class ErrorMessageOriginAirport {
             centerContent.setAlignment(Pos.CENTER);
 
 
-        Arrow arrow = new Arrow(300, 300);
+        ArrowShape arrow = new ArrowShape(300, 300);
         BorderPane.setAlignment(arrow, Pos.CENTER);
         BorderPane.setMargin(arrow, new Insets(100));
         border.setBottom(arrow);

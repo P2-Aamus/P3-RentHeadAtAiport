@@ -6,15 +6,21 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.net.URL;
 
-public class Scanner{
+/**
+ * this the class that contains the the start page in the UI
+ */
+public class ScannerPage {
 
+    /**
+     * create scene with borders that contains vertical and horizontal boxes
+     * @return
+     */
     public static Scene createScene(){
 
         UIManager.startScan();
@@ -37,7 +43,10 @@ public class Scanner{
 
         border.setCenter(centerContent);
 
-        URL scannerUrl = Scanner.class.getResource("/Images/image-scanner-barcode-qr-code-icon-others-dcafa04faf2cfff6510f74883562e3c6.png");
+        /**
+         * scanner symbol image
+         */
+        URL scannerUrl = ScannerPage.class.getResource("/Images/image-scanner-barcode-qr-code-icon-others-dcafa04faf2cfff6510f74883562e3c6.png");
         if (scannerUrl != null) {
             ImageView scannerView = new ImageView(new Image(scannerUrl.toExternalForm()));
             scannerView.setFitWidth(250);
@@ -46,14 +55,15 @@ public class Scanner{
             scan.setPadding(new Insets(80,0,0,0));
             scan.setAlignment(Pos.CENTER);
             centerContent.getChildren().addAll(please, scan);
-
-
         } else {
             System.out.println("Scanner image not found!");
         }
         border.setCenter(centerContent);
 
-        Arrow arrow = new Arrow(300, 300);
+        /**
+         * arrow object
+         */
+        ArrowShape arrow = new ArrowShape(300, 300);
         BorderPane.setAlignment(arrow, Pos.CENTER);
         BorderPane.setMargin(arrow, new Insets(100));
         border.setBottom(arrow);
