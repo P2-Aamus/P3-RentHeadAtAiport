@@ -27,7 +27,7 @@ public class UIButton extends Group {
 
 
 
-    public UIButton(int x, int y, String labelText) {
+    public UIButton(int x, int y, int size, String labelText) {
 
         Rectangle UIButtonRec = new Rectangle(200, 80, Color.DODGERBLUE);
         UIButtonRec.setX(0);
@@ -43,7 +43,7 @@ public class UIButton extends Group {
         UIButtonCircle2.setCenterY(40);
 
         Text label = new Text(labelText);
-        label.setFont(Font.font(24));
+        label.setFont(Font.font(size));
         label.setFill(Color.WHITE);
         label.setX(100 - label.getLayoutBounds().getWidth() / 2);
         label.setY(45);
