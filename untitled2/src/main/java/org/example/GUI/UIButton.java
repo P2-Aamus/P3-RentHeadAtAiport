@@ -53,12 +53,28 @@ public class UIButton extends Group {
 
         this.setOnMouseEntered(e -> {
 
-                UIButtonRec.setFill(Color.DEEPSKYBLUE);
-                UIButtonCircle1.setFill(Color.DEEPSKYBLUE);
-                UIButtonCircle2.setFill(Color.DEEPSKYBLUE);
-          });
+            double baseX = getScaleX();
+            double baseY = getScaleY();
+
+            ScaleTransition st = new ScaleTransition(Duration.millis(150), this);
+            st.setToX(baseX * 1.1);
+            st.setToY(baseY * 1.1);
+            st.play();
+
+            UIButtonRec.setFill(Color.DEEPSKYBLUE);
+            UIButtonCircle1.setFill(Color.DEEPSKYBLUE);
+            UIButtonCircle2.setFill(Color.DEEPSKYBLUE);
+        });
 
         this.setOnMouseExited(e -> {
+
+            double baseX = getScaleX() / 1.1;
+            double baseY = getScaleY() / 1.1;
+
+            ScaleTransition st = new ScaleTransition(Duration.millis(150), this);
+            st.setToX(baseX);
+            st.setToY(baseY);
+            st.play();
 
             UIButtonRec.setFill(Color.DODGERBLUE);
             UIButtonCircle1.setFill(Color.DODGERBLUE);
