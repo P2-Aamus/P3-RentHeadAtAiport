@@ -6,12 +6,29 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.*;
 
-public class Database {
 
+/**
+ * The {@code Database} class provides methods to connect to a database
+ * and retrieve data from the tables boarding_passes, kiosks,
+ * transactions and headphones.
+ *
+ * <p></p>
+ *
+ *
+ */
+public class Database {
+    /** JDBC URL for database connection. */
     private static String URL = null;
+    /** Username for database authentication. */
     private static String USER = null;
+    /** Password for database authentication. */
     private static String PASS = null;
 
+    /**
+     * Static initializer that loads database configuration properties.
+     *
+     * @throws RuntimeException if the file cannot be loaded.
+     */
     static {
         Properties props = new Properties();
         try (InputStream input = Database.class.getClassLoader().getResourceAsStream("config.properties")) {
@@ -28,7 +45,12 @@ public class Database {
         PASS = props.getProperty("db.password");
     }
 
-
+    /**
+     * Retrieves all boarding pass data from the {@code boarding_pass} table.
+     *
+     * @return a list of string arrays, where each array is one row
+     *         in the columns: {@code BPN, origin_airport, dest_airport, psg_name, flt_nr}.
+     */
     public static List<String[]> getAllBoardingPasses() {
         List<String[]> data = new ArrayList<>();
         String sql = "SELECT BPN, origin_airport, dest_airport, psg_name, flt_nr FROM boarding_pass";
@@ -54,7 +76,12 @@ public class Database {
         return data;
     }
 
-
+    /**
+     * Retrieves all kiosk data from the {@code kiosk} table.
+     *
+     * @return a list of string arrays, where each array is one row
+     *         in the columns: {@code ID, Airport, numOfAvailableHP, airport_name}.
+     */
     public static List<String[]> getKioskData() {
         List<String[]> data = new ArrayList<>();
         String sql = "SELECT ID, Airport, numOfAvailableHP, airport_name FROM kiosk";
@@ -79,6 +106,12 @@ public class Database {
         return data;
     }
 
+    /**
+     * Retrieves all transaction data from the {@code transaction} table.
+     *
+     * @return a list of string arrays, where each array is one row
+     *         in the columns: {@code BPN, headphonesID, originKioskID, destKioskID, status}.
+     */
     public static List<String[]> getTransactions() {
         List<String[]> data = new ArrayList<>();
         String sql = "SELECT BPN, headphonesID, originKioskID, destKioskID, status FROM transactions";
@@ -104,6 +137,12 @@ public class Database {
         return data;
     }
 
+    /**
+     * Retrieves all headphone data from the {@code headphones} table.
+     *
+     * @return a list of string arrays, where each array is one row
+     *         in the columns: {@code ID, status, location, battery}.
+     */
     public static List<String[]> getHeadphonesData() {
         List<String[]> data = new ArrayList<>();
         String sql = "SELECT ID, status, location, battery FROM headphones";
