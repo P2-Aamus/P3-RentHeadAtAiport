@@ -22,7 +22,6 @@ import javafx.scene.text.Font;
 
 public class UIButton extends Group {
 
-    private ScaleTransition currentTransition;
     private final Text label;
 
     public UIButton(int height, int width, String text) {
