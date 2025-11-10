@@ -21,6 +21,7 @@ import java.sql.SQLException;
 public class Hello{
 
     static BoardingPass BP = UIManager.boardingPass;
+
     public static Scene createScene() throws FrameGrabber.Exception {
         // de skal alle sammen erstattes med objekter når det spiller
         Text title = new Text(875, 623, "AirHead");

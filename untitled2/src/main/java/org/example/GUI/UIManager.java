@@ -8,8 +8,11 @@ import org.example.Database;
 import org.example.Kiosk;
 import java.util.function.Supplier;
 
+// This class is the manager to all the UI in our system
+
 public class UIManager extends Application {
 
+    //attributes
     public static BoardingPass boardingPass;
     public static Stage primaryStageRef;
     public static Kiosk kiosk = new Kiosk("EKBI");
@@ -18,6 +21,7 @@ public class UIManager extends Application {
         launch(args);
     }
 
+    //set the stage
     @Override
     public void start(Stage primaryStage) {
         primaryStageRef = primaryStage;
@@ -54,6 +58,8 @@ public class UIManager extends Application {
 
                         boardingPass = new BoardingPass(BPN, origin, destination, passenger, fltNr);
 
+                        // switch case that determines the different cases a passenger has depending on their boarding pass object
+
                         switch (Kiosk.validateAirports(boardingPass)) {
                             case INVALID_ORIGIN -> changeScene(ErrorMessageOriginAirport::createScene);
                             case INVALID_DESTINATION -> changeScene(ErrorMessageOriginAirport::createScene);
@@ -66,6 +72,7 @@ public class UIManager extends Application {
                                     return;
                                 }
 
+                                //pick up case
                                 switch (mode) {
                                     case PICK_UP -> {
                                         if (kiosk.BPalreadyStored(boardingPass)) {
@@ -78,6 +85,7 @@ public class UIManager extends Application {
                                         }
                                         System.out.println("PICK UP CASE");
                                     }
+                                    // drop off case
                                     case DROP_OFF -> {
                                         System.out.println("DROP OFF CASE");
                                         if (!kiosk.BPalreadyStored(boardingPass)) {
@@ -89,6 +97,7 @@ public class UIManager extends Application {
                                         }
                                     }
 
+                                    //error case
                                     case UNKNOWN -> {
                                         changeScene(ErrorPleaseTryAgainMessage::createScene) ;}
                                 }

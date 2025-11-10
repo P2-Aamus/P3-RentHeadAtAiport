@@ -14,38 +14,53 @@ import java.util.ArrayList;
  */
 public class Kiosk {
 
-    /** An array of strings that contain the data to create a boarding pass object */
+    /**
+     * An array of strings that contain the data to create a boarding pass object
+     */
     public static String[] BP = new String[5];
 
-    /** The location of the kiosk, formatted as a 4-letter ICAO code */
+    /**
+     * The location of the kiosk, formatted as a 4-letter ICAO code
+     */
     private final String airport;
 
-    /** TOBIAS HJÆLP */
+    /**
+     * The webcam frame grabber used to capture live video frames for QR scanning.
+     */
     public static OpenCVFrameGrabber grabber;
 
-    /** TOBIAS HJÆLP */
+    /**
+     * The display window used to show the live camera feed during QR scanning.
+     */
     public static CanvasFrame canvas;
 
-    /** Used to define some use cases */
+    /**
+     * Used to define some use cases
+     */
     public enum InstructionMode {
         DROP_OFF,
         UNKNOWN, PICK_UP
     }
 
-    /** Defines the possible outcomes of the airport validation logic */
-    public enum AirportVaildation{
+    /**
+     * Defines the possible outcomes of the airport validation logic
+     */
+    public enum AirportVaildation {
         OKAY,
         INVALID_ORIGIN,
         INVALID_DESTINATION
     }
 
-    /** sets the validation to null as a starting value */
+    /**
+     * sets the validation to null as a starting value
+     */
     public static AirportVaildation validation = null;
 
     // Constructor
 
     /**
      * Allows to construct a kiosk object
+     *
      * @param airport The location of the kiosk, formatted as a 4-letter ICAO code
      */
     public Kiosk(String airport) {
@@ -57,9 +72,10 @@ public class Kiosk {
      * - Validates both airports
      * - Inserts boarding pass
      * - Executes database workflow
-     * @param BP The boarding pass object
+     *
+     * @param BP    The boarding pass object
      * @param kiosk The kiosk object
-     * @return 
+     * @return Pick up, Drop off or Unknown as an instruction mode
      */
     public static InstructionMode useCaseIdentification(BoardingPass BP, Kiosk kiosk) {
         System.out.println("\n🧾 Use Case: Passenger Identification");
@@ -96,33 +112,34 @@ public class Kiosk {
         return InstructionMode.UNKNOWN;
     }
 
+    /**
+     * Checks whether a boarding pass has already been stored
+     *
+     * @param BP The bording pass object
+     * @return A boolean based on the result of the logic
+     */
     public static boolean BPalreadyStored(BoardingPass BP) throws SQLException {
 
         ArrayList<Integer> BPNumbers = Database.getBPN();
 
-        if (BPNumbers.contains(BP.getBPNumber())){
+        if (BPNumbers.contains(BP.getBPNumber())) {
             return true;
         } else return false;
     }
 
 
-
-
-
-    public void initTransition(BoardingPass BP){
-        // ---  Database operations ---
+    /**
+     * Initialises the transition by inserting the boarding pass into the database and starting the transaction
+     *
+     * @param BP The boarding pass object
+     */
+    public void initTransition(BoardingPass BP) {
         try {
 
             Database.ins_BP(BP);
             Database.transactionStart(BP.getBPNumber(), Database.getIDFromICAO(this.getAirport()));
-            //Database.pickUp(boardingPassNumber, kioskLocation);
-            //Database.dropOff(boardingPassNumber, kioskLocation);
-
-
 
             System.out.println(" Boarding pass processed successfully!");
-
-
 
         } catch (Exception e) {
             System.err.println(" ERROR: Failed to process boarding pass.");
@@ -132,7 +149,9 @@ public class Kiosk {
 
     /**
      * Validates the origin and destination of the airport.
-     * Returns true if both are valid, otherwise prints error and the QR Scanner is closed.
+     *
+     * @param BP The boarding pass object.
+     * @return Returns true if both are valid, otherwise prints error and the QR Scanner is closed.
      */
     public static AirportVaildation validateAirports(BoardingPass BP) {
         // Validate origin
@@ -149,97 +168,32 @@ public class Kiosk {
             return validation;
         }
 
-        // ✅ Only OKAY if both are valid
+        //Only OKAY if both are valid
         validation = AirportVaildation.OKAY;
         return validation;
     }
 
 
-
-    // --- Main scanner ---
-    //public static void main(String[] args) throws FrameGrabber.Exception {
-        public static String[] QRScan() throws FrameGrabber.Exception {
-            String[] data = new String[5];
-            String[] badScan = new String[1];
-            grabber = new OpenCVFrameGrabber(0);
-            // Start webcam
-            canvas = new CanvasFrame("QR Scanner", CanvasFrame.getDefaultGamma() / grabber.getGamma());
-            grabber.start();
-
-
-            canvas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-            while (canvas.isVisible()) {
-                Frame frame = grabber.grab();
-                if (frame == null) continue;
-
-                Java2DFrameConverter converter = new Java2DFrameConverter();
-                BufferedImage img = converter.getBufferedImage(frame);
-
-                try {
-                    LuminanceSource source = new BufferedImageLuminanceSource(img);
-                    BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
-                    Result result = new MultiFormatReader().decode(bitmap);
-
-                    String scannedText = result.getText();
-                    String[] lines = scannedText.split("\\R");
-
-                    data = lines;
-                    BP = lines;
-
-                    // Pass the scanned data to the use case handler
-                    //kiosk.useCaseIdentification(BPN, origin, destination, passenger, fltNr, grabber, kiosk.getId(), canvas);
-                    break;
-
-                } catch (NotFoundException e) {
-                    // No QR code found in this frame — continue scanning
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    grabber.stop();
-                    canvas.dispose();
-                    return badScan;
-                }
-
-                canvas.showImage(frame);
-            }
-
-            grabber.stop();
-            canvas.dispose();
-            return data;
-        }
-
-
-    public String getAirport() { return airport; }
-
-
-    public static boolean sufficientData(String[] lines){
-        if (lines.length < 5) {
-            System.err.println("PLEASE TRY AGAIN");
-            return false;
-        } else
-            return true;
-    }
-
-    public static void pickUp(BoardingPass BP, Kiosk kiosk){
-
-        Database.pickUp(BP.getBPNumber(), Database.getIDFromICAO(kiosk.getAirport()));
-    }
-
-
-
-
-
-
-
-    //BACKUP
-    public static void BACKUP() throws FrameGrabber.Exception {
-        //Kiosk kiosk = new Kiosk(3, "EKAH", 10, "Terminal 1 - Gate 5");
-
+    /**
+     * Scans for a QR code using the webcam and returns the decoded data.
+     * <p>
+     * Opens a live camera feed and continuously processes frames until a valid
+     * QR code is detected or an error occurs.
+     * </p>
+     *
+     * @return a {@code String[]} containing the decoded QR data,
+     * or a single-element array if the scan fails
+     * @throws FrameGrabber.Exception if the webcam cannot be accessed
+     */
+    public static String[] QRScan() throws FrameGrabber.Exception {
+        String[] data = new String[5];
+        String[] badScan = new String[1];
+        grabber = new OpenCVFrameGrabber(0);
         // Start webcam
-        OpenCVFrameGrabber grabber = new OpenCVFrameGrabber(0);
+        canvas = new CanvasFrame("QR Scanner", CanvasFrame.getDefaultGamma() / grabber.getGamma());
         grabber.start();
 
-        CanvasFrame canvas = new CanvasFrame("QR Scanner", CanvasFrame.getDefaultGamma() / grabber.getGamma());
+
         canvas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         while (canvas.isVisible()) {
@@ -257,25 +211,17 @@ public class Kiosk {
                 String scannedText = result.getText();
                 String[] lines = scannedText.split("\\R");
 
-                if (lines.length < 4) {
-                    System.err.println("PLEASE TRY AGAIN");
-                    continue;
-                }
-
-                int BPN = Integer.parseInt(lines[0].trim());
-                String origin = lines[1].trim();
-                String destination = lines[2].trim();
-                String passenger = lines[3].trim();
-                String fltNr = lines[4];
-
-                // Pass the scanned data to the use case handler
-                //kiosk.useCaseIdentification(BPN, origin, destination, passenger, fltNr, grabber, kiosk.getId(), canvas);
-
+                data = lines;
+                BP = lines;
+                break;
 
             } catch (NotFoundException e) {
                 // No QR code found in this frame — continue scanning
             } catch (Exception e) {
                 e.printStackTrace();
+                grabber.stop();
+                canvas.dispose();
+                return badScan;
             }
 
             canvas.showImage(frame);
@@ -283,6 +229,38 @@ public class Kiosk {
 
         grabber.stop();
         canvas.dispose();
+        return data;
     }
 
+    /**
+     * @return Returns the kiosk's location as a 4-letter ICAO code
+     */
+    public String getAirport() {
+        return airport;
+    }
+
+    /**
+     * Checks if the scanned QR data contains sufficient information.
+     *
+     * @param lines the array of strings extracted from the QR code
+     * @return {@code true} if the array has at least five elements, otherwise {@code false}
+     */
+    public static boolean sufficientData(String[] lines) {
+        if (lines.length < 5) {
+            System.err.println("PLEASE TRY AGAIN");
+            return false;
+        } else
+            return true;
+    }
+
+    /**
+     * Records the pickup of a boarding pass at the specified kiosk.
+     *
+     * @param BP the boarding pass being picked up
+     * @param kiosk the kiosk where the pickup occurs
+     */
+    public static void pickUp(BoardingPass BP, Kiosk kiosk) {
+
+        Database.pickUp(BP.getBPNumber(), Database.getIDFromICAO(kiosk.getAirport()));
+    }
 }

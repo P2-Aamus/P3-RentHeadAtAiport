@@ -1,32 +1,29 @@
 package org.example.GUI;
 
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
+
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.scene.shape.Polygon;
 import javafx.animation.ScaleTransition;
 import javafx.util.Duration;
-import javafx.scene.text.Text;
-import javafx.geometry.Pos;
-import javafx.scene.text.Font;
 
 
+
+
+//this class is a UI button object that has been used in the Hello
 
 public class UIButton extends Group {
 
+    /**
+     *
+     */
 
-
+    /**
+     * constructor that contains the values for the different parameters in
+     */
     public UIButton(int x, int y, int size, String labelText) {
 
         Rectangle UIButtonRec = new Rectangle(200, 80, Color.DODGERBLUE);
