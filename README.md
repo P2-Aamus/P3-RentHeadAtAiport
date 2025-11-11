@@ -2,15 +2,15 @@
 
 This system is developed for a semester project.
 
-The system is a self-sufficient renting system for headphones with the intention of being located 
-in multiple airports being stored in kiosks.
+The system is a self-sufficient renting system for headphones being stored in kiosks
+located in multiple airports.
 
 ## Installation
 
 ### MySQL
 
 This system runs on a local database, called main, mySQL server version 9.4.0 Innovation. 
-Also should the app "MySQL" workbench also be downloaded.
+Furthermore, should the application "MySQL" workbench also be downloaded.
 
 https://dev.mysql.com/downloads/mysql/
 
@@ -33,7 +33,9 @@ IntelliJ.
 When selecting the project, choose Maven Archetype on the left side under the generators.
 
 Catalog: internal
+
 Archetype: org.apache.maven.archetypes:maven-archetype-quickstart
+
 Version: 1.4
 
 ## Usage
