@@ -5,8 +5,18 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+/**
+ * This is an icon made in JavaFX, that has been used in the error message page.
+ */
 public class CircelErrorIcon extends Group {
 
+    /**
+     *
+     * @param height defines how long the vertical rectangle should be, and where it should be
+     *               placed on the horizontal rectangle
+     * @param width defines the wide the horizontal rectangle should be, and where it should be
+     *              placed on the vertical rectangle
+     */
     public CircelErrorIcon(int height, int width) {
 
         Circle bigCircle = new Circle(85, Color.RED);
@@ -27,6 +37,9 @@ public class CircelErrorIcon extends Group {
         horizontal.setHeight(20);
         horizontal.setFill(Color.WHITE);
 
+        /**
+         * group all the shapes together and rotate the cross 45 degrees to make it represent an X
+         */
         this.getChildren().addAll(bigCircle, vertical, horizontal);
         this.setRotate(45);
 

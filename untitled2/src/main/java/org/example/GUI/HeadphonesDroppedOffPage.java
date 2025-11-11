@@ -14,12 +14,26 @@ import javafx.scene.layout.VBox;
 
 import java.net.URL;
 
+/**
+ * this class contains the last UI page that the passenger sees after dropping of their headphones
+ */
 public class HeadphonesDroppedOffPage extends Application {
 
+    /**
+     * launch the scene
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     *
+     * @param primaryStage the primary stage for this application, onto which
+     * the application scene can be set.
+     * Applications may create other stages, if needed, but they will not be
+     * primary stages.
+     */
     @Override
     public void start(Stage primaryStage) {
         Scene scene = createScene();
@@ -28,6 +42,10 @@ public class HeadphonesDroppedOffPage extends Application {
         primaryStage.show();
     }
 
+    /**
+     * returns a scene with borders and vertical and horizontal boxes with text and an image
+     * @return
+     */
     public static Scene createScene() {
         BorderPane root = new BorderPane();
 
@@ -39,6 +57,9 @@ public class HeadphonesDroppedOffPage extends Application {
         Text seeU = new Text("We hope to see you again soon");
         seeU.setFont(Font.font(50));
 
+        /**
+         * image of a plane
+         */
         ImageView planeView = null;
         URL imgUrl = HeadphonesDroppedOffPage.class.getResource("/images/airplane-aircraft-icon-a5-landing-clip-art-landing-2d0cf51950a7e2fd5bd7b9f93a890e1a.png");
         if (imgUrl != null) {

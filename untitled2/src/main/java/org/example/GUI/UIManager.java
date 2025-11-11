@@ -58,7 +58,7 @@ public class UIManager extends Application {
                     try {
                         if (!Kiosk.sufficientData(data)) {
                             System.err.println("Bad scan: insufficient QR data");
-                            changeScene(ErrorPleaseTryAgainMessagePage::createScene);
+                            changeScene(PleaseTryAgainMessagePage::createScene);
                             return;
                         }
 
@@ -83,7 +83,7 @@ public class UIManager extends Application {
 
                                 if (mode == null) {
                                     System.err.println("ERROR: useCaseIdentification returned null for boarding pass: " + BPN);
-                                    changeScene(ErrorPleaseTryAgainMessagePage::createScene);
+                                    changeScene(PleaseTryAgainMessagePage::createScene);
                                     return;
                                 }
                                 /**
@@ -119,14 +119,14 @@ public class UIManager extends Application {
                                      * error case
                                      */
                                     case UNKNOWN -> {
-                                        changeScene(ErrorPleaseTryAgainMessagePage::createScene) ;}
+                                        changeScene(PleaseTryAgainMessagePage::createScene) ;}
                                 }
                             }
                         }
 
                     } catch (Exception ex) {
                         ex.printStackTrace();
-                        changeScene(ErrorPleaseTryAgainMessagePage::createScene);
+                        changeScene(PleaseTryAgainMessagePage::createScene);
                     }
                 });
 

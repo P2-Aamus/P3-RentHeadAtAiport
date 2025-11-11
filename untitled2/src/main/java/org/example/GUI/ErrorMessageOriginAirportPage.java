@@ -14,11 +14,23 @@ import org.example.Kiosk;
 
 import java.net.URL;
 
+/**
+ * This UI page is dedicated to the passenger, if they have a boarding pass contains either a wrong
+ * origin destination or the boarding pass contains a destination that does not have a kiosk.
+ */
 public class ErrorMessageOriginAirportPage {
+
+    /**
+     * The boarding pass object made into an attribute
+     */
     static BoardingPass BP = UIManager.boardingPass;
     private static Text instructionLabel;
     public static String message;
 
+    /**
+     * Returns a scene with borders, vertical and horizontal boxes with an icon and an image
+     * @return
+     */
     public static Scene createScene() {
         UIManager.startScan();
         BorderPane border = new BorderPane();
@@ -46,7 +58,7 @@ public class ErrorMessageOriginAirportPage {
             scannerView.setPreserveRatio(true);
 
 
-            //VBox centercontent, contains message and pic
+            //VBox centercontent, contains messages and ImageView
             VBox centerContent = new VBox(message1, message2, scannerView);
             centerContent.setSpacing(50);
             centerContent.setAlignment(Pos.CENTER);
@@ -65,13 +77,17 @@ public class ErrorMessageOriginAirportPage {
 
 
 
-    }return new Scene(border, 1920, 1080);}
+    } return new Scene(border, 1920, 1080);}
 
 
+    /**
+     * Switch case that uses the boarding pass object to determine if the passengers boarding pass
+     * contains the wrong origin airport or a destination that is does not have a kiosk
+     */
     public static void setInstructionMode() {
         switch (Kiosk.validateAirports(BP)) {
             case INVALID_ORIGIN:
-                instructionLabel.setText("The Origin airport is incorrect.");
+                instructionLabel.setText("The origin airport is incorrect.");
                 break;
             case INVALID_DESTINATION:
                 instructionLabel.setText("The destination airport is not in our network.");
