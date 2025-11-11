@@ -28,28 +28,31 @@ https://bell-sw.com/pages/downloads/#jdk-25-lts
 
 ### Maven
 This project also uses the archetype Maven, which is a project structure that is implemented in 
-IntelliJ
+IntelliJ.
 
-When selecting the project, choose Maven Archetype on the left side under the generators 
+When selecting the project, choose Maven Archetype on the left side under the generators.
 
 Catalog: internal
 Archetype: org.apache.maven.archetypes:maven-archetype-quickstart
 Version: 1.4
 
-
 ## Usage
 
 ### How to run the project
 
-Run the code inside the UI manager in org.example.GUI
+Run the code inside the UI manager in the org.example.GUI folder.
+
+### Admin page
+
+Run the code in all the classes besides the AbstractDataTable and the Database class in the Admin.GUI folder.
 
 ### QR code
 
 Use the attached QR-code, with a fabricated boarding pass and scan the QR-code when the camera is 
-displayed
+displayed.
 
 ### MySQL usage
-When installed MySQL, is the config.properties file in the IntelliJ code also necessary to configure
+When installed MySQL, is the config.properties file in the resources folder also necessary to configure.
 
 db.url=jdbc:mysql://localhost:3306/main
 db.user=root
@@ -62,11 +65,11 @@ db.password= *This is your personal SQL password*
 
 ##### Pick up a pair of headphones:
 
-Inside the UIManager, on line 23, should the kiosk object have the argument "EKBI"
+Inside the UIManager, on line 23, should the kiosk object have the argument "EKBI".
 
 ##### Drop off a pair of headphones:
 
-Inside the UIManager, on line 23, should the kiosk object have the argument "EKCH"
+Inside the UIManager, on line 23, should the kiosk object have the argument "EKCH".
 
 ## License
 
