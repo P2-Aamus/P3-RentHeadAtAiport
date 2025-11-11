@@ -4,18 +4,33 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.util.List;
 
+/**
+ * this is the kiosk table, that inherits the frontend from the abstract data table
+ */
 public class KioskTable extends AbstractDataTable {
 
+    /**
+     *
+     * @return returns the title
+     */
     @Override
     protected String getWindowTitle() {
         return "Kiosk Records Table";
     }
 
+    /**
+     *
+     * @return returns the relevant column names tied to the kiosk
+     */
     @Override
     protected String[] getColumnNames() {
         return new String[]{"ID", "Aiport", "numOfAvaibleHP", "Airport Name"};
     }
 
+    /**
+     *
+     * @return a list that is fetched from the database class
+     */
     @Override
     protected ObservableList<ObservableList<String>> getData() {
         ObservableList<ObservableList<String>> data = FXCollections.observableArrayList();
