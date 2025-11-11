@@ -21,16 +21,32 @@ The database can be imported with the database compressed in a zip-file: main.sq
 
 ### JDK
 
-This project also uses a development kit called liberica JDK. 
+This project also uses a development kit called BellSoft Liberica 24. 
 Download the latest version, with the Full JDK package.
 
 https://bell-sw.com/pages/downloads/#jdk-25-lts
 
 ### Maven
-This project also uses the archetype Maven, which is
+This project also uses the archetype Maven, which is a project structure that is implemented in 
+IntelliJ
+
+When selecting the project, choose Maven Archetype on the left side under the generators 
+
+Catalog: internal
+Archetype: org.apache.maven.archetypes:maven-archetype-quickstart
+Version: 1.4
 
 
 ## Usage
+
+### How to run the project
+
+Run the code inside the UI manager in org.example.GUI
+
+### QR code
+
+Use the attached QR-code, with a fabricated boarding pass and scan the QR-code when the camera is 
+displayed
 
 ### MySQL usage
 When installed MySQL, is the config.properties file in the IntelliJ code also necessary to configure
@@ -39,9 +55,18 @@ db.url=jdbc:mysql://localhost:3306/main
 db.user=root
 db.password= *This is your personal SQL password*
 
-### QR code
 
 ### How to change the kiosk location
+
+#### Different scenarios:
+
+##### Pick up a pair of headphones:
+
+Inside the UIManager, on line 23, should the kiosk object have the argument "EKBI"
+
+##### Drop off a pair of headphones:
+
+Inside the UIManager, on line 23, should the kiosk object have the argument "EKCH"
 
 ## License
 
