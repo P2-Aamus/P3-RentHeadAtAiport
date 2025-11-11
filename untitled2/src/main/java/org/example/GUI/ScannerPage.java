@@ -13,12 +13,12 @@ import javafx.scene.text.Text;
 import java.net.URL;
 
 /**
- * this the class that contains the the start page in the UI
+ * This the class that contains the the start page in the UI
  */
 public class ScannerPage {
 
     /**
-     * create scene with borders that contains vertical and horizontal boxes
+     * Create scene with borders that contains vertical and horizontal boxes
      * @return
      */
     public static Scene createScene(){
@@ -44,7 +44,7 @@ public class ScannerPage {
         border.setCenter(centerContent);
 
         /**
-         * scanner symbol image
+         * Scanner symbol image
          */
         URL scannerUrl = ScannerPage.class.getResource("/Images/image-scanner-barcode-qr-code-icon-others-dcafa04faf2cfff6510f74883562e3c6.png");
         if (scannerUrl != null) {
@@ -61,7 +61,7 @@ public class ScannerPage {
         border.setCenter(centerContent);
 
         /**
-         * arrow object
+         * Arrow object
          */
         ArrowShape arrow = new ArrowShape(300, 300);
         BorderPane.setAlignment(arrow, Pos.CENTER);

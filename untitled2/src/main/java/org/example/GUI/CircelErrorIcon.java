@@ -12,9 +12,9 @@ public class CircelErrorIcon extends Group {
 
     /**
      *
-     * @param height defines how long the vertical rectangle should be, and where it should be
+     * @param height Defines how long the vertical rectangle should be, and where it should be
      *               placed on the horizontal rectangle
-     * @param width defines the wide the horizontal rectangle should be, and where it should be
+     * @param width Defines the wide the horizontal rectangle should be, and where it should be
      *              placed on the vertical rectangle
      */
     public CircelErrorIcon(int height, int width) {
@@ -38,7 +38,7 @@ public class CircelErrorIcon extends Group {
         horizontal.setFill(Color.WHITE);
 
         /**
-         * group all the shapes together and rotate the cross 45 degrees to make it represent an X
+         * Group all the shapes together and rotate the cross 45 degrees to make it represent an X
          */
         this.getChildren().addAll(bigCircle, vertical, horizontal);
         this.setRotate(45);

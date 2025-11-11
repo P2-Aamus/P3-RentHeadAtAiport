@@ -12,17 +12,17 @@ import javafx.util.Duration;
 
 
 /**
- * this class is a UI button object that has been used in the Hello
+ * This class is a UI button object that has been used in the Hello
  */
 
 public class UIButton extends Group {
 
     /**
-     * the different parameters determines the location and size of the textlabel in the button
-     * @param x
-     * @param y
-     * @param size
-     * @param labelText
+     * The different parameters determines the location and size of the textlabel in the button
+     * @param x sets the x value of the label within the button
+     * @param y sets the y value of the label within the button
+     * @param size sets the font
+     * @param labelText is the parameter that creates a string within the button
      */
     public UIButton(int x, int y, int size, String labelText) {
 
@@ -43,7 +43,7 @@ public class UIButton extends Group {
         UIButtonCircle2.setCenterY(40);
 
         /**
-         * text label in the button
+         * Text label in the button
          */
 
         Text label = new Text(labelText);
@@ -53,14 +53,14 @@ public class UIButton extends Group {
         label.setY(y);
 
         /**
-         * group the shapes and label into one object
+         * Group the shapes and label into one object
          */
 
         this.getChildren().addAll(UIButtonRec, UIButtonCircle1, UIButtonCircle2, label);
 
 
         /**
-         * lambda function that changes the buttons scale and changes the colors when you hover
+         * Lambda function that changes the buttons scale and changes the colors when you hover
          * your mouse over the button
          */
         this.setOnMouseEntered(e -> {
@@ -79,7 +79,7 @@ public class UIButton extends Group {
         });
 
         /**
-         * function that changes the scale and color back when the pointer leaves the button
+         * Function that changes the scale and color back when the pointer leaves the button
          */
         this.setOnMouseExited(e -> {
 

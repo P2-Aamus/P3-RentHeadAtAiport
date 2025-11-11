@@ -28,8 +28,7 @@ public class ErrorMessageOriginAirportPage {
     public static String message;
 
     /**
-     * Returns a scene with borders, vertical and horizontal boxes with an icon and an image
-     * @return
+     * @return a scene with borders, vertical and horizontal boxes with an icon and an image
      */
     public static Scene createScene() {
         UIManager.startScan();
@@ -58,13 +57,15 @@ public class ErrorMessageOriginAirportPage {
             scannerView.setPreserveRatio(true);
 
 
-            //VBox centercontent, contains messages and ImageView
+            /**
+             * VBox centercontent, contains messages and ImageView
+             */
             VBox centerContent = new VBox(message1, message2, scannerView);
             centerContent.setSpacing(50);
             centerContent.setAlignment(Pos.CENTER);
 
 
-        ArrowShape arrow = new ArrowShape(300, 300);
+        ArrowShape arrow = new ArrowShape();
         BorderPane.setAlignment(arrow, Pos.CENTER);
         BorderPane.setMargin(arrow, new Insets(100));
         border.setBottom(arrow);

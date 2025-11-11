@@ -15,12 +15,12 @@ import javafx.scene.layout.VBox;
 import java.net.URL;
 
 /**
- * this class contains the last UI page that the passenger sees after dropping of their headphones
+ * This class contains the last UI page that the passenger sees after dropping of their headphones
  */
 public class HeadphonesDroppedOffPage extends Application {
 
     /**
-     * launch the scene
+     * Launch the scene
      * @param args
      */
     public static void main(String[] args) {
@@ -43,8 +43,7 @@ public class HeadphonesDroppedOffPage extends Application {
     }
 
     /**
-     * returns a scene with borders and vertical and horizontal boxes with text and an image
-     * @return
+     * @return a scene with borders and vertical and horizontal boxes with text and an image
      */
     public static Scene createScene() {
         BorderPane root = new BorderPane();
@@ -58,7 +57,7 @@ public class HeadphonesDroppedOffPage extends Application {
         seeU.setFont(Font.font(50));
 
         /**
-         * image of a plane
+         * Image of a plane
          */
         ImageView planeView = null;
         URL imgUrl = HeadphonesDroppedOffPage.class.getResource("/images/airplane-aircraft-icon-a5-landing-clip-art-landing-2d0cf51950a7e2fd5bd7b9f93a890e1a.png");

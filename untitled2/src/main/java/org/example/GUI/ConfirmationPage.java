@@ -35,21 +35,17 @@ public class ConfirmationPage {
     private static Label instructionLabel;
 
     /**
-     * Returns a scene with borders and vertical and horizontal boxes with an icon and an image.
-     * @return
+     * @return a scene with borders and vertical and horizontal boxes with an icon and an image.
      */
     public static Scene createScene(){
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(40));
         root.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 5; -fx-border-radius: 15;");
 
-
-        // Center content VBox
         VBox centerBox = new VBox(20);
         centerBox.setAlignment(Pos.CENTER);
 
-
-        CircelCheckmarkIcon checkmark = new CircelCheckmarkIcon(100, 100, 100);
+        CircelCheckmarkIcon checkmark = new CircelCheckmarkIcon();
         checkmark.setScaleX(0.9);
         checkmark.setScaleY(0.9);
         StackPane checkmarkPane = new StackPane(checkmark);
@@ -93,7 +89,12 @@ public class ConfirmationPage {
     }
 
 
-
+    /**
+     *
+     * @param path
+     * @param size
+     * @return an image of a plane
+     */
     private static ImageView loadImageView(String path, double size) {
         Image image;
         try {

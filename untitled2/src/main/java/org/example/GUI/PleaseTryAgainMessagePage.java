@@ -20,7 +20,7 @@ import java.net.URL;
  */
 public class PleaseTryAgainMessagePage {
     /**
-     * the boarding pass object that the passenger scanned made into an attribute
+     * The boarding pass object that the passenger scanned made into an attribute
      */
     static BoardingPass BP = UIManager.boardingPass;
 
@@ -50,7 +50,9 @@ public class PleaseTryAgainMessagePage {
             scannerView.setPreserveRatio(true);
 
 
-            //VBox centercontent, contains messages and the ImageView
+            /**
+             * VBox center content, contains messages and the ImageView
+             */
             VBox centerContent = new VBox(message1, message2, scannerView);
             centerContent.setSpacing(50);
             centerContent.setAlignment(Pos.CENTER);
@@ -58,7 +60,7 @@ public class PleaseTryAgainMessagePage {
             System.out.println("Scanner image not found!");
         }
 
-        ArrowShape arrow = new ArrowShape(300, 300);
+        ArrowShape arrow = new ArrowShape();
         BorderPane.setAlignment(arrow, Pos.CENTER);
         BorderPane.setMargin(arrow, new Insets(100));
         border.setBottom(arrow);

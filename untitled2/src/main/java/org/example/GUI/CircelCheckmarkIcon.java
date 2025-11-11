@@ -1,17 +1,10 @@
 package org.example.GUI;
 
 import javafx.scene.Group;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
+
 
 
 /**
@@ -24,10 +17,10 @@ public class CircelCheckmarkIcon extends Group {
 
 
         /**
-         * the checkmark consists of two rectangles with the same principles that was implemented
+         * The checkmark consists of two rectangles with the same principles that was implemented
          * in the error icon.
          *
-         * this icon was easier to make because it was not necessary to center the two rectangles
+         * This icon was easier to make because it was not necessary to center the two rectangles
          * together, since the anchor point of both rectangles is placed in the top right corner.
          */
         Rectangle bigRec = new Rectangle();
@@ -45,7 +38,7 @@ public class CircelCheckmarkIcon extends Group {
         smallRec.setFill(Color.WHITE);
 
         /**
-         * center the outer circle in relation to the rectangles
+         * Center the outer circle in relation to the rectangles
          */
         outerCircle.setCenterY(25);
         outerCircle.setCenterX(15);

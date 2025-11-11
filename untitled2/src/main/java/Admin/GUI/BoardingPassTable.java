@@ -5,13 +5,13 @@ import javafx.collections.ObservableList;
 import java.util.List;
 
 /**
- * this is the boarding pass table, that inherits  the frontend from the abstract data table
+ * This is the boarding pass table, that inherits  the frontend from the abstract data table
  */
 public class BoardingPassTable extends AbstractDataTable {
 
     /**
      *
-     * @return returns the title
+     * @return the title
      */
     @Override
     protected String getWindowTitle() {
@@ -20,7 +20,7 @@ public class BoardingPassTable extends AbstractDataTable {
 
     /**
      *
-     * @return returns the relevant column names tied to the boarding pass
+     * @return the relevant column names tied to the boarding pass
      */
     @Override
     protected String[] getColumnNames() {
@@ -29,7 +29,7 @@ public class BoardingPassTable extends AbstractDataTable {
 
     /**
      *
-     * @return returns a list that is fetched from the database class
+     * @return a list that is fetched from the database class
      */
     @Override
     protected ObservableList<ObservableList<String>> getData() {

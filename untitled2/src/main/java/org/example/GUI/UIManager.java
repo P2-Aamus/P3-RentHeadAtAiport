@@ -10,13 +10,13 @@ import java.util.function.Supplier;
 
 
 /**
- * This class is the manager to all the UI in our system
+ * This class is that manages to all the UI in our system
  */
 
 public class UIManager extends Application {
 
     /**
-     * attributes
+     * Attributes of objects
      */
     public static BoardingPass boardingPass;
     public static Stage primaryStageRef;
@@ -27,7 +27,7 @@ public class UIManager extends Application {
     }
 
     /**
-     *   set the stage
+     * Set the stage
      * @param primaryStage the primary stage for this application, onto which
      * the application scene can be set.
      * Applications may create other stages, if needed, but they will not be
@@ -72,7 +72,7 @@ public class UIManager extends Application {
                         boardingPass = new BoardingPass(BPN, origin, destination, passenger, fltNr);
 
                         /**
-                         *  switch case that determines the different cases a passenger
+                         *  Switch case that determines the different cases a passenger
                          *  has depending on their boarding pass object
                          */
                         switch (Kiosk.validateAirports(boardingPass)) {
@@ -87,7 +87,7 @@ public class UIManager extends Application {
                                     return;
                                 }
                                 /**
-                                 * pick up case
+                                 * Pick up case
                                  */
                                 switch (mode) {
                                     case PICK_UP -> {
@@ -102,7 +102,7 @@ public class UIManager extends Application {
                                         System.out.println("PICK UP CASE");
                                     }
                                     /**
-                                     * drop off case
+                                     * Drop off case
                                      */
                                     case DROP_OFF -> {
                                         System.out.println("DROP OFF CASE");
@@ -116,7 +116,7 @@ public class UIManager extends Application {
                                     }
 
                                     /**
-                                     * error case
+                                     * Error case
                                      */
                                     case UNKNOWN -> {
                                         changeScene(PleaseTryAgainMessagePage::createScene) ;}
@@ -210,7 +210,7 @@ public class UIManager extends Application {
 //    }
 
     /**
-     * this is the function that chages the scene
+     * This is the function that changes the scene
      * @param sceneSupplier
      */
     public static void changeScene(Supplier<Scene> sceneSupplier){

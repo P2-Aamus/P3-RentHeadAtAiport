@@ -6,7 +6,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Polygon;
 
 /**
- * this is an arrow shape that has been made with JavaFX and has been used in the scanner page
+ * This is an arrow shape that has been made with JavaFX and has been used in the scanner page
  * and pleaseTryAgainMessage page.
  */
 public class ArrowShape extends Group {

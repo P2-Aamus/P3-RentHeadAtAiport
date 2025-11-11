@@ -5,13 +5,13 @@ import javafx.collections.ObservableList;
 import java.util.List;
 
 /**
- * this is the headphones table, that inherits the frontend from the abstract data table
+ * This is the headphones table, that inherits the frontend from the abstract data table
  */
 public class HeadphonesTable extends AbstractDataTable {
 
     /**
      *
-     * @return returns the title
+     * @return the title
      */
     @Override
     protected String getWindowTitle() {

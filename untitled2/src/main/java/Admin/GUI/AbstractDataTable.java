@@ -74,7 +74,7 @@ public abstract class AbstractDataTable extends Application {
     /**
      *
      * @param stage
-     * @return this returns the navigation bar that contains opens the different tables
+     * @return This returns the navigation bar that contains opens the different tables
      */
     private HBox createNavigationBar(Stage stage) {
         Button boardingPassBtn = new Button("Boarding Pass");
@@ -98,7 +98,7 @@ public abstract class AbstractDataTable extends Application {
 
         }
         /**
-         * lambda functions that opens a different stage with a table depending on which button
+         * Lambda functions that opens a different stage with a table depending on which button
          * the administrator picks
          */
         boardingPassBtn.setOnAction(e -> openWindow(new BoardingPassTable(), stage));
@@ -109,7 +109,6 @@ public abstract class AbstractDataTable extends Application {
         HBox nav = new HBox(15, boardingPassBtn, headphonesBtn, kioskBtn, transactionsBtn);
         nav.setAlignment(Pos.CENTER);
         nav.setPrefHeight(60);
-        //nav.setPadding(new Insets(10));
         nav.setSpacing(60);
         nav.setStyle("-fx-background-color: #808080; -fx-background-radius: 8;");
         return nav;
@@ -125,7 +124,7 @@ public abstract class AbstractDataTable extends Application {
     }
 
     /**
-     * this section is the abstract header sections that contains the title of the
+     * This section is the abstract header sections that contains the title of the
      * different tables with a download PDF- and refresh button
      * @param stage
      * @return
@@ -149,15 +148,15 @@ public abstract class AbstractDataTable extends Application {
         refreshBtn.setOnMousePressed(e -> refreshTable());
 
         /**
-         *  Download PDF Button
-          */
+         * Download-PDF Button
+         */
         UIButton downloadBtn = new UIButton(100, 50, 30, "Download PDF");
         downloadBtn.setScaleY(0.4);
         downloadBtn.setScaleX(0.4);
         downloadBtn.setOnMousePressed(e -> exportTableToPDF(stage));
 
         /**
-         * group the buttons and set the buttons horizontally beside the header
+         * Group the buttons and set the buttons horizontally beside the header
          */
         Group refreshGroup = new Group(refreshBtn);
         Group downloadGroup = new Group(downloadBtn);
@@ -171,7 +170,7 @@ public abstract class AbstractDataTable extends Application {
     }
 
     /**
-     * funtionality befind the refresh button with a try-catch
+     * Functionality behind the refresh button with a try-catch
      */
     private void refreshTable() {
         try {
@@ -197,7 +196,7 @@ public abstract class AbstractDataTable extends Application {
         if (file == null) return;
 
         /**
-         * writes the table with the information into a document with paragraphs
+         * Writes the table with the information into a document with paragraphs
          */
         try (Document doc = new Document()) {
             PdfWriter.getInstance(doc, new FileOutputStream(file));
@@ -251,14 +250,14 @@ public abstract class AbstractDataTable extends Application {
 
     /**
      *
-     * @return returns the protected abstract methods
+     * @return the protected abstract methods
      */
     protected abstract String[] getColumnNames();
     protected abstract ObservableList<ObservableList<String>> getData();
     protected abstract String getWindowTitle();
 
     /**
-     * sets up the tables
+     * Sets up the tables
      */
     private void setupTable() {
         String[] columnNames = getColumnNames();

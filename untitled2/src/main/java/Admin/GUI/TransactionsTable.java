@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 import java.util.List;
 
 /**
- * this is the transaction table, that inherits the frontend from the abstract data table
+ * This is the transaction table, that inherits the frontend from the abstract data table
  */
 public class TransactionsTable extends AbstractDataTable {
 
@@ -20,7 +20,7 @@ public class TransactionsTable extends AbstractDataTable {
 
     /**
      *
-     * @return returns the relevant column names tied to the transactions
+     * @return the relevant column names tied to the transactions
      */
     @Override
     protected String[] getColumnNames() {

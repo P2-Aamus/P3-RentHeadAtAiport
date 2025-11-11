@@ -11,13 +11,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
- * this is a home button icon that has been inplemented in the UI, for the passenger to return back
+ * This is a home button icon that has been implemented in the UI, for the passenger to return back
  * to the scanner stage
  */
 public class HomeButtonIcon extends Group {
 
     /**
-     * the home butten consists of a blue circle made in javafx, that contains an image of a symbol that
+     * The home butten consists of a blue circle made in javafx, that contains an image of a symbol that
      * represents a house
      * @param radius
      */
@@ -35,7 +35,7 @@ public class HomeButtonIcon extends Group {
             this.getChildren().add(stack);
 
             /**
-             * hover function that changes the scale and color
+             * Hover function that changes the scale and color
              */
             this.setOnMouseEntered(e -> {
                 ScaleTransition st = new ScaleTransition(Duration.millis(150), this);
@@ -47,7 +47,7 @@ public class HomeButtonIcon extends Group {
             });
 
             /**
-             * when the pointer has been removed from the butten, will with function return the
+             * When the pointer has been removed from the butten, will with function return the
              * butten to its original scale and color
              */
             this.setOnMouseExited(e -> {

@@ -16,18 +16,18 @@ import java.net.URL;
 
 
 /**
- * this page is the last pick up page that the passenger sees
+ * This page is the last pick up page that the passenger sees
  */
 public class PleasantFlightPage {
 
     /**
-     * attribute of the boarding pass that has been scanned
+     * Attribute of the boarding pass that has been scanned
      */
     static BoardingPass BP = UIManager.boardingPass;
 
 
     /**
-     * create scene
+     * Create scene
      * @param primaryStage
      */
     public void start(Stage primaryStage) {

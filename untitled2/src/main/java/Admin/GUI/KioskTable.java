@@ -5,13 +5,13 @@ import javafx.collections.ObservableList;
 import java.util.List;
 
 /**
- * this is the kiosk table, that inherits the frontend from the abstract data table
+ * This is the kiosk table, that inherits the frontend from the abstract data table
  */
 public class KioskTable extends AbstractDataTable {
 
     /**
      *
-     * @return returns the title
+     * @return the title
      */
     @Override
     protected String getWindowTitle() {
@@ -20,7 +20,7 @@ public class KioskTable extends AbstractDataTable {
 
     /**
      *
-     * @return returns the relevant column names tied to the kiosk
+     * @return the relevant column names tied to the kiosk
      */
     @Override
     protected String[] getColumnNames() {
