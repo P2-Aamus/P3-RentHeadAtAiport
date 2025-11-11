@@ -8,10 +8,18 @@ import java.util.*;
 
 public class Database {
 
+    /**
+     * these are the static attributes from the config.properties file from the database
+     * that contains the database URL, the user and password.
+     */
     private static String URL = null;
     private static String USER = null;
     private static String PASS = null;
 
+    /**
+     * the properties are then made into an object that gets loads the contents that are attached to
+     * the config file
+     */
     static {
         Properties props = new Properties();
         try (InputStream input = Database.class.getClassLoader().getResourceAsStream("config.properties")) {
@@ -29,14 +37,24 @@ public class Database {
     }
 
 
+    /**
+     *
+     * @return This returns the method that fetches the boarding pass data form the database
+     */
     public static List<String[]> getAllBoardingPasses() {
         List<String[]> data = new ArrayList<>();
         String sql = "SELECT BPN, origin_airport, dest_airport, psg_name, flt_nr FROM boarding_pass";
 
+        /**
+         * fetches the boarding pass table from the database in a try-catch
+         */
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
+            /**
+             * adds the fetched data in a while loop into the rows
+             */
             while (rs.next()) {
                 String[] row = new String[5];
                 row[0] = String.valueOf(rs.getInt("BPN"));
@@ -59,10 +77,16 @@ public class Database {
         List<String[]> data = new ArrayList<>();
         String sql = "SELECT ID, Airport, numOfAvailableHP, airport_name FROM kiosk";
 
+        /**
+         * fetches the kiosk table from the database in a try-catch
+         */
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
+            /**
+             * adds the fetched data in a while loop into the rows
+             */
             while (rs.next()) {
                 String[] row = new String[4];
                 row[0] = String.valueOf(rs.getInt("ID"));
@@ -83,10 +107,16 @@ public class Database {
         List<String[]> data = new ArrayList<>();
         String sql = "SELECT BPN, headphonesID, originKioskID, destKioskID, status FROM transactions";
 
+        /**
+         * fetches the transaction table from the database in a try-catch
+         */
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
+            /**
+             * adds the fetched data in a while loop into the rows
+             */
             while (rs.next()) {
                 String[] row = new String[5];
                 row[0] = String.valueOf(rs.getInt("BPN"));
@@ -108,10 +138,16 @@ public class Database {
         List<String[]> data = new ArrayList<>();
         String sql = "SELECT ID, status, location, battery FROM headphones";
 
+        /**
+         * fetches the headphone table from the database in a try-catch
+         */
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
+            /**
+             * adds the fetched data in a while loop into the rows
+             */
             while (rs.next()) {
                 String[] row = new String[4];
                 row[0] = String.valueOf(rs.getInt("ID"));
