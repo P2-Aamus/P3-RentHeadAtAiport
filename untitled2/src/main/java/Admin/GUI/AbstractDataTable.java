@@ -24,11 +24,22 @@ import org.example.GUI.UIButton;
 import java.io.File;
 import java.io.FileOutputStream;
 
-
+/**
+ * This is an abstract datatable, that creates the scenes of the different datatables in the GUI
+ */
 public abstract class AbstractDataTable extends Application {
 
     protected TableView<ObservableList<String>> tableView = new TableView<>();
 
+    /**
+     * An abstract stage for the different tables, that contains a navigation bar, buttons,
+     * columns and rows within vertical and horizontal boxes
+     * .
+     * @param primaryStage the primary stage for this application, onto which
+     * the application scene can be set.
+     * Applications may create other stages, if needed, but they will not be
+     * primary stages.
+     */
     @Override
     public void start(Stage primaryStage) {
         setupTable();
@@ -60,12 +71,21 @@ public abstract class AbstractDataTable extends Application {
         primaryStage.show();
     }
 
+    /**
+     *
+     * @param stage
+     * @return this returns the navigation bar that contains opens the different tables
+     */
     private HBox createNavigationBar(Stage stage) {
         Button boardingPassBtn = new Button("Boarding Pass");
         Button headphonesBtn = new Button("Headphones");
         Button kioskBtn = new Button("Kiosk");
         Button transactionsBtn = new Button("Transactions");
 
+        /**
+         * for-each that contains every button in the navigation bar, and sets the same color,
+         * size and hover function to create consistency and affordance
+         */
         for (Button btn : new Button[]{boardingPassBtn, headphonesBtn, kioskBtn, transactionsBtn}) {
             btn.setStyle(
                     "-fx-background-color: #808080;" +
@@ -77,6 +97,10 @@ public abstract class AbstractDataTable extends Application {
             btn.setOnMouseExited(e -> btn.setStyle("-fx-background-color: #808080; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 8;"));
 
         }
+        /**
+         * lambda functions that opens a different stage with a table depending on which button
+         * the administrator picks
+         */
         boardingPassBtn.setOnAction(e -> openWindow(new BoardingPassTable(), stage));
         headphonesBtn.setOnAction(e -> openWindow(new HeadphonesTable(), stage));
         kioskBtn.setOnAction(e -> openWindow(new KioskTable(), stage));
@@ -100,6 +124,12 @@ public abstract class AbstractDataTable extends Application {
         }
     }
 
+    /**
+     * this section is the abstract header sections that contains the title of the
+     * different tables with a download PDF- and refresh button
+     * @param stage
+     * @return
+     */
     private VBox createHeader(Stage stage) {
         VBox header = new VBox(10);
 
@@ -110,18 +140,25 @@ public abstract class AbstractDataTable extends Application {
                         "-fx-text-fill: #2c3e50;"
         );
 
-        // 🔄 Refresh Button
+        /**
+         * Refresh Button
+          */
         UIButton refreshBtn = new UIButton(100,52, 35, "Refresh");
         refreshBtn.setScaleY(0.4);
         refreshBtn.setScaleX(0.4);
         refreshBtn.setOnMousePressed(e -> refreshTable());
 
-        // ⬇️ Download PDF Button
+        /**
+         *  Download PDF Button
+          */
         UIButton downloadBtn = new UIButton(100, 50, 30, "Download PDF");
         downloadBtn.setScaleY(0.4);
         downloadBtn.setScaleX(0.4);
         downloadBtn.setOnMousePressed(e -> exportTableToPDF(stage));
 
+        /**
+         * group the buttons and set the buttons horizontally beside the header
+         */
         Group refreshGroup = new Group(refreshBtn);
         Group downloadGroup = new Group(downloadBtn);
 
@@ -133,6 +170,9 @@ public abstract class AbstractDataTable extends Application {
         return header;
     }
 
+    /**
+     * funtionality befind the refresh button with a try-catch
+     */
     private void refreshTable() {
         try {
             tableView.setItems(getData());
@@ -143,6 +183,11 @@ public abstract class AbstractDataTable extends Application {
         }
     }
 
+    /**
+     * Functionality behind the download-PDF button which stores the table in a FileChooser
+     * and then converts the page into a PDF-file.
+     * @param stage
+     */
     private void exportTableToPDF(Stage stage) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save PDF");
@@ -151,6 +196,9 @@ public abstract class AbstractDataTable extends Application {
         File file = fileChooser.showSaveDialog(stage);
         if (file == null) return;
 
+        /**
+         * writes the table with the information into a document with paragraphs
+         */
         try (Document doc = new Document()) {
             PdfWriter.getInstance(doc, new FileOutputStream(file));
             doc.open();
@@ -167,6 +215,9 @@ public abstract class AbstractDataTable extends Application {
             PdfPTable pdfTable = new PdfPTable(columns.length);
             pdfTable.setWidthPercentage(100);
 
+            /**
+             * for-each loop that makes the cells into PDF-cells
+             */
             for (String col : columns) {
                 PdfPCell cell = new PdfPCell(
                         new Phrase(col, FontFactory.getFont(FontFactory.HELVETICA_BOLD))
@@ -174,6 +225,9 @@ public abstract class AbstractDataTable extends Application {
                 pdfTable.addCell(cell);
             }
 
+            /**
+             * Nested for-each loop that reads the rows
+             */
             for (ObservableList<String> row : tableView.getItems()) {
                 for (String cellData : row) {
                     pdfTable.addCell(cellData == null ? "" : cellData);
@@ -195,13 +249,23 @@ public abstract class AbstractDataTable extends Application {
         }
     }
 
+    /**
+     *
+     * @return returns the protected abstract methods
+     */
     protected abstract String[] getColumnNames();
     protected abstract ObservableList<ObservableList<String>> getData();
     protected abstract String getWindowTitle();
 
+    /**
+     * sets up the tables
+     */
     private void setupTable() {
         String[] columnNames = getColumnNames();
 
+        /**
+         * for-loop that iterates through the length of the columns and then updates by one
+         */
         for (int i = 0; i < columnNames.length; i++) {
             final int colIndex = i;
             TableColumn<ObservableList<String>, String> column = new TableColumn<>(columnNames[i]);
@@ -219,6 +283,9 @@ public abstract class AbstractDataTable extends Application {
         tableView.setPlaceholder(placeholder);
     }
 
+    /**
+     * Method that loads the items in the data
+     */
     private void loadData() {
         tableView.setItems(getData());
     }

@@ -4,18 +4,33 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.util.List;
 
+/**
+ * this is the boarding pass tables, that inherits the the frontend from the abstract data table
+ */
 public class BoardingPassTable extends AbstractDataTable {
 
+    /**
+     *
+     * @return returns the title
+     */
     @Override
     protected String getWindowTitle() {
         return "Boarding Pass Records Table";
     }
 
+    /**
+     *
+     * @return returns the relevent coloumn names tied to the boarding pass
+     */
     @Override
     protected String[] getColumnNames() {
         return new String[]{"BPN", "Origin Aiport", "Dest Airport", "Full name", "Flight Number"};
     }
 
+    /**
+     *
+     * @return returns a list that is fetched from the database class
+     */
     @Override
     protected ObservableList<ObservableList<String>> getData() {
         ObservableList<ObservableList<String>> data = FXCollections.observableArrayList();
