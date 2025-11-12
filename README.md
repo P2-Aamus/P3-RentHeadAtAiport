@@ -22,9 +22,9 @@ The database can be imported with the database compressed in a zip-file: main.sq
 ### JDK
 
 This project also uses a development kit called BellSoft Liberica 24. 
-Download the latest version, with the Full JDK package.
+Download the 24 version, with the Full JDK package.
 
-https://bell-sw.com/pages/downloads/#jdk-25-lts
+https://bell-sw.com/pages/downloads/?version=java-24
 
 ### Maven
 This project also uses the archetype Maven, which is a project structure that is implemented in 
