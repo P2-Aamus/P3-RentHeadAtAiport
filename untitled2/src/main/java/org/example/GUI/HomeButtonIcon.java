@@ -19,7 +19,7 @@ public class HomeButtonIcon extends Group {
     /**
      * The home butten consists of a blue circle made in javafx, that contains an image of a symbol that
      * represents a house
-     * @param radius
+     * @param radius is the parameter that can be set in the different classes
      */
     public HomeButtonIcon(double radius) {
 
