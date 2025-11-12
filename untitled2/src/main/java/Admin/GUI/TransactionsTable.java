@@ -5,13 +5,26 @@ import javafx.collections.ObservableList;
 import java.util.List;
 
 /**
- * This is the transaction table, that inherits the frontend from the abstract data table
+ * The {@code TransactionsTable} class is a JavaFX window
+ * that displays data from the {@code transactions} database table.
+ *
+ * <p>This class is extended by {@link AbstractDataTable} and will provide
+ * implementations for the transactions records — which will include
+ *  the window title, column names, and data loading.</p>
+ *
+ * <p>It retrieves its data from the {@link Database#getTransactions()} method,
+ * which will return a list of transactions entries from the database.</p>
+ *
+ * @see Database
+ * @see AbstractDataTable
  */
 public class TransactionsTable extends AbstractDataTable {
 
     /**
+     * Returns the title of the JavaFX window for this specific table.
      *
-     * @return the title for the table
+     * @return a string representing the window title,
+     *         which is {@code "Transactions Records Table"}.
      */
     @Override
     protected String getWindowTitle() {
@@ -19,8 +32,10 @@ public class TransactionsTable extends AbstractDataTable {
     }
 
     /**
+     * Returns the names of the columns to be displayed in the table.
      *
-     * @return the relevant column names tied to the transactions
+     * @return an array of column header names:
+     *         {@code "BPN", "HeadphonesID", "OriginKioskID", "DestKioskID", "Status"}.
      */
     @Override
     protected String[] getColumnNames() {
@@ -28,8 +43,11 @@ public class TransactionsTable extends AbstractDataTable {
     }
 
     /**
+     * Fetches transactions data from the database and converts it
+     * into an {@link ObservableList} suitable for use in a JavaFX TableView.
      *
-     * @return a list that is fetched from the database class
+     * @return an {@code ObservableList} of {@code ObservableList<String>},
+     *         where each inner list represents one transaction record.
      */
     @Override
     protected ObservableList<ObservableList<String>> getData() {

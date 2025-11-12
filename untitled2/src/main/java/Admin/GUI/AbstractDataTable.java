@@ -25,7 +25,28 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 /**
- * This is an abstract datatable, that creates the scenes of the different datatables in the GUI
+ * The {@code AbstractDataTable} class provides a reusable base for creating
+ * JavaFX-based data table windows within the Admin GUI.
+ *
+ * <p>This abstract class defines the structure and shared functionality
+ * for displaying data from the database tables in a unified table view.
+ * Subclasses such as {@link HeadphonesTable}, {@link KioskTable}, {@link BoardingPassTable} and
+ * {@link TransactionsTable} implement the abstract methods to specify
+ * their own table columns, window titles, and data sources.</p>
+ *
+ * <p>Features include:</p>
+ * <ul>
+ *     <li>Automatic table column setup based on subclass definitions</li>
+ *     <li>Dynamic loading and refreshing of data</li>
+ *     <li>PDF export functionality using iText</li>
+ *     <li>Navigation between related tables</li>
+ * </ul>
+ *
+ * @see Database
+ * @see HeadphonesTable
+ * @see KioskTable
+ * @see TransactionsTable
+ * @see BoardingPassTable
  */
 public abstract class AbstractDataTable extends Application {
 
@@ -114,6 +135,12 @@ public abstract class AbstractDataTable extends Application {
         return nav;
     }
 
+    /**
+     * Opens a new window displaying the specified table type.
+     *
+     * @param table the {@code AbstractDataTable} subclass to open.
+     * @param stage the current application stage.
+     */
     private void openWindow(AbstractDataTable table, Stage stage) {
         try {
             table.start(stage);
@@ -124,10 +151,10 @@ public abstract class AbstractDataTable extends Application {
     }
 
     /**
-     * This section is the abstract header sections that contains the title of the
-     * different tables with a download PDF- and refresh button
-     * @param stage
-     * @return
+     * Creates the header of the window, which includes the title and buttons.
+     *
+     * @param stage the current JavaFX stage.
+     * @return a VBox representing the header layout.
      */
     private VBox createHeader(Stage stage) {
         VBox header = new VBox(10);
@@ -170,7 +197,8 @@ public abstract class AbstractDataTable extends Application {
     }
 
     /**
-     * Functionality behind the refresh button with a try-catch
+     * Reloads data from the database and updates the table.
+     * Displays an alert if successful or failure.
      */
     private void refreshTable() {
         try {
@@ -185,7 +213,7 @@ public abstract class AbstractDataTable extends Application {
     /**
      * Functionality behind the download-PDF button which stores the table in a FileChooser
      * and then converts the page into a PDF-file.
-     * @param stage
+     * @param stage the current JavaFX stage.
      */
     private void exportTableToPDF(Stage stage) {
         FileChooser fileChooser = new FileChooser();
@@ -249,15 +277,29 @@ public abstract class AbstractDataTable extends Application {
     }
 
     /**
+     * Returns the column names.
      *
-     * @return the protected abstract methods
+     * @return an array of column name strings.
      */
     protected abstract String[] getColumnNames();
+    /**
+     * Fetches and returns the data to the table.
+     *
+     * @return an {@link ObservableList} of rows, each represented as
+     *         an {@code ObservableList<String>}.
+     */
     protected abstract ObservableList<ObservableList<String>> getData();
+    /**
+     * Returns the window title for the specific subclass.
+     *
+     * @return a {@code String} showing the window title.
+     */
     protected abstract String getWindowTitle();
 
+
     /**
-     * Sets up the tables
+     * Configures the table structure by creating columns.
+     * based on {@link #getColumnNames()}.
      */
     private void setupTable() {
         String[] columnNames = getColumnNames();
