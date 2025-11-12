@@ -54,7 +54,7 @@ public class ScanConfirmedPage {
         /**
          * Circle checkmark symbol object
          */
-        CircelCheckmarkIcon check = new CircelCheckmarkIcon(500, 500, 500);
+        CircelCheckmarkIcon check = new CircelCheckmarkIcon();
         check.setScaleX(0.9);
         check.setScaleY(0.9);
 
