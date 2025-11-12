@@ -63,7 +63,7 @@ public class ScannerPage {
         /**
          * Arrow object
          */
-        ArrowShape arrow = new ArrowShape(300, 300);
+        ArrowShape arrow = new ArrowShape();
         BorderPane.setAlignment(arrow, Pos.CENTER);
         BorderPane.setMargin(arrow, new Insets(100));
         border.setBottom(arrow);
