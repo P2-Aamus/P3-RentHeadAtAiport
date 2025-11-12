@@ -57,7 +57,9 @@ displayed.
 When installed MySQL, is the config.properties file in the resources folder also necessary to configure.
 
 db.url=jdbc:mysql://localhost:3306/main
+
 db.user=root
+
 db.password= *This is your personal SQL password*
 
 
