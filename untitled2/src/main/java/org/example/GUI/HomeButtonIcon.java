@@ -10,9 +10,17 @@ import java.net.URL;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-
+/**
+ * This is a home button icon that has been implemented in the UI, for the passenger to return back
+ * to the scanner stage
+ */
 public class HomeButtonIcon extends Group {
 
+    /**
+     * The home butten consists of a blue circle made in javafx, that contains an image of a symbol that
+     * represents a house
+     * @param radius is the parameter that can be set in the different classes
+     */
     public HomeButtonIcon(double radius) {
 
         Circle homeCircle = new Circle(radius, Color.DODGERBLUE);
@@ -25,6 +33,10 @@ public class HomeButtonIcon extends Group {
 
             StackPane stack = new StackPane(homeCircle, iconHome);
             this.getChildren().add(stack);
+
+            /**
+             * Hover function that changes the scale and color
+             */
             this.setOnMouseEntered(e -> {
                 ScaleTransition st = new ScaleTransition(Duration.millis(150), this);
                 st.setToX(1.05);
@@ -34,6 +46,10 @@ public class HomeButtonIcon extends Group {
                 homeCircle.setFill(Color.DEEPSKYBLUE);
             });
 
+            /**
+             * When the pointer has been removed from the butten, will with function return the
+             * butten to its original scale and color
+             */
             this.setOnMouseExited(e -> {
                 ScaleTransition st = new ScaleTransition(Duration.millis(150), this);
                 st.setToX(1.0);

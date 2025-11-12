@@ -52,7 +52,7 @@ public class Kiosk {
     }
 
     /**
-     * sets the validation to null as a starting value
+     * Sets the validation to null as a starting value
      */
     public static AirportVaildation validation = null;
 

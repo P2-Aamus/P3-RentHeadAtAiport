@@ -25,38 +25,20 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 /**
- * The {@code AbstractDataTable} class provides a reusable base for creating
- * JavaFX-based data table windows within the Admin GUI.
- *
- * <p>This abstract class defines the structure and shared functionality
- * for displaying data from the database tables in a unified table view.
- * Subclasses such as {@link HeadphonesTable}, {@link KioskTable}, {@link BoardingPassTable} and
- * {@link TransactionsTable} implement the abstract methods to specify
- * their own table columns, window titles, and data sources.</p>
- *
- * <p>Features include:</p>
- * <ul>
- *     <li>Automatic table column setup based on subclass definitions</li>
- *     <li>Dynamic loading and refreshing of data</li>
- *     <li>PDF export functionality using iText</li>
- *     <li>Navigation between related tables</li>
- * </ul>
- *
- * @see Database
- * @see HeadphonesTable
- * @see KioskTable
- * @see TransactionsTable
- * @see BoardingPassTable
+ * This is an abstract datatable, that creates the scenes of the different datatables in the GUI
  */
 public abstract class AbstractDataTable extends Application {
 
-    /** The JavaFX table displays data rows as observable lists. */
     protected TableView<ObservableList<String>> tableView = new TableView<>();
 
     /**
-     * Launching the JavaFX window.
-     *
-     * @param primaryStage the primary window stage.
+     * An abstract stage for the different tables, that contains a navigation bar, buttons,
+     * columns and rows within vertical and horizontal boxes
+     * .
+     * @param primaryStage the primary stage for this application, onto which
+     * the application scene can be set.
+     * Applications may create other stages, if needed, but they will not be
+     * primary stages.
      */
     @Override
     public void start(Stage primaryStage) {
@@ -68,6 +50,7 @@ public abstract class AbstractDataTable extends Application {
         root.setStyle("-fx-background-color: #f5f7fa;");
 
         HBox navBar = createNavigationBar(primaryStage);
+
         VBox header = createHeader(primaryStage);
 
         VBox tableContainer = new VBox(10);
@@ -77,6 +60,7 @@ public abstract class AbstractDataTable extends Application {
                         "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);" +
                         "-fx-padding: 20;"
         );
+
         tableContainer.getChildren().add(tableView);
 
         root.getChildren().addAll(navBar, header, tableContainer);
@@ -88,10 +72,9 @@ public abstract class AbstractDataTable extends Application {
     }
 
     /**
-     * A navigation bar with buttons for switching between different tables.
      *
-     * @param stage the current JavaFX stage.
-     * @return an HBox containing navigation buttons.
+     * @param stage
+     * @return This returns the navigation bar that contains opens the different tables
      */
     private HBox createNavigationBar(Stage stage) {
         Button boardingPassBtn = new Button("Boarding Pass");
@@ -99,6 +82,10 @@ public abstract class AbstractDataTable extends Application {
         Button kioskBtn = new Button("Kiosk");
         Button transactionsBtn = new Button("Transactions");
 
+        /**
+         * for-each that contains every button in the navigation bar, and sets the same color,
+         * size and hover function to create consistency and affordance
+         */
         for (Button btn : new Button[]{boardingPassBtn, headphonesBtn, kioskBtn, transactionsBtn}) {
             btn.setStyle(
                     "-fx-background-color: #808080;" +
@@ -106,12 +93,14 @@ public abstract class AbstractDataTable extends Application {
                             "-fx-font-size: 14px;" +
                             "-fx-background-radius: 8;"
             );
-            btn.setOnMouseEntered(e ->
-                    btn.setStyle("-fx-background-color: #808080; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 8; -fx-cursor: hand;"));
-            btn.setOnMouseExited(e ->
-                    btn.setStyle("-fx-background-color: #808080; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 8;"));
-        }
+            btn.setOnMouseEntered(e -> btn.setStyle("-fx-background-color: #808080; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 8; -fx-cursor: hand;"));
+            btn.setOnMouseExited(e -> btn.setStyle("-fx-background-color: #808080; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 8;"));
 
+        }
+        /**
+         * Lambda functions that opens a different stage with a table depending on which button
+         * the administrator picks
+         */
         boardingPassBtn.setOnAction(e -> openWindow(new BoardingPassTable(), stage));
         headphonesBtn.setOnAction(e -> openWindow(new HeadphonesTable(), stage));
         kioskBtn.setOnAction(e -> openWindow(new KioskTable(), stage));
@@ -125,12 +114,6 @@ public abstract class AbstractDataTable extends Application {
         return nav;
     }
 
-    /**
-     * Opens a new window displaying the specified table type.
-     *
-     * @param table the {@code AbstractDataTable} subclass to open.
-     * @param stage the current application stage.
-     */
     private void openWindow(AbstractDataTable table, Stage stage) {
         try {
             table.start(stage);
@@ -141,10 +124,10 @@ public abstract class AbstractDataTable extends Application {
     }
 
     /**
-     * Creates the header of the window, which includes the title and buttons.
-     *
-     * @param stage the current JavaFX stage.
-     * @return a VBox representing the header layout.
+     * This section is the abstract header sections that contains the title of the
+     * different tables with a download PDF- and refresh button
+     * @param stage
+     * @return
      */
     private VBox createHeader(Stage stage) {
         VBox header = new VBox(10);
@@ -156,19 +139,28 @@ public abstract class AbstractDataTable extends Application {
                         "-fx-text-fill: #2c3e50;"
         );
 
-
+        /**
+         * Refresh Button
+          */
         UIButton refreshBtn = new UIButton(100,52, 35, "Refresh");
         refreshBtn.setScaleY(0.4);
         refreshBtn.setScaleX(0.4);
         refreshBtn.setOnMousePressed(e -> refreshTable());
 
+        /**
+         * Download-PDF Button
+         */
         UIButton downloadBtn = new UIButton(100, 50, 30, "Download PDF");
         downloadBtn.setScaleY(0.4);
         downloadBtn.setScaleX(0.4);
         downloadBtn.setOnMousePressed(e -> exportTableToPDF(stage));
 
+        /**
+         * Group the buttons and set the buttons horizontally beside the header
+         */
         Group refreshGroup = new Group(refreshBtn);
         Group downloadGroup = new Group(downloadBtn);
+
 
         HBox headerBar = new HBox(20, titleLabel, refreshGroup, downloadGroup);
         headerBar.setSpacing(10);
@@ -178,8 +170,7 @@ public abstract class AbstractDataTable extends Application {
     }
 
     /**
-     * Reloads data from the database and updates the table.
-     * Displays an alert if successful or failure.
+     * Functionality behind the refresh button with a try-catch
      */
     private void refreshTable() {
         try {
@@ -192,9 +183,9 @@ public abstract class AbstractDataTable extends Application {
     }
 
     /**
-     * Exports the current table data to a PDF file.
-     *
-     * @param stage the current JavaFX stage.
+     * Functionality behind the download-PDF button which stores the table in a FileChooser
+     * and then converts the page into a PDF-file.
+     * @param stage
      */
     private void exportTableToPDF(Stage stage) {
         FileChooser fileChooser = new FileChooser();
@@ -204,6 +195,9 @@ public abstract class AbstractDataTable extends Application {
         File file = fileChooser.showSaveDialog(stage);
         if (file == null) return;
 
+        /**
+         * Writes the table with the information into a document with paragraphs
+         */
         try (Document doc = new Document()) {
             PdfWriter.getInstance(doc, new FileOutputStream(file));
             doc.open();
@@ -220,6 +214,9 @@ public abstract class AbstractDataTable extends Application {
             PdfPTable pdfTable = new PdfPTable(columns.length);
             pdfTable.setWidthPercentage(100);
 
+            /**
+             * for-each loop that makes the cells into PDF-cells
+             */
             for (String col : columns) {
                 PdfPCell cell = new PdfPCell(
                         new Phrase(col, FontFactory.getFont(FontFactory.HELVETICA_BOLD))
@@ -227,6 +224,9 @@ public abstract class AbstractDataTable extends Application {
                 pdfTable.addCell(cell);
             }
 
+            /**
+             * Nested for-each loop that reads the rows
+             */
             for (ObservableList<String> row : tableView.getItems()) {
                 for (String cellData : row) {
                     pdfTable.addCell(cellData == null ? "" : cellData);
@@ -249,34 +249,22 @@ public abstract class AbstractDataTable extends Application {
     }
 
     /**
-     * Returns the column names.
      *
-     * @return an array of column name strings.
+     * @return the protected abstract methods
      */
     protected abstract String[] getColumnNames();
-
-    /**
-     * Fetches and returns the data to the table.
-     *
-     * @return an {@link ObservableList} of rows, each represented as
-     *         an {@code ObservableList<String>}.
-     */
     protected abstract ObservableList<ObservableList<String>> getData();
-
-    /**
-     * Returns the window title for the specific subclass.
-     *
-     * @return a {@code String} showing the window title.
-     */
     protected abstract String getWindowTitle();
 
     /**
-     * Configures the table structure by creating columns.
-     * based on {@link #getColumnNames()}.
+     * Sets up the tables
      */
     private void setupTable() {
         String[] columnNames = getColumnNames();
 
+        /**
+         * for-loop that iterates through the length of the columns and then updates by one
+         */
         for (int i = 0; i < columnNames.length; i++) {
             final int colIndex = i;
             TableColumn<ObservableList<String>, String> column = new TableColumn<>(columnNames[i]);
@@ -295,7 +283,7 @@ public abstract class AbstractDataTable extends Application {
     }
 
     /**
-     * Loads the table data when the window starts or refreshes.
+     * Method that loads the items in the data
      */
     private void loadData() {
         tableView.setItems(getData());

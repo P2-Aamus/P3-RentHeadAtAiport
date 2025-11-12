@@ -17,12 +17,12 @@ import org.example.Kiosk;
 import java.sql.SQLException;
 
 /**
- * this class is the payment page in the GUI
+ * This class is the payment page in the GUI
  */
 public class PaymentPage {
 
     /**
-     * attributes and an attribute of the boarding pass object that the passenger has scanned
+     * Attributes and an attribute of the boarding pass object that the passenger has scanned
      */
     static BoardingPass BP = UIManager.boardingPass;
     private static final String CARD_ICON_PATH = "images/Debit.png";
@@ -35,8 +35,7 @@ public class PaymentPage {
 
 
     /**
-     * scene with borders and vertical and horizontal boxes.
-     *
+     * Scene with borders and vertical and horizontal boxes.
      * @return
      */
     public static Scene createScene(){
@@ -49,7 +48,7 @@ public class PaymentPage {
         headerLabel.setFont(HEADER_FONT);
 
         /**
-         * this is a home button object
+         * This is a home button object
          */
         HomeButtonIcon home = new HomeButtonIcon(40);
         home.setOnMouseClicked(event -> {
@@ -62,7 +61,7 @@ public class PaymentPage {
         });
 
         /**
-         * group headerlabel and homebutton in the same border
+         * Group headerlabel and home button in the same border
          */
         topPane.getChildren().addAll(home, headerLabel);
         StackPane.setAlignment(headerLabel, Pos.CENTER);
@@ -140,7 +139,7 @@ public class PaymentPage {
         });
 
         /**
-         * returns to normal after removing the cursor
+         * Returns to normal after removing the cursor
          */
         box.setOnMouseExited(e -> {
             box.setStyle("-fx-background-color: white; -fx-border-color: lightgray; "

@@ -18,13 +18,13 @@ import java.net.URL;
 import java.sql.SQLException;
 
 /**
- * this is the page that the passenger gets sent to via the swtich case,
+ * This is the page that the passenger gets sent to via the swtich case,
  * if the scan of the boarding pass is valid
  */
 public class ScanConfirmedPage {
 
     /**
-     * attributes that initializes the boarding pass kiosk object into objects from the UI manager
+     * Attributes that initializes the boarding pass kiosk object into objects from the UI manager
      */
     static BoardingPass BP = UIManager.boardingPass;
     static Kiosk kiosk = UIManager.kiosk;
@@ -32,7 +32,7 @@ public class ScanConfirmedPage {
     private static UIButton continueBtn;
 
     /**
-     * scene with borders and vertical and horizontal boxes that contains texts and objects
+     * Scene with borders and vertical and horizontal boxes that contains texts and objects
      * @return
      */
     public static Scene createScene(){
@@ -42,7 +42,7 @@ public class ScanConfirmedPage {
         continueBtn = new UIButton(100, 50, 24, instructionLabel);
 
         /**
-         * switch case with lambda functions that sends the passenger to a different scene depending
+         * Switch case with lambda functions that sends the passenger to a different scene depending
          * on if the passenger is at the kiosk to either pick up or drop off
          */
         switch (Kiosk.useCaseIdentification(BP, kiosk)) {
@@ -52,9 +52,9 @@ public class ScanConfirmedPage {
 
 
         /**
-         * circle checkmark symbol object
+         * Circle checkmark symbol object
          */
-        CircelCheckmarkIcon check = new CircelCheckmarkIcon(500, 500, 500);
+        CircelCheckmarkIcon check = new CircelCheckmarkIcon();
         check.setScaleX(0.9);
         check.setScaleY(0.9);
 
@@ -64,7 +64,9 @@ public class ScanConfirmedPage {
         Text nameText = new Text(BP.getPsgName());
         nameText.setFont(Font.font(50));
 
-        // SAS-logo and flight number
+        /**
+         * SAS-logo and flight number
+         */
         HBox airlineHBox = new HBox();
         airlineHBox.setSpacing(7);
         airlineHBox.setAlignment(Pos.CENTER_LEFT);
@@ -108,7 +110,7 @@ public class ScanConfirmedPage {
 
 
         /**
-         * group all the boxes into one horizontal boxes
+         * Group all the boxes into one horizontal boxes
          */
         HBox flightRoute = new HBox();
         flightRoute.setSpacing(23);
@@ -146,7 +148,7 @@ public class ScanConfirmedPage {
     }
 
     /**
-     * switch case that decides which scene the passenger is sent to depending on if the passenger is at the kiosk to either pick up
+     * Switch case that decides which scene the passenger is sent to depending on if the passenger is at the kiosk to either pick up
      * or drop off
      * @return
      */

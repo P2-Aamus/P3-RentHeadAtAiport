@@ -17,27 +17,35 @@ import org.example.Kiosk;
 
 import java.sql.SQLException;
 
+/**
+ * This UI page is the confirmation page that the passenger gets if they have a
+ * valid boarding pass for pick up or they dropped off their headphones successfully.
+ */
 public class ConfirmationPage {
 
+    /**
+     * Static attributes of the kiosk and boarding pass object that the passenger scans the
+     * kiosk with.
+     */
     static BoardingPass BP = UIManager.boardingPass;
     static Kiosk kiosk = UIManager.kiosk;
-    // Paths to images (adjust path if needed)
+    // Paths to images.
     private static final String ARROW_ICON_PATH = "images/next.png";
 
     private static Label instructionLabel;
 
+    /**
+     * @return a scene with borders and vertical and horizontal boxes with an icon and an image.
+     */
     public static Scene createScene(){
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(40));
         root.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 5; -fx-border-radius: 15;");
 
-
-        // Center content VBox
         VBox centerBox = new VBox(20);
         centerBox.setAlignment(Pos.CENTER);
 
-
-        CircelCheckmarkIcon checkmark = new CircelCheckmarkIcon(100, 100, 100);
+        CircelCheckmarkIcon checkmark = new CircelCheckmarkIcon();
         checkmark.setScaleX(0.9);
         checkmark.setScaleY(0.9);
         StackPane checkmarkPane = new StackPane(checkmark);
@@ -81,6 +89,12 @@ public class ConfirmationPage {
     }
 
 
+    /**
+     *
+     * @param path
+     * @param size
+     * @return an image of a plane
+     */
     private static ImageView loadImageView(String path, double size) {
         Image image;
         try {
@@ -95,6 +109,14 @@ public class ConfirmationPage {
     }
 
 
+    /**
+     * Switch case that sends the passenger to a confirmation page based on if the passenger is
+     * at the kiosk for either picking up or dropping off.
+     *
+     * The scenes will be displayed in 10 seconds because of the PauseTransition
+     *
+     * Afterward will a lambda function send the passenger to a different scene with a goodbye message.
+     */
     public static void setInstructionMode() {
         switch (Kiosk.useCaseIdentification(BP, kiosk)) {
             case DROP_OFF:
@@ -106,12 +128,10 @@ public class ConfirmationPage {
                 break;
             case PICK_UP:
                 instructionLabel.setText("Please retrieve your\nheadphones to the right");
-
                 // Set a 10-second timer
                 PauseTransition pause2 = new PauseTransition(Duration.seconds(10));
                 pause2.setOnFinished(event -> UIManager.changeScene(PleasantFlightPage::createScene));
                 pause2.play();
-
                 break;
         }
     }
