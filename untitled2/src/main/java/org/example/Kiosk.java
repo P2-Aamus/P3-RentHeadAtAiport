@@ -78,7 +78,7 @@ public class Kiosk {
      * @return Pick up, Drop off or Unknown as an instruction mode
      */
     public static InstructionMode useCaseIdentification(BoardingPass BP, Kiosk kiosk) {
-        System.out.println("\n🧾 Use Case: Passenger Identification");
+        System.out.println("Use Case: Passenger Identification");
         System.out.println("Boarding Pass: " + BP.getBPNumber());
         System.out.println("Origin: " + BP.getOriginAirport());
         System.out.println("Destination: " + BP.getDestinationAirport());
