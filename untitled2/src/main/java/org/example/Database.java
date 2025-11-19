@@ -63,29 +63,7 @@ public class Database {
         }
     }
 
-    public static void transactionStart (int BPN, int kioskID){
 
-        try (Connection con = DriverManager.getConnection(url, user, password)) {
-            System.out.println("Connection successful!");
-
-            String sql = "INSERT INTO transactions (BPN, originKioskID, status) VALUES (?, ?, ?)";
-            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
-                pstmt.setInt(1, BPN);
-                pstmt.setInt(2, kioskID);
-                pstmt.setInt(3, 0);
-                int rowsInserted = pstmt.executeUpdate();
-                if (rowsInserted > 0) {
-                    System.out.println("Transaction inserted successfully!");
-                }
-
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.err.println("Database connection failed. Check your server and credentials.");
-
-        }
-    }
 
     public static void pickUp(int BPN, int kioskID){
         try (Connection con = DriverManager.getConnection(url, user, password)) {
