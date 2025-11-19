@@ -38,7 +38,7 @@ public class Headphones {
     private String location;
     private int battery;
 
-    private Headphones(int HP_ID, int status, String location, int battery) {
+    public Headphones(int HP_ID, int status, String location, int battery) {
         this.HP_ID = HP_ID;
         this.status = status;
         this.location = location;
