@@ -6,13 +6,38 @@ import com.google.zxing.common.HybridBinarizer;
 import org.bytedeco.javacv.*;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  * This class sits between the GUI and the database and connects the two.
  */
 public class Kiosk {
+    /**
+     * These are the credentials for accessing the database. They are stored in another file for safe keeping.
+     */
+    private static String url = null;
+    private static String user = null;
+    private static String password = null;
+
+    static {
+        Properties props = new Properties();
+        try (InputStream input = Admin.GUI.Database.class.getClassLoader().getResourceAsStream("config.properties")) {
+            if (input == null) {
+                throw new IOException("config.properties not found in resources");
+            }
+            props.load(input);
+        } catch (IOException e) {
+            throw new RuntimeException("Error loading database configuration", e);
+        }
+
+        url = props.getProperty("db.url");
+        user = props.getProperty("db.user");
+        password = props.getProperty("db.password");
+    }
 
     /**
      * An array of strings that contain the data to create a boarding pass object
@@ -120,7 +145,7 @@ public class Kiosk {
      */
     public static boolean BPalreadyStored(BoardingPass BP) throws SQLException {
 
-        ArrayList<Integer> BPNumbers = Database.getBPN();
+        ArrayList<Integer> BPNumbers = BoardingPass.getBPN();
 
         if (BPNumbers.contains(BP.getBPNumber())) {
             return true;
@@ -136,8 +161,8 @@ public class Kiosk {
     public void initTransition(BoardingPass BP) {
         try {
 
-            Database.ins_BP(BP);
-            Database.transactionStart(BP.getBPNumber(), Database.getIDFromICAO(this.getAirport()));
+            BP.ins_BP();
+            Transactions.transactionStart(BP.getBPNumber(), getIDFromICAO(this.getAirport()));
 
             System.out.println(" Boarding pass processed successfully!");
 
@@ -155,14 +180,14 @@ public class Kiosk {
      */
     public static AirportVaildation validateAirports(BoardingPass BP) {
         // Validate origin
-        if (!Database.isValidAirport(BP.getOriginAirport())) {
+        if (!Kiosk.isValidAirport(BP.getOriginAirport())) {
             System.err.println("ERROR: Origin airport '" + BP.getOriginAirport() + "' is NOT registered in the system.");
             validation = AirportVaildation.INVALID_ORIGIN;
             return validation;
         }
 
         // Validate destination
-        if (!Database.isValidAirport(BP.getDestinationAirport())) {
+        if (!Kiosk.isValidAirport(BP.getDestinationAirport())) {
             System.err.println("ERROR: Destination airport '" + BP.getDestinationAirport() + "' is NOT registered in the system.");
             validation = AirportVaildation.INVALID_DESTINATION;
             return validation;
@@ -261,6 +286,81 @@ public class Kiosk {
      */
     public static void pickUp(BoardingPass BP, Kiosk kiosk) {
 
-        Database.pickUp(BP.getBPNumber(), Database.getIDFromICAO(kiosk.getAirport()));
+        Database.pickUp(BP.getBPNumber(), Kiosk.getIDFromICAO(kiosk.getAirport()));
     }
+
+    /**
+     * Fetches the name of an airport from a given ICAO code.
+     * @param ICAO The unique 4-letter code of the airport.
+     * @return  The full name of the airport.
+     */
+    public static String getNameFromICAO(String ICAO) {
+        try (Connection con = DriverManager.getConnection(url, user, password)) {
+            System.out.println("Connection successful!");
+
+            String fullName = "";
+
+            String sql = "SELECT * FROM kiosk WHERE airport = ?";
+            try (PreparedStatement selectStatement = con.prepareStatement(sql)) {
+                selectStatement.setString(1, ICAO);
+                try (ResultSet rs = selectStatement.executeQuery()) {
+                    while (rs.next()) {
+                        fullName = rs.getString("airport_name");
+                    }
+                }
+            }
+            return fullName;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Fetches the ID of the kiosk from a given ICAO code.
+     * @param ICAO The unique 4-letter code of the airport.
+     * @return The ID of the kiosk.
+     */
+    public static int getIDFromICAO(String ICAO) {
+        try (Connection con = DriverManager.getConnection(url, user, password)) {
+            System.out.println("Connection successful!");
+
+            int fullName = 0;
+
+            String sql = "SELECT * FROM kiosk WHERE airport = ?";
+            try (PreparedStatement selectStatement = con.prepareStatement(sql)) {
+                selectStatement.setString(1, ICAO);
+                try (ResultSet rs = selectStatement.executeQuery()) {
+                    while (rs.next()) {
+                        fullName = rs.getInt("ID");
+                    }
+                }
+            }
+            return fullName;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     *  Checks if a single airport exists in the kiosk table.
+     * @param airportCode Is the unique 4-letter ICAO code of the airport.
+     * @return A boolean based on whether the airport exists or not.
+     */
+    public static boolean isValidAirport(String airportCode) {
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement ps = conn.prepareStatement("SELECT airport FROM kiosk WHERE airport = ?")) {
+
+            ps.setString(1, airportCode);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Database error while validating airport: " + airportCode);
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 }

@@ -87,13 +87,13 @@ public class ScanConfirmedPage {
         Text originCode = new Text(BP.getOriginAirport());
         originCode.setFont(Font.font(40));
 
-        Text originFull = new Text(Database.getNameFromICAO(BP.getOriginAirport()));
+        Text originFull = new Text(Kiosk.getNameFromICAO(BP.getOriginAirport()));
         originFull.setFont(Font.font(25));
 
         Text destCode = new Text(BP.getDestinationAirport());
         destCode.setFont(Font.font(40));
 
-        Text destFull = new Text(Database.getNameFromICAO(BP.getDestinationAirport()));
+        Text destFull = new Text(Kiosk.getNameFromICAO(BP.getDestinationAirport()));
         destFull.setFont(Font.font(25));
 
         VBox originBox = new VBox(originCode, originFull);
@@ -122,7 +122,7 @@ public class ScanConfirmedPage {
         notYourFlightBtn.setOnMouseClicked(event -> {
             UIManager.changeScene(ScannerPage::createScene);
             try {
-                Database.deleteLastBP(BP);
+                BP.deleteLastBP();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

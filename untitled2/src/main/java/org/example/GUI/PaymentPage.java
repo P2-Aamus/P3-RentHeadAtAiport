@@ -54,7 +54,7 @@ public class PaymentPage {
         home.setOnMouseClicked(event -> {
             UIManager.changeScene(ScannerPage::createScene);
             try {
-                Database.deleteLastBP(BP);
+                BP.deleteLastBP();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

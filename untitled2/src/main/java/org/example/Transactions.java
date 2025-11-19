@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.Properties;
 
 
-public class Transaction {
+public class Transactions {
 
     private static String url = null;
     private static String user = null;
@@ -32,11 +32,11 @@ public class Transaction {
 
     private final int BPN;
     private int HP_ID;
-    private int originKioskID
+    private int originKioskID;
     private int destKioskID;
     private int status;
 
-    private Transaction(int BPN, int HP_ID, int origKioskID, int destKioskID, int status) {
+    private Transactions(int BPN, int HP_ID, int origKioskID, int destKioskID, int status) {
         this.HP_ID = HP_ID;
         this.BPN = BPN;
         this.originKioskID = origKioskID;
@@ -80,15 +80,38 @@ public class Transaction {
         return status;
     }
 
+    /**
+     * Creates the transaction into the database
+     * @param BPN is the unique boarding pass number, used as the primary key for this entry.
+     * @param kioskID is the ID of the kiosk the user is interacting with.
+     */
+    public static Transactions transactionStart (int BPN, int kioskID) throws SQLException {
+        try (Connection con = DriverManager.getConnection(url, user, password)) {
+            System.out.println("Connection successful!");
 
-    public static Transaction createTransactionObject(int BPN) throws SQLException {
+            String sql = "INSERT INTO transactions (BPN, originKioskID, status) VALUES (?, ?, ?)";
+            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+                pstmt.setInt(1, BPN);
+                pstmt.setInt(2, kioskID);
+                pstmt.setInt(3, 0);
+                int rowsInserted = pstmt.executeUpdate();
+                if (rowsInserted > 0) {
+                    System.out.println("Transaction inserted successfully!");
+                    return Transactions.createTransactionObject(BPN);
+                } else {
+                    return null;
+                }
+            }
+        }
+    }
+    public static Transactions createTransactionObject(int BPN) throws SQLException {
         try (Connection con = DriverManager.getConnection(url, user, password)){
             String query = "SELECT BPN, headphonesID, originKioskID, destKioskID, status FROM transactions WHERE BPN = ?";
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setInt(1, BPN);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()){
-                return new Transaction(
+                return new Transactions(
                         rs.getInt("BPN"),
                         rs.getInt("HP_ID"),
                         rs.getInt("originKioskID"),

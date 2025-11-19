@@ -110,7 +110,7 @@ public class UIManager extends Application {
                                             ErrorMessageOriginAirportPage.message = "who are you?????????";
                                             changeScene(ErrorMessageOriginAirportPage::createScene);
                                         } else {
-                                            Database.dropOff(boardingPass.getBPNumber(), Database.getIDFromICAO(kiosk.getAirport()));
+                                            Database.dropOff(boardingPass.getBPNumber(), Kiosk.getIDFromICAO(kiosk.getAirport()));
                                             changeScene(ScanConfirmedPage::createScene);
                                         }
                                     }

@@ -16,6 +16,7 @@ import java.util.Properties;
  */
 
 public class Database {
+    Kiosk kiosk = new Kiosk("EKBI");
     /**
      * These are the credentials for accessing the database. They are stored in another file for safe keeping.
      */
@@ -37,69 +38,6 @@ public class Database {
         url = props.getProperty("db.url");
         user = props.getProperty("db.user");
         password = props.getProperty("db.password");
-    }
-
-    /**
-     * Inserts the boarding pass into the database
-     * @param BP is the boarding pass object from the Kiosk class
-     */
-    public static void ins_BP(BoardingPass BP) {
-        try (Connection con = DriverManager.getConnection(url, user, password)) {
-            System.out.println("Connection successful!");
-
-            int BPN = BP.getBPNumber();
-            String oa = BP.getOriginAirport();
-            String da = BP.getDestinationAirport();
-            String name = BP.getPsgName();
-            String flt_rn = BP.getfltNr();
-
-            String sql = "INSERT INTO boarding_pass (BPN, origin_airport, dest_airport, psg_name, flt_nr) VALUES (?, ?, ?, ?, ?)";
-            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
-                pstmt.setInt(1, BPN);
-                pstmt.setString(2, oa);
-                pstmt.setString(3, da);
-                pstmt.setString(4, name);
-                pstmt.setString(5, flt_rn);
-                int rowsInserted = pstmt.executeUpdate();
-                if (rowsInserted > 0) {
-                    System.out.println("Name inserted successfully!");
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.err.println("Database connection failed. Check your server and credentials.");
-
-        }
-    }
-
-    /**
-     * Creates the transaction into the database
-     * @param BPN is the unique boarding pass number, used as the primary key for this entry.
-     * @param kioskID is the ID of the kiosk the user is interacting with.
-     */
-    public static void transactionStart (int BPN, int kioskID){
-
-        try (Connection con = DriverManager.getConnection(url, user, password)) {
-            System.out.println("Connection successful!");
-
-            String sql = "INSERT INTO transactions (BPN, originKioskID, status) VALUES (?, ?, ?)";
-            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
-                pstmt.setInt(1, BPN);
-                pstmt.setInt(2, kioskID);
-                pstmt.setInt(3, 0);
-                int rowsInserted = pstmt.executeUpdate();
-                if (rowsInserted > 0) {
-                    System.out.println("Transaction inserted successfully!");
-                }
-
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.err.println("Database connection failed. Check your server and credentials.");
-
-        }
     }
 
     /**
@@ -134,6 +72,7 @@ public class Database {
                     System.err.println("No headphones available at this kiosk!");
                     return; // or handle error
                 }
+
 
                 //Update NumAvailableHP
                 PreparedStatement selectStatement3 = con.prepareStatement("UPDATE kiosk SET numOfAvailableHP = numOfAvailableHP - 1 WHERE ID = ?");
@@ -283,129 +222,4 @@ public class Database {
 
         }
     }
-
-    /**
-     * Fetches the name of an airport from a given ICAO code.
-     * @param ICAO The unique 4-letter code of the airport.
-     * @return  The full name of the airport.
-     */
-    public static String getNameFromICAO(String ICAO) {
-        try (Connection con = DriverManager.getConnection(url, user, password)) {
-            System.out.println("Connection successful!");
-
-            String fullName = "";
-
-            String sql = "SELECT * FROM kiosk WHERE airport = ?";
-            try (PreparedStatement selectStatement = con.prepareStatement(sql)) {
-                selectStatement.setString(1, ICAO);
-                try (ResultSet rs = selectStatement.executeQuery()) {
-                    while (rs.next()) {
-                        fullName = rs.getString("airport_name");
-                    }
-                }
-            }
-            return fullName;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Fetches the ID of the kiosk from a given ICAO code.
-     * @param ICAO The unique 4-letter code of the airport.
-     * @return The ID of the kiosk.
-     */
-    public static int getIDFromICAO(String ICAO) {
-        try (Connection con = DriverManager.getConnection(url, user, password)) {
-            System.out.println("Connection successful!");
-
-            int fullName = 0;
-
-            String sql = "SELECT * FROM kiosk WHERE airport = ?";
-            try (PreparedStatement selectStatement = con.prepareStatement(sql)) {
-                selectStatement.setString(1, ICAO);
-                try (ResultSet rs = selectStatement.executeQuery()) {
-                    while (rs.next()) {
-                        fullName = rs.getInt("ID");
-                    }
-                }
-            }
-            return fullName;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Fetches a list of all boarding passes in the database.
-     * @return A list of all boarding passes in the database.
-     */
-    public static ArrayList<Integer> getBPN() throws SQLException {
-        ArrayList<Integer> BPNArray = new ArrayList<>();
-
-        try (Connection con = DriverManager.getConnection(url, user, password)) {
-            System.out.println("Connection successful!");
-
-        String sql = "SELECT BPN FROM boarding_pass";
-        try (PreparedStatement selectStatement = con.prepareStatement(sql);
-             ResultSet rs = selectStatement.executeQuery()) {
-            while (rs.next()) {
-                BPNArray.add(rs.getInt("BPN"));
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }}
-        return BPNArray;
-    }
-
-    /**
-     * Deletes a boarding pass from the database.
-     * @param BP is the boarding pass object from the Kiosk class
-     */
-    public static void deleteLastBP(BoardingPass BP) throws SQLException {
-        try (Connection con = DriverManager.getConnection(url, user, password)) {
-            System.out.println("Connection successful!");
-
-            int BPN = BP.getBPNumber();
-
-            String sql1 = "DELETE FROM transactions WHERE BPN = ?";
-            String sql2 = "DELETE FROM boarding_pass WHERE BPN = ?";
-
-            try (PreparedStatement stmt1 = con.prepareStatement(sql1);
-                 PreparedStatement stmt2 = con.prepareStatement(sql2)) {
-
-                stmt1.setInt(1, BPN);
-                int rows1 = stmt1.executeUpdate();
-
-                stmt2.setInt(1, BPN);
-                int rows2 = stmt2.executeUpdate();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
-    /**
-     *  Checks if a single airport exists in the kiosk table.
-     * @param airportCode Is the unique 4-letter ICAO code of the airport.
-     * @return A boolean based on whether the airport exists or not.
-     */
-    static boolean isValidAirport(String airportCode) {
-        try (Connection conn = DriverManager.getConnection(url, user, password);
-             PreparedStatement ps = conn.prepareStatement("SELECT airport FROM kiosk WHERE airport = ?")) {
-
-            ps.setString(1, airportCode);
-            try (ResultSet rs = ps.executeQuery()) {
-                return rs.next();
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Database error while validating airport: " + airportCode);
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-
 }

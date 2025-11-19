@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 import org.example.BoardingPass;
 import org.example.Database;
+import org.example.Kiosk;
+
 import java.net.URL;
 
 
@@ -49,7 +51,7 @@ public class PleasantFlightPage {
         haveAPleasantFlightMessage.setFont(Font.font(75));
 
 
-        Text reminderMessage = new Text("Remember to drop your headphones off in " + Database.getNameFromICAO(BP.getDestinationAirport()));
+        Text reminderMessage = new Text("Remember to drop your headphones off in " + Kiosk.getNameFromICAO(BP.getDestinationAirport()));
         reminderMessage.setFont(Font.font(50));
 
         ImageView planeUp = null;

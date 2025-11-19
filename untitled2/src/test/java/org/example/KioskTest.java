@@ -23,13 +23,13 @@ class KioskTest {
     }
 
     @Test
-    void useCaseIdentification_DropOff() {
+    void useCaseIdentification_DropOff() throws SQLException {
         BoardingPass BP = new BoardingPass(12, "EKCH", "EKBI", "Andreas", "SK2387");
         Kiosk kiosk = new Kiosk("EKBI");
 
-        Database.ins_BP(BP);
-        Database.transactionStart(BP.getBPNumber(), Database.getIDFromICAO(kiosk.getAirport()));
-        Database.pickUp(BP.getBPNumber(), Database.getIDFromICAO(kiosk.getAirport()));
+        //Database.ins_BP(BP);
+        Transactions.transactionStart(BP.getBPNumber(), Kiosk.getIDFromICAO(kiosk.getAirport()));
+        Database.pickUp(BP.getBPNumber(), Kiosk.getIDFromICAO(kiosk.getAirport()));
 
         Kiosk.InstructionMode result = useCaseIdentification(BP, kiosk);
         assertEquals(Kiosk.InstructionMode.DROP_OFF, result);
