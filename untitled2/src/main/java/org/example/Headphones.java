@@ -2,35 +2,94 @@ package org.example;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.*;
 import java.util.Properties;
 
-
 public class Headphones {
-    /**
-     * These are the credentials for accessing the database. They are stored in another file for safe keeping.
-     */
-    private static String url = null;
-    private static String user = null;
-    private static String password = null;
+
+    private static String url;
+    private static String user;
+    private static String password;
 
     static {
         Properties props = new Properties();
-        try (InputStream input = Admin.GUI.Database.class.getClassLoader().getResourceAsStream("config.properties")) {
+        try (InputStream input = Admin.GUI.Database.class
+                .getClassLoader()
+                .getResourceAsStream("config.properties")) {
+
             if (input == null) {
-                throw new IOException("config.properties not found in resources");
+                throw new IOException("config.properties not found");
             }
             props.load(input);
+
         } catch (IOException e) {
-            throw new RuntimeException("Error loading database configuration", e);
+            throw new RuntimeException(e);
         }
 
         url = props.getProperty("db.url");
         user = props.getProperty("db.user");
         password = props.getProperty("db.password");
+    }
+
+    private static Headphones instance;
+
+    public static Headphones getInstance() {
+        if (instance == null) {
+            try {
+                instance = loadFirstHeadphones();
+            } catch (SQLException e) {
+                throw new RuntimeException("Unable to lazy-load first headphones row", e);
+            }
+        }
+        return instance;
+    }
+
+    private static Headphones loadFirstHeadphones() throws SQLException {
+        try (Connection conn = DriverManager.getConnection(url, user, password)) {
+
+            String query = "SELECT ID, status, location, battery FROM headphones ORDER BY ID LIMIT 1";
+            PreparedStatement stmt = conn.prepareStatement(query);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new Headphones(
+                        rs.getInt("ID"),
+                        rs.getInt("status"),
+                        rs.getString("location"),
+                        rs.getInt("battery")
+                );
+            } else {
+                throw new SQLException("No headphone rows exist in the database.");
+            }
+        }
+    }
+
+    public static Headphones fetchHeadphones(int HP_ID) throws SQLException {
+        if (instance != null) {
+            return instance;
+        }
+
+        try (Connection conn = DriverManager.getConnection(url, user, password)) {
+
+            String query = "SELECT ID, status, location, battery FROM headphones WHERE ID = ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, HP_ID);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                instance = new Headphones(
+                        rs.getInt("ID"),
+                        rs.getInt("status"),
+                        rs.getString("location"),
+                        rs.getInt("battery")
+                );
+                return instance;
+            } else {
+                System.out.println("No headphones found with ID: " + HP_ID);
+                return null;
+            }
+        }
     }
 
     private final int HP_ID;
@@ -45,108 +104,47 @@ public class Headphones {
         this.battery = battery;
     }
 
-    public int getHP_ID() {
-        return HP_ID;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int newStatus) {
-        this.status = newStatus;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String newLocation) {
-        this.location = newLocation;
-    }
-
-    public int getBattery() {
-        return battery;
-    }
-
-    public void setBattery(int newBattery) {
-        this.battery = newBattery;
-    }
-
-
-    public static Headphones fetchHeadphones(int HP_ID) throws SQLException {
-        try (Connection conn = DriverManager.getConnection(url, user, password)) {
-            String query = "SELECT ID, status, location, battery FROM headphones WHERE ID = ?";
-            PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setInt(1, HP_ID);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return new Headphones(
-                        rs.getInt("ID"),
-                        rs.getInt("status"),
-                        rs.getString("location"),
-                        rs.getInt("battery"));
-            } else {
-                System.out.println("No headphones were found with the ID: " + HP_ID);
-                return null;
-            }
-        }
-    }
+    public int getHP_ID() { return HP_ID; }
+    public int getStatus() { return status; }
+    public void setStatus(int status) { this.status = status; }
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
+    public int getBattery() { return battery; }
+    public void setBattery(int battery) { this.battery = battery; }
 
     public void updateDatabase() throws SQLException {
-        this.updateDatabaseStatus();
-        this.updateDatabaseLocation();
-        this.updateDatabaseBattery();
+        updateDatabaseStatus();
+        updateDatabaseLocation();
+        updateDatabaseBattery();
     }
 
-    public void updateDatabaseBattery() throws SQLException {
+    private void updateDatabaseStatus() throws SQLException {
         try (Connection con = DriverManager.getConnection(url, user, password)) {
-            System.out.println("Connection successful!");
-
-            //Update status
-            String sql = "UPDATE headphones SET battery = ? WHERE ID = ?";
-            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
-                pstmt.setInt(1, this.battery);
-                pstmt.setInt(2, this.HP_ID);
-                int rowsInserted = pstmt.executeUpdate();
-                if (rowsInserted > 0) {
-                    System.out.println("Battery updated successfully!");
-                }
-            }
-        }
-    }
-
-    public void updateDatabaseStatus() throws SQLException {
-        try (Connection con = DriverManager.getConnection(url, user, password)) {
-            System.out.println("Connection successful!");
-
-            //Update status
             String sql = "UPDATE headphones SET status = ? WHERE ID = ?";
-            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
-                pstmt.setInt(1, this.status);
-                pstmt.setInt(2, this.HP_ID);
-                int rowsInserted = pstmt.executeUpdate();
-                if (rowsInserted > 0) {
-                    System.out.println("Status updated successfully!");
-                }
-            }
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, this.status);
+            pstmt.setInt(2, this.HP_ID);
+            pstmt.executeUpdate();
         }
     }
 
-    public void updateDatabaseLocation() throws SQLException {
+    private void updateDatabaseLocation() throws SQLException {
         try (Connection con = DriverManager.getConnection(url, user, password)) {
-            System.out.println("Connection successful!");
-
-            //Update status
             String sql = "UPDATE headphones SET location = ? WHERE ID = ?";
-            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
-                pstmt.setString(1, this.location);
-                pstmt.setInt(2, this.HP_ID);
-                int rowsInserted = pstmt.executeUpdate();
-                if (rowsInserted > 0) {
-                    System.out.println("Location updated successfully!");
-                }
-            }
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, this.location);
+            pstmt.setInt(2, this.HP_ID);
+            pstmt.executeUpdate();
+        }
+    }
+
+    private void updateDatabaseBattery() throws SQLException {
+        try (Connection con = DriverManager.getConnection(url, user, password)) {
+            String sql = "UPDATE headphones SET battery = ? WHERE ID = ?";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, this.battery);
+            pstmt.setInt(2, this.HP_ID);
+            pstmt.executeUpdate();
         }
     }
 }

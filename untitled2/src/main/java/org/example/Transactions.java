@@ -5,6 +5,7 @@ import Admin.GUI.Database;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Properties;
 
 
@@ -152,18 +153,21 @@ public class Transactions {
             }
             }
 
-            public void updateHP_ID() throws SQLException{
-                try (Connection con = DriverManager.getConnection(url, user, password)) {
-                    String query = "UPDATE transactions SET HP_ID = ? WHERE BPN = ?";
-                    PreparedStatement stmt = con.prepareStatement(query);
-                    stmt.setInt(1, this.HP_ID);
-                    stmt.setInt(2, this.BPN);
-                    int rowsInserted = stmt.executeUpdate();
-                    if (rowsInserted > 0) {
-                        System.out.println("Headphone ID updated succesfully :D");
-                    }
-                }
-                }
+    public void updateHP_ID() throws SQLException {
+        try (Connection con = DriverManager.getConnection(url, user, password)) {
+            String query = "UPDATE transactions SET HP_ID = ? WHERE BPN = ?";
+            PreparedStatement stmt = con.prepareStatement(query);
+            int headphoneID = Headphones.getInstance().getHP_ID();
+            ArrayList<Integer> BP = BoardingPass.getBPN();
+            stmt.setInt(1, headphoneID);
+            stmt.setInt(2, this.BPN);
+            int rowsInserted = stmt.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Headphone ID updated successfully :D");
+            }
+        }
+    }
+
 
 
 
