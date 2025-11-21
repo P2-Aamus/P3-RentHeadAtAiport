@@ -31,7 +31,7 @@ public class PleaseTryAgainMessagePage {
     public static Scene createScene() {
 
         UIManager.startScan();
-        System.out.println("Validation result: " + Kiosk.validateAirports(BP));
+        System.out.println("Validation result: " + UIManager.kiosk.validateAirports(UIManager.boardingPass));
         BorderPane border = new BorderPane();
 
         Text title = new Text("Please try again...");

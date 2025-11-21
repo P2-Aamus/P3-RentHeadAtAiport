@@ -86,7 +86,7 @@ public class ErrorMessageOriginAirportPage {
      * contains the wrong origin airport or a destination that is does not have a kiosk
      */
     public static void setInstructionMode() {
-        switch (Kiosk.validateAirports(BP)) {
+        switch (UIManager.kiosk.validateAirports(BP)) {
             case INVALID_ORIGIN:
                 instructionLabel.setText("The origin airport is incorrect.");
                 break;

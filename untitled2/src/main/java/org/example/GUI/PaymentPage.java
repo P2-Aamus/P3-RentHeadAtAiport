@@ -11,8 +11,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import org.example.BoardingPass;
-import org.example.Database;
-import org.example.Kiosk;
 
 import java.sql.SQLException;
 
@@ -154,7 +152,7 @@ public class PaymentPage {
          * lambda that sends the passenger
          */
         box.setOnMouseClicked(e -> {
-            Kiosk.pickUp(BP, UIManager.kiosk);
+            UIManager.kiosk.pickUp(BP);
             UIManager.changeScene(ConfirmationPage::createScene);
         });
 

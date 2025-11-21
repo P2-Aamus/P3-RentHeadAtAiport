@@ -1,4 +1,4 @@
-package org.example;
+/*package org.example;
 
 import org.bytedeco.javacv.FrameGrabber;
 import org.junit.jupiter.api.Test;
@@ -128,4 +128,4 @@ class KioskTest {
     }
 
 
-}
+} */

@@ -11,7 +11,7 @@ import javafx.scene.text.Text;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import org.example.BoardingPass;
-import org.example.Database;
+import org.example.DAO.KioskDAO;
 import org.example.Kiosk;
 
 import java.net.URL;
@@ -45,7 +45,7 @@ public class ScanConfirmedPage {
          * Switch case with lambda functions that sends the passenger to a different scene depending
          * on if the passenger is at the kiosk to either pick up or drop off
          */
-        switch (Kiosk.useCaseIdentification(BP, kiosk)) {
+        switch (UIManager.kiosk.useCaseIdentification(BP)) {
             case DROP_OFF -> continueBtn.setOnMouseClicked(event -> UIManager.changeScene(ConfirmationPage::createScene));
             case PICK_UP -> continueBtn.setOnMouseClicked(event -> UIManager.changeScene(PaymentPage::createScene));
         }
@@ -87,7 +87,7 @@ public class ScanConfirmedPage {
         Text originCode = new Text(BP.getOriginAirport());
         originCode.setFont(Font.font(40));
 
-        Text originFull = new Text(Database.getNameFromICAO(BP.getOriginAirport()));
+        Text originFull = new Text(KioskDAO.getNameFromICAO(BP.getOriginAirport()));
         originFull.setFont(Font.font(25));
 
         Text destCode = new Text(BP.getDestinationAirport());
@@ -122,7 +122,7 @@ public class ScanConfirmedPage {
         notYourFlightBtn.setOnMouseClicked(event -> {
             UIManager.changeScene(ScannerPage::createScene);
             try {
-                Database.deleteLastBP(BP);
+                KioskDAO.deleteLastBP(BP);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -153,14 +153,16 @@ public class ScanConfirmedPage {
      * @return
      */
     public static String setInstructionMode() {
-        switch (Kiosk.useCaseIdentification(BP, kiosk)) {
+        // 2. Update the switch statement logic
+        switch (UIManager.kiosk.useCaseIdentification(BP)) {
             case DROP_OFF:
                 return "Continue to drop-off";
             case PICK_UP:
                 return "Continue to payment";
-            default:
+            default: // You must use 'default' for the fallback return
                 return "Continue";
         }
+
     }
 
 }

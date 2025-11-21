@@ -12,7 +12,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 import org.example.BoardingPass;
-import org.example.Database;
 import org.example.Kiosk;
 
 import java.sql.SQLException;
@@ -37,7 +36,7 @@ public class ConfirmationPage {
     /**
      * @return a scene with borders and vertical and horizontal boxes with an icon and an image.
      */
-    public static Scene createScene(){
+    public static Scene createScene() {
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(40));
         root.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 5; -fx-border-radius: 15;");
@@ -112,13 +111,15 @@ public class ConfirmationPage {
     /**
      * Switch case that sends the passenger to a confirmation page based on if the passenger is
      * at the kiosk for either picking up or dropping off.
-     *
+     * <p>
      * The scenes will be displayed in 10 seconds because of the PauseTransition
-     *
+     * <p>
      * Afterward will a lambda function send the passenger to a different scene with a goodbye message.
      */
     public static void setInstructionMode() {
-        switch (Kiosk.useCaseIdentification(BP, kiosk)) {
+        // Corrected Call: Use the kiosk instance and pass only the boardingPass object
+        switch (UIManager.kiosk.useCaseIdentification(UIManager.boardingPass)) {
+
             case DROP_OFF:
                 instructionLabel.setText("Please drop your\nheadphones to the right");
                 // Set a 10-second timer
@@ -126,12 +127,23 @@ public class ConfirmationPage {
                 pause.setOnFinished(event -> UIManager.changeScene(HeadphonesDroppedOffPage::createScene));
                 pause.play();
                 break;
+
             case PICK_UP:
                 instructionLabel.setText("Please retrieve your\nheadphones to the right");
                 // Set a 10-second timer
                 PauseTransition pause2 = new PauseTransition(Duration.seconds(10));
                 pause2.setOnFinished(event -> UIManager.changeScene(PleasantFlightPage::createScene));
                 pause2.play();
+                break;
+
+            case UNKNOWN:
+                // handle error
+                instructionLabel.setText("Please ask for assistance.");
+                break;
+
+            default:
+                // Fallback for good measure
+                instructionLabel.setText("System error. Please call an attendant.");
                 break;
         }
     }
