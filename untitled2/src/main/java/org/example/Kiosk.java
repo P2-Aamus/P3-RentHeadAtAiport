@@ -47,6 +47,9 @@ public class Kiosk {
 
     public String getAirport() { return airportICAO; }
 
+    public String getAirportName(String icao) {
+        return kioskService.getKioskName(icao);
+    }
     /**
      * Determines whether this kiosk should PICK_UP or DROP_OFF a boarding pass.
      */

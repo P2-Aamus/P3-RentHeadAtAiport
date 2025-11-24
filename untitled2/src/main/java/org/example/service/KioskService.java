@@ -54,4 +54,8 @@ public class KioskService {
         hpService.markDroppedOff(hpId, airportICAO);
         kioskDAO.incrementHeadphones(kioskId);
     }
+    public String getKioskName(String airportICAO) {
+        return kioskDAO.getNameFromICAO(airportICAO);
+    }
 }
+

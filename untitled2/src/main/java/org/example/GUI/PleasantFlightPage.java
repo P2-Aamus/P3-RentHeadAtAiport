@@ -14,6 +14,7 @@ import org.example.BoardingPass;
 import org.example.DAO.KioskDAO;
 import org.example.DAO.impl.KioskDAOImpl;
 import org.example.Kiosk;
+import org.example.service.KioskService;
 
 
 import java.net.URL;
@@ -24,7 +25,13 @@ import java.net.URL;
  */
 public class PleasantFlightPage {
 
+    private final Kiosk kiosk;
+    private final BoardingPass bp;
 
+    public PleasantFlightPage(Kiosk kiosk, BoardingPass bp) {
+        this.kiosk = kiosk;
+        this.bp = bp;
+    }
     /**
      * Attribute of the boarding pass that has been scanned
      */
@@ -46,7 +53,7 @@ public class PleasantFlightPage {
      * Scene that contains borderpane with vertical and horizontal boxes
      * @return
      */
-    public static Scene createScene() {
+    public Scene createScene() {
         BorderPane root = new BorderPane();
 
 
@@ -54,7 +61,9 @@ public class PleasantFlightPage {
         haveAPleasantFlightMessage.setFont(Font.font(75));
 
 
-        Text reminderMessage = new Text("Remember to drop your headphones off in " + KioskDAO.getNameFromICAO(BP.getDestinationAirport()));
+        String destinationName = this.kiosk.getAirportName(this.bp.getDestinationAirport());
+        Text reminderMessage =
+                new Text("Remember to drop your headphones off in " + destinationName);
         reminderMessage.setFont(Font.font(50));
 
         ImageView planeUp = null;

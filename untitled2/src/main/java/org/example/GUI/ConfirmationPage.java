@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 import org.example.BoardingPass;
+import org.example.DAO.impl.BoardingPassDAOImpl;
 import org.example.Kiosk;
 
 import java.sql.SQLException;
@@ -58,7 +59,7 @@ public class ConfirmationPage {
         home.setOnMouseClicked(event -> {
             UIManager.changeScene(ScannerPage::createScene);
             try {
-                Database.deleteLastBP(BP);
+                BoardingPassDAOImpl.deleteLastBP(BP);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -132,7 +133,7 @@ public class ConfirmationPage {
                 instructionLabel.setText("Please retrieve your\nheadphones to the right");
                 // Set a 10-second timer
                 PauseTransition pause2 = new PauseTransition(Duration.seconds(10));
-                pause2.setOnFinished(event -> UIManager.changeScene(PleasantFlightPage::createScene));
+                //pause2.setOnFinished(event -> UIManager.changeScene(PleasantFlightPage::createScene));
                 pause2.play();
                 break;
 
