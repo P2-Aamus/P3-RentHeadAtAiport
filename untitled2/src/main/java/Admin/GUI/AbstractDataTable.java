@@ -24,6 +24,8 @@ import org.example.GUI.UIButton;
 import java.io.File;
 import java.io.FileOutputStream;
 
+
+
 /**
  * The {@code AbstractDataTable} class provides a reusable base for creating
  * JavaFX-based data table windows within the Admin GUI.
@@ -313,6 +315,18 @@ public abstract class AbstractDataTable extends Application {
             column.setCellValueFactory(param ->
                     new javafx.beans.property.SimpleStringProperty(param.getValue().get(colIndex))
             );
+
+            /**
+             * the lambda expression .setComparator, does a sorting algorithm that compares the value of
+             * a - which is the first value, with the value b - which is the second value in the column
+             */
+            column.setComparator((a, b) -> {
+                        try {
+                            return Integer.compare(Integer.parseInt(a), Integer.parseInt(b));
+                        } catch (NumberFormatException e) {
+                            return a.compareTo(b);
+                        }
+                        });
             column.setPrefWidth(180);
             tableView.getColumns().add(column);
         }
@@ -330,4 +344,5 @@ public abstract class AbstractDataTable extends Application {
     private void loadData() {
         tableView.setItems(getData());
     }
+
 }
