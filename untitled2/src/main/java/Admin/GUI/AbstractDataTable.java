@@ -311,7 +311,10 @@ public abstract class AbstractDataTable extends Application {
          */
         for (int i = 0; i < columnNames.length; i++) {
             final int colIndex = i;
-            TableColumn<ObservableList<String>, String> column = new TableColumn<>(columnNames[i]);
+
+            TableColumn<ObservableList<String>, String> column =
+                    new TableColumn<>(columnNames[i]);
+
             column.setCellValueFactory(param ->
                     new javafx.beans.property.SimpleStringProperty(param.getValue().get(colIndex))
             );
@@ -321,12 +324,16 @@ public abstract class AbstractDataTable extends Application {
              * a - which is the first value, with the value b - which is the second value in the column
              */
             column.setComparator((a, b) -> {
-                        try {
-                            return Integer.compare(Integer.parseInt(a), Integer.parseInt(b));
-                        } catch (NumberFormatException e) {
-                            return a.compareTo(b);
-                        }
-                        });
+                try {
+                    return Integer.compare(
+                            Integer.parseInt(a),
+                            Integer.parseInt(b)
+                    );
+                } catch (NumberFormatException e) {
+                    return a.compareTo(b);
+                }
+            });
+
             column.setPrefWidth(180);
             tableView.getColumns().add(column);
         }
