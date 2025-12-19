@@ -17,7 +17,11 @@ https://dev.mysql.com/downloads/mysql/
 https://dev.mysql.com/downloads/workbench/
 
 Since it is a local database, should the database and the tables be downloaded.
-The database can be imported with the database compressed in a zip-file: main.sql.zip
+The database can be imported with the database compressed in a zip-file: database.sql
+
+To import the database, click on the following link, and follow the instructions:
+
+https://dev.mysql.com/doc/workbench/en/wb-admin-export-import-management.html
 
 ### JDK
 
@@ -50,7 +54,7 @@ Run the code in all the classes besides the AbstractDataTable and the Database c
 
 ### QR code
 
-Use the attached QR-code, with a fabricated boarding pass and scan the QR-code when the camera is 
+Use the attached QR-code called boarding pass.jpg, with a fabricated boarding pass and scan the QR-code when the camera is 
 displayed.
 
 ### MySQL usage
